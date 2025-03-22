@@ -4,8 +4,5 @@ definePageMeta({
 });
 </script>
 <template>
-  <div>
-    <LandingPage />
-    <EngagementUser />
-  </div>
+  <div>About Us</div>
 </template>
