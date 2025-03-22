@@ -9,7 +9,7 @@ const mobileMenuOpen = ref(false);
         class="container mx-auto px-4 py-4 flex justify-between items-center"
       >
         <div class="flex items-center space-x-2">
-          <!-- <BrainIcon class="h-8 w-8 text-indigo-600" /> -->
+          <img src="/public/images/logo_num.png" alt="logo num" class="h-12" />
           <h1 class="text-2xl font-bold text-gray-900">
             Assessments Knowledge
           </h1>
@@ -112,7 +112,11 @@ const mobileMenuOpen = ref(false);
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
             <div class="flex items-center space-x-2 mb-4">
-              <!-- <BrainIcon class="h-8 w-8 text-indigo-400" /> -->
+              <img
+                src="/public/images/logo_num.png"
+                alt="logo num"
+                class="h-12"
+              />
               <span class="text-2xl font-bold">Assessments Knowledge</span>
             </div>
             <p class="text-gray-400 mb-4">
