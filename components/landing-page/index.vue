@@ -187,7 +187,7 @@ const testimonials = [
           <div
             class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6"
           >
-            <BrainIcon class="h-8 w-8 text-indigo-600" />
+            <!-- <BrainIcon class="h-8 w-8 text-indigo-600" /> -->
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">
             Personalized Learning
@@ -203,7 +203,7 @@ const testimonials = [
           <div
             class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6"
           >
-            <BarChartIcon class="h-8 w-8 text-indigo-600" />
+            <!-- <BarChartIcon class="h-8 w-8 text-indigo-600" /> -->
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">
             Detailed Analytics
@@ -218,7 +218,7 @@ const testimonials = [
           <div
             class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6"
           >
-            <AwardIcon class="h-8 w-8 text-indigo-600" />
+            <!-- <AwardIcon class="h-8 w-8 text-indigo-600" /> -->
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">Certification</h3>
           <p class="text-gray-600">
@@ -280,7 +280,7 @@ const testimonials = [
             class="text-indigo-600 font-medium hover:text-indigo-800 transition flex items-center"
           >
             View All Assessments
-            <ChevronRightIcon class="h-5 w-5 ml-1" />
+            <!-- <ChevronRightIcon class="h-5 w-5 ml-1" /> -->
           </button>
         </div>
       </div>
@@ -310,11 +310,11 @@ const testimonials = [
             <p class="text-gray-600 mb-4">{{ assessment.description }}</p>
             <div class="flex justify-between items-center">
               <div class="flex items-center text-sm text-gray-500">
-                <UsersIcon class="h-4 w-4 mr-1" />
+                <!-- <UsersIcon class="h-4 w-4 mr-1" /> -->
                 <span>{{ assessment.users }} users</span>
               </div>
               <div class="flex items-center text-sm text-gray-500">
-                <ClockIcon class="h-4 w-4 mr-1" />
+                <!-- <ClockIcon class="h-4 w-4 mr-1" /> -->
                 <span>{{ assessment.timeEstimate }} min</span>
               </div>
             </div>
@@ -341,7 +341,7 @@ const testimonials = [
             <div
               class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 relative z-10"
             >
-              <UserPlusIcon class="h-10 w-10 text-indigo-600" />
+              <!-- <UserPlusIcon class="h-10 w-10 text-indigo-600" /> -->
             </div>
             <div
               class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-indigo-200 -z-10"
@@ -361,7 +361,7 @@ const testimonials = [
             <div
               class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 relative z-10"
             >
-              <SearchIcon class="h-10 w-10 text-indigo-600" />
+              <!-- <SearchIcon class="h-10 w-10 text-indigo-600" /> -->
             </div>
             <div
               class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-indigo-200 -z-10"
@@ -381,7 +381,7 @@ const testimonials = [
             <div
               class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 relative z-10"
             >
-              <ClipboardCheckIcon class="h-10 w-10 text-indigo-600" />
+              <!-- <ClipboardCheckIcon class="h-10 w-10 text-indigo-600" /> -->
             </div>
             <div
               class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-indigo-200 -z-10"
@@ -400,7 +400,7 @@ const testimonials = [
             <div
               class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 relative z-10"
             >
-              <TrendingUpIcon class="h-10 w-10 text-indigo-600" />
+              <!-- <TrendingUpIcon class="h-10 w-10 text-indigo-600" /> -->
             </div>
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">
@@ -435,7 +435,7 @@ const testimonials = [
         >
           <div class="flex items-center mb-4">
             <div v-for="i in 5" :key="i" class="text-yellow-400">
-              <StarIcon class="h-5 w-5" />
+              <!-- <StarIcon class="h-5 w-5" /> -->
             </div>
           </div>
           <p class="text-gray-600 mb-6 italic">"{{ testimonial.quote }}"</p>
