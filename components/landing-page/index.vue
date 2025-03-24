@@ -20,7 +20,7 @@ const popularAssessments = [
     title: "Web Development Fundamentals",
     description: "Test your knowledge of HTML, CSS, and JavaScript basics.",
     category: "Programming",
-    image: "/placeholder.svg?height=300&width=500",
+    image: "",
     users: "12.5k",
     timeEstimate: 15,
   },
@@ -29,7 +29,7 @@ const popularAssessments = [
     description:
       "Evaluate your understanding of data science concepts and tools.",
     category: "Data Science",
-    image: "/placeholder.svg?height=300&width=500",
+    image: "",
     users: "8.7k",
     timeEstimate: 20,
   },
@@ -38,7 +38,7 @@ const popularAssessments = [
     description:
       "Test your knowledge of cloud services, deployment models, and best practices.",
     category: "Cloud",
-    image: "/placeholder.svg?height=300&width=500",
+    image: "",
     users: "5.4k",
     timeEstimate: 12,
   },
@@ -47,7 +47,7 @@ const popularAssessments = [
     description:
       "Assess your understanding of user interface and experience design.",
     category: "Design",
-    image: "/placeholder.svg?height=300&width=500",
+    image: "",
     users: "7.2k",
     timeEstimate: 25,
   },
@@ -56,7 +56,7 @@ const popularAssessments = [
     description:
       "Test your knowledge of security concepts, threats, and protections.",
     category: "Security",
-    image: "/placeholder.svg?height=300&width=500",
+    image: "",
     users: "4.3k",
     timeEstimate: 15,
   },
@@ -65,7 +65,7 @@ const popularAssessments = [
     description:
       "Evaluate your understanding of ML algorithms and applications.",
     category: "AI & ML",
-    image: "/placeholder.svg?height=300&width=500",
+    image: "",
     users: "3.8k",
     timeEstimate: 18,
   },
@@ -76,22 +76,21 @@ const testimonials = [
     name: "Sarah Johnson",
     title: "Software Developer",
     quote:
-      "KnowledgeCheck helped me identify gaps in my programming knowledge and prepare for technical interviews. The detailed feedback after each assessment was incredibly valuable.",
-    avatar: "/placeholder.svg?height=100&width=100",
+      "Assessment Knowledge helped me identify gaps in my programming knowledge and prepare for technical interviews. The detailed feedback after each assessment was incredibly valuable.",
+    avatar: "",
   },
   {
     name: "Michael Chen",
     title: "Data Scientist",
     quote:
-      "I use KnowledgeCheck regularly to stay sharp on data science concepts. The platform offers challenging questions that really test your understanding of complex topics.",
-    avatar: "/placeholder.svg?height=100&width=100",
+      "I use Assessment Knowledge regularly to stay sharp on data science concepts. The platform offers challenging questions that really test your understanding of complex topics.",
+    avatar: "",
   },
   {
     name: "Emily Rodriguez",
     title: "UX Designer",
     quote:
-      "As someone transitioning into UX design, the assessments on KnowledgeCheck helped me validate my learning and build confidence in my new skills. Highly recommended!",
-    avatar: "/placeholder.svg?height=100&width=100",
+      "As someone transitioning into UX design, the assessments on Assessment Knowledge helped me validate my learning and build confidence in my new skills. Highly recommended!",
   },
 ];
 </script>
@@ -175,7 +174,7 @@ const testimonials = [
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Why Choose KnowledgeCheck?
+          Why Choose Assessment Knowledge?
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
           Our platform offers a comprehensive approach to knowledge assessment
@@ -332,7 +331,7 @@ const testimonials = [
           How It Works
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          Get started with KnowledgeCheck in just a few simple steps.
+          Get started with Assessment Knowledge in just a few simple steps.
         </p>
       </div>
 
@@ -423,7 +422,8 @@ const testimonials = [
           What Our Users Say
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          Hear from people who have improved their skills with KnowledgeCheck.
+          Hear from people who have improved their skills with Assessment
+          Knowledge.
         </p>
       </div>
 
