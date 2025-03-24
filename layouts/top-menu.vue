@@ -22,11 +22,6 @@ const mobileMenuOpen = ref(false);
                 class="text-gray-700 hover:text-indigo-600 font-medium"
                 >Home</nuxt-link
               >
-              <!-- <a
-                href="#"
-                class="text-gray-700 hover:text-indigo-600 font-medium"
-                >Home</a
-              > -->
             </li>
             <li>
               <nuxt-link
@@ -34,11 +29,6 @@ const mobileMenuOpen = ref(false);
                 class="text-gray-700 hover:text-indigo-600 font-medium"
                 >Categories</nuxt-link
               >
-              <!-- <a
-                href="#"
-                class="text-gray-700 hover:text-indigo-600 font-medium"
-                >Categories</a
-              > -->
             </li>
             <li>
               <nuxt-link
@@ -46,11 +36,6 @@ const mobileMenuOpen = ref(false);
                 class="text-gray-700 hover:text-indigo-600 font-medium"
                 >About</nuxt-link
               >
-              <!-- <a
-                href="#"
-                class="text-gray-700 hover:text-indigo-600 font-medium"
-                >About</a
-              > -->
             </li>
           </ul>
         </nav>
@@ -69,10 +54,13 @@ const mobileMenuOpen = ref(false);
             class="md:hidden text-gray-700"
             @click="mobileMenuOpen = !mobileMenuOpen"
           >
-            <span v-if="!mobileMenuOpen">Open</span>
-            <!-- <MenuIcon v-if="!mobileMenuOpen" class="h-6 w-6" />
-            <XIcon v-else class="h-6 w-6" /> -->
-            <span v-else>Close</span>
+            <CpIcon
+              v-if="!mobileMenuOpen"
+              name="burger-arrow-right-duotone"
+              iconset="stash"
+              size="30"
+            />
+            <CpIcon v-else name="menu-to-close-transition" iconset="line-md" />
           </button>
         </div>
       </div>
@@ -85,24 +73,24 @@ const mobileMenuOpen = ref(false);
         <nav class="container mx-auto px-4">
           <ul class="space-y-2">
             <li>
-              <a
-                href="#"
+              <nuxt-link
+                to="/"
                 class="block py-2 text-gray-700 hover:text-indigo-600 font-medium"
-                >Home</a
+                >Home</nuxt-link
               >
             </li>
             <li>
-              <a
-                href="#"
+              <nuxt-link
+                to="/category"
                 class="block py-2 text-gray-700 hover:text-indigo-600 font-medium"
-                >Categories</a
+                >Categories</nuxt-link
               >
             </li>
             <li>
-              <a
-                href="#"
+              <nuxt-link
+                to="/about"
                 class="block py-2 text-gray-700 hover:text-indigo-600 font-medium"
-                >About</a
+                >About</nuxt-link
               >
             </li>
             <li>
