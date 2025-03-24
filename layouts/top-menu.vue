@@ -17,7 +17,11 @@ const mobileMenuOpen = ref(false);
         <nav class="hidden md:block">
           <ul class="flex space-x-8">
             <li>
-              <nuxt-link to="/">Home</nuxt-link>
+              <nuxt-link
+                to="/"
+                class="text-gray-700 hover:text-indigo-600 font-medium"
+                >Home</nuxt-link
+              >
               <!-- <a
                 href="#"
                 class="text-gray-700 hover:text-indigo-600 font-medium"
@@ -25,7 +29,11 @@ const mobileMenuOpen = ref(false);
               > -->
             </li>
             <li>
-              <nuxt-link to="/category">Categories</nuxt-link>
+              <nuxt-link
+                to="/category"
+                class="text-gray-700 hover:text-indigo-600 font-medium"
+                >Categories</nuxt-link
+              >
               <!-- <a
                 href="#"
                 class="text-gray-700 hover:text-indigo-600 font-medium"
@@ -33,7 +41,11 @@ const mobileMenuOpen = ref(false);
               > -->
             </li>
             <li>
-              <nuxt-link to="/about">About</nuxt-link>
+              <nuxt-link
+                to="/about"
+                class="text-gray-700 hover:text-indigo-600 font-medium"
+                >About</nuxt-link
+              >
               <!-- <a
                 href="#"
                 class="text-gray-700 hover:text-indigo-600 font-medium"
