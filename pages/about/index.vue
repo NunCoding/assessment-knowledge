@@ -88,7 +88,7 @@ definePageMeta({
             <div
               class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6"
             >
-              <!-- <BrainIcon class="w-8 h-8" /> -->
+              <CpIcon name="brain" iconset="lucide" size="35" />
             </div>
             <h3 class="text-xl font-bold text-gray-900 mb-3">
               Effective Learning
@@ -104,8 +104,7 @@ definePageMeta({
             <div
               class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6"
             >
-              <!-- <UsersIcon class="w-8 h-8" /> -->
-              user
+              <CpIcon name="user-group" iconset="hugeicons" size="35" />
             </div>
             <h3 class="text-xl font-bold text-gray-900 mb-3">
               Inclusive Education
@@ -121,7 +120,7 @@ definePageMeta({
             <div
               class="w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6"
             >
-              <!-- <LineChartIcon class="w-8 h-8" /> -->chart
+              <CpIcon name="chart-line" iconset="icon-park-outline" size="30" />
             </div>
             <h3 class="text-xl font-bold text-gray-900 mb-3">
               Data-Driven Insights
@@ -155,8 +154,7 @@ definePageMeta({
               <div
                 class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"
               >
-                <!-- <BookOpenIcon class="w-6 h-6" /> -->
-                Book Open
+                <CpIcon name="book" iconset="tabler" size="30" />
               </div>
             </div>
             <div>
@@ -176,8 +174,7 @@ definePageMeta({
               <div
                 class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"
               >
-                <!-- <BarChartIcon class="w-6 h-6" /> -->
-                Book chart
+                <CpIcon name="chart-bar-solid" iconset="mynaui" size="30" />
               </div>
             </div>
             <div>
@@ -196,8 +193,7 @@ definePageMeta({
               <div
                 class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"
               >
-                <!-- <ShieldCheckIcon class="w-6 h-6" /> -->
-                icon
+                <CpIcon name="shield-check-light" iconset="stash" size="30" />
               </div>
             </div>
             <div>
@@ -216,8 +212,7 @@ definePageMeta({
               <div
                 class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"
               >
-                <!-- <PuzzleIcon class="w-6 h-6" /> -->
-                icon
+                <CpIcon name="ai-learning" iconset="hugeicons" size="30" />
               </div>
             </div>
             <div>
@@ -227,46 +222,6 @@ definePageMeta({
               <p class="text-gray-600">
                 Our intelligent system adapts to each learner's performance,
                 providing personalized question difficulty and focus areas.
-              </p>
-            </div>
-          </div>
-
-          <div class="bg-white p-8 rounded-lg shadow-md flex">
-            <div class="mr-6">
-              <div
-                class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"
-              >
-                <!-- <AwardIcon class="w-6 h-6" /> -->
-                icon
-              </div>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-900 mb-3">
-                Certification
-              </h3>
-              <p class="text-gray-600">
-                Earn verifiable certificates upon successful completion of
-                assessments to showcase your knowledge and skills.
-              </p>
-            </div>
-          </div>
-
-          <div class="bg-white p-8 rounded-lg shadow-md flex">
-            <div class="mr-6">
-              <div
-                class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"
-              >
-                <!-- <GlobeIcon class="w-6 h-6" /> -->
-                icon
-              </div>
-            </div>
-            <div>
-              <h3 class="text-xl font-bold text-gray-900 mb-3">
-                Global Learning Community
-              </h3>
-              <p class="text-gray-600">
-                Connect with learners worldwide, share insights, and engage in
-                collaborative learning experiences.
               </p>
             </div>
           </div>
@@ -380,151 +335,6 @@ definePageMeta({
         </div>
       </div>
     </section>
-
-    <!-- Team Section -->
-    <section class="py-16 md:py-24 bg-gray-100">
-      <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center mb-16">
-          <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            Meet Our Team
-          </h2>
-          <p class="text-xl text-gray-600">
-            We're a passionate team of educators, technologists, and lifelong
-            learners dedicated to transforming assessment and education.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            image
-            <!-- <img
-              src="/placeholder.svg?height=300&width=300"
-              alt="Sarah Johnson"
-              class="w-full h-64 object-cover"
-            /> -->
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-1">
-                Sarah Johnson
-              </h3>
-              <p class="text-indigo-600 mb-3">Founder & CEO</p>
-              <p class="text-gray-600 mb-4">
-                Former education technology researcher with a passion for making
-                learning accessible to all.
-              </p>
-              <div class="flex space-x-3">
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <LinkedinIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <TwitterIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <MailIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            image
-            <!-- <img
-              src="/placeholder.svg?height=300&width=300"
-              alt="Michael Chen"
-              class="w-full h-64 object-cover"
-            /> -->
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-1">Michael Chen</h3>
-              <p class="text-indigo-600 mb-3">CTO</p>
-              <p class="text-gray-600 mb-4">
-                AI specialist with expertise in adaptive learning algorithms and
-                educational technology.
-              </p>
-              <div class="flex space-x-3">
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <LinkedinIcon class="w-5 h-5" /> -->icon
-                </a>
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <TwitterIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <MailIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            image
-            <!-- <img
-              src="/placeholder.svg?height=300&width=300"
-              alt="Aisha Patel"
-              class="w-full h-64 object-cover"
-            /> -->
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-1">Aisha Patel</h3>
-              <p class="text-indigo-600 mb-3">Head of Education</p>
-              <p class="text-gray-600 mb-4">
-                Former university professor with 15+ years of experience in
-                educational assessment design.
-              </p>
-              <div class="flex space-x-3">
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <LinkedinIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <TwitterIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <MailIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-              </div>
-            </div>
-          </div>
-
-          <div class="bg-white rounded-lg shadow-md overflow-hidden">
-            image
-            <!-- <img
-              src="/placeholder.svg?height=300&width=300"
-              alt="David Rodriguez"
-              class="w-full h-64 object-cover"
-            /> -->
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-gray-900 mb-1">
-                David Rodriguez
-              </h3>
-              <p class="text-indigo-600 mb-3">UX Director</p>
-              <p class="text-gray-600 mb-4">
-                User experience specialist focused on creating accessible and
-                engaging learning interfaces.
-              </p>
-              <div class="flex space-x-3">
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <LinkedinIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <TwitterIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-                <a href="#" class="text-gray-400 hover:text-indigo-600">
-                  <!-- <MailIcon class="w-5 h-5" /> -->
-                  icon
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- CTA Section -->
     <EngagementUser />
   </div>

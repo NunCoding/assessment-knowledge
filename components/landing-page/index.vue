@@ -1,18 +1,26 @@
 <script setup>
 // fake data
 const categories = [
-  { name: "Programming", count: 124 },
-  { name: "Data Science", count: 87 },
-  { name: "Cloud Computing", count: 56 },
-  { name: "Design", count: 72 },
-  { name: "Security", count: 43 },
-  { name: "AI & ML", count: 38 },
-  { name: "Business", count: 65 },
-  { name: "Education", count: 51 },
-  { name: "Web Development", count: 93 },
-  { name: "DevOps", count: 47 },
-  { name: "Mobile Dev", count: 62 },
-  { name: "Networking", count: 39 },
+  { name: "HTML", count: 124, icon: "html5", iconset: "devicon" },
+  { name: "CSS", count: 87, icon: "file-type-css2", iconset: "vscode-icons" },
+  {
+    name: "JavaScript",
+    count: 56,
+    icon: "file-type-js",
+    iconset: "vscode-icons",
+  },
+  {
+    name: "JavaScript",
+    count: 72,
+    icon: "file-type-nuxt",
+    iconset: "vscode-icons",
+  },
+  {
+    name: "JavaScript",
+    count: 43,
+    icon: "tailwindcss-icon",
+    iconset: "logos",
+  },
 ];
 
 const popularAssessments = [
@@ -41,56 +49,6 @@ const popularAssessments = [
     image: "",
     users: "5.4k",
     timeEstimate: 12,
-  },
-  {
-    title: "UI/UX Design Principles",
-    description:
-      "Assess your understanding of user interface and experience design.",
-    category: "Design",
-    image: "",
-    users: "7.2k",
-    timeEstimate: 25,
-  },
-  {
-    title: "Cybersecurity Fundamentals",
-    description:
-      "Test your knowledge of security concepts, threats, and protections.",
-    category: "Security",
-    image: "",
-    users: "4.3k",
-    timeEstimate: 15,
-  },
-  {
-    title: "Machine Learning Basics",
-    description:
-      "Evaluate your understanding of ML algorithms and applications.",
-    category: "AI & ML",
-    image: "",
-    users: "3.8k",
-    timeEstimate: 18,
-  },
-];
-
-const testimonials = [
-  {
-    name: "Sarah Johnson",
-    title: "Software Developer",
-    quote:
-      "Assessment Knowledge helped me identify gaps in my programming knowledge and prepare for technical interviews. The detailed feedback after each assessment was incredibly valuable.",
-    avatar: "",
-  },
-  {
-    name: "Michael Chen",
-    title: "Data Scientist",
-    quote:
-      "I use Assessment Knowledge regularly to stay sharp on data science concepts. The platform offers challenging questions that really test your understanding of complex topics.",
-    avatar: "",
-  },
-  {
-    name: "Emily Rodriguez",
-    title: "UX Designer",
-    quote:
-      "As someone transitioning into UX design, the assessments on Assessment Knowledge helped me validate my learning and build confidence in my new skills. Highly recommended!",
   },
 ];
 </script>
@@ -185,9 +143,14 @@ const testimonials = [
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="bg-white rounded-lg shadow-md p-8 text-center">
           <div
-            class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6"
+            class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto"
           >
-            <!-- <BrainIcon class="h-8 w-8 text-indigo-600" /> -->
+            <CpIcon
+              name="brain"
+              iconset="lucide"
+              class="text-indigo-600"
+              size="35"
+            />
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">
             Personalized Learning
@@ -203,7 +166,12 @@ const testimonials = [
           <div
             class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6"
           >
-            <!-- <BarChartIcon class="h-8 w-8 text-indigo-600" /> -->
+            <CpIcon
+              name="bar-chart-fill-12"
+              iconset="garden"
+              class="text-indigo-600"
+              size="30"
+            />
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">
             Detailed Analytics
@@ -218,7 +186,12 @@ const testimonials = [
           <div
             class="bg-indigo-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6"
           >
-            <!-- <AwardIcon class="h-8 w-8 text-indigo-600" /> -->
+            <CpIcon
+              name="tasks-app-24-regular"
+              iconset="fluent"
+              size="35"
+              class="text-indigo-600"
+            />
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">Certification</h3>
           <p class="text-gray-600">
@@ -242,7 +215,7 @@ const testimonials = [
         </p>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <div
           v-for="(category, index) in categories"
           :key="index"
@@ -251,7 +224,12 @@ const testimonials = [
           <div
             class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-sm"
           >
-            <!-- <component :is="category.icon" class="h-8 w-8 text-indigo-600" /> -->
+            <CpIcon
+              :name="category.icon"
+              :iconset="category.iconset"
+              class="text-indigo-600"
+              size="30"
+            />
           </div>
           <h3 class="font-medium text-gray-900">{{ category.name }}</h3>
           <p class="text-sm text-gray-500 mt-1">
@@ -261,6 +239,7 @@ const testimonials = [
       </div>
     </div>
   </section>
+
   <!-- Popular Assessments -->
   <section class="py-16 bg-gray-50">
     <div class="container mx-auto px-4">
@@ -280,7 +259,11 @@ const testimonials = [
             class="text-indigo-600 font-medium hover:text-indigo-800 transition flex items-center"
           >
             View All Assessments
-            <!-- <ChevronRightIcon class="h-5 w-5 ml-1" /> -->
+            <CpIcon
+              name="chevron-right-12-regular"
+              iconset="fluent"
+              class="h-5 w-5 ml-1"
+            />
           </button>
         </div>
       </div>
@@ -310,11 +293,11 @@ const testimonials = [
             <p class="text-gray-600 mb-4">{{ assessment.description }}</p>
             <div class="flex justify-between items-center">
               <div class="flex items-center text-sm text-gray-500">
-                <!-- <UsersIcon class="h-4 w-4 mr-1" /> -->
+                <CpIcon name="user" class="h-4 w-4 mr-1" />
                 <span>{{ assessment.users }} users</span>
               </div>
               <div class="flex items-center text-sm text-gray-500">
-                <!-- <ClockIcon class="h-4 w-4 mr-1" /> -->
+                <CpIcon name="clock" iconset="lucide" class="h-4 w-4 mr-2" />
                 <span>{{ assessment.timeEstimate }} min</span>
               </div>
             </div>
@@ -341,7 +324,12 @@ const testimonials = [
             <div
               class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 relative z-10"
             >
-              <!-- <UserPlusIcon class="h-10 w-10 text-indigo-600" /> -->
+              <CpIcon
+                name="user-plus"
+                iconset="lucide"
+                class="text-indigo-600"
+                size="30"
+              />
             </div>
             <div
               class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-indigo-200 -z-10"
@@ -361,7 +349,12 @@ const testimonials = [
             <div
               class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 relative z-10"
             >
-              <!-- <SearchIcon class="h-10 w-10 text-indigo-600" /> -->
+              <CpIcon
+                name="search-2"
+                iconset="lineicons"
+                class="text-indigo-600"
+                size="30"
+              />
             </div>
             <div
               class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-indigo-200 -z-10"
@@ -381,7 +374,12 @@ const testimonials = [
             <div
               class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 relative z-10"
             >
-              <!-- <ClipboardCheckIcon class="h-10 w-10 text-indigo-600" /> -->
+              <CpIcon
+                name="task-complete"
+                iconset="carbon"
+                class="text-indigo-600"
+                size="30"
+              />
             </div>
             <div
               class="hidden md:block absolute top-10 left-full w-full h-0.5 bg-indigo-200 -z-10"
@@ -400,7 +398,12 @@ const testimonials = [
             <div
               class="bg-indigo-100 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 relative z-10"
             >
-              <!-- <TrendingUpIcon class="h-10 w-10 text-indigo-600" /> -->
+              <CpIcon
+                name="sharp-show-chart"
+                iconset="ic"
+                class="text-indigo-600"
+                size="30"
+              />
             </div>
           </div>
           <h3 class="text-xl font-bold text-gray-900 mb-3">
@@ -410,48 +413,6 @@ const testimonials = [
             Review your results, identify areas for improvement, and track your
             growth.
           </p>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- Testimonials -->
-  <section class="py-16 bg-indigo-50">
-    <div class="container mx-auto px-4">
-      <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          What Our Users Say
-        </h2>
-        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-          Hear from people who have improved their skills with Assessment
-          Knowledge.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div
-          v-for="(testimonial, index) in testimonials"
-          :key="index"
-          class="bg-white rounded-lg shadow-md p-8"
-        >
-          <div class="flex items-center mb-4">
-            <div v-for="i in 5" :key="i" class="text-yellow-400">
-              <!-- <StarIcon class="h-5 w-5" /> -->
-            </div>
-          </div>
-          <p class="text-gray-600 mb-6 italic">"{{ testimonial.quote }}"</p>
-          <div class="flex items-center">
-            <img
-              :src="testimonial.avatar"
-              alt=""
-              class="w-12 h-12 rounded-full mr-4"
-            />
-            <div>
-              <div class="font-medium text-gray-900">
-                {{ testimonial.name }}
-              </div>
-              <div class="text-sm text-gray-500">{{ testimonial.title }}</div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

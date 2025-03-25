@@ -16,6 +16,7 @@
       >
         <button
           class="bg-white text-indigo-600 px-8 py-4 rounded-md hover:bg-gray-100 transition text-lg font-medium"
+          @click="navigateTo('/auth')"
         >
           Get Started For Free
         </button>

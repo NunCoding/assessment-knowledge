@@ -6,7 +6,7 @@ const props = defineProps({
   },
   iconset: {
     type: String,
-    default: "lucide",
+    default: "heroicons",
   },
   size: {
     type: String,
