@@ -42,11 +42,13 @@ const mobileMenuOpen = ref(false);
         <div class="flex items-center space-x-4">
           <button
             class="hidden md:block text-gray-700 hover:text-indigo-600 font-medium"
+            @click="navigateTo('/auth')"
           >
             Log In
           </button>
           <button
-            class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
+            class="hidden md:block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
+            @click="navigateTo('/auth')"
           >
             Sign Up Free
           </button>
@@ -58,9 +60,14 @@ const mobileMenuOpen = ref(false);
               v-if="!mobileMenuOpen"
               name="burger-arrow-right-duotone"
               iconset="stash"
-              size="30"
+              size="35"
             />
-            <CpIcon v-else name="menu-to-close-transition" iconset="line-md" />
+            <CpIcon
+              v-else
+              name="menu-to-close-transition"
+              iconset="line-md"
+              size="35"
+            />
           </button>
         </div>
       </div>
@@ -94,10 +101,17 @@ const mobileMenuOpen = ref(false);
               >
             </li>
             <li>
-              <a
-                href="#"
+              <nuxt-link
+                to="/auth"
                 class="block py-2 text-gray-700 hover:text-indigo-600 font-medium"
-                >Log In</a
+                >Login</nuxt-link
+              >
+            </li>
+            <li>
+              <nuxt-link
+                to="/auth"
+                class="block text-center w-32 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
+                >Sign Up</nuxt-link
               >
             </li>
           </ul>
