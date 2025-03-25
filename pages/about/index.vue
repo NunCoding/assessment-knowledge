@@ -295,9 +295,10 @@ definePageMeta({
             ></div>
 
             <!-- Steps -->
-            <div class="relative z-10">
-              <div class="flex flex-col md:flex-row items-center mb-12">
-                <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0 md:text-right">
+            <div class="relative z-10 space-y-12">
+              <!-- Step 1 -->
+              <div class="flex items-center">
+                <div class="w-1/2 text-right pr-6">
                   <h3 class="text-xl font-bold text-gray-900 mb-3">
                     Choose Your Assessment
                   </h3>
@@ -308,21 +309,22 @@ definePageMeta({
                   </p>
                 </div>
                 <div
-                  class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl"
+                  class="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl mx-auto"
                 >
                   1
                 </div>
-                <div class="md:w-1/2 md:pl-12 md:mt-0 mt-6"></div>
+                <div class="w-1/2"></div>
               </div>
 
-              <div class="flex flex-col md:flex-row items-center mb-12">
-                <div class="md:w-1/2 md:pr-12 md:text-right md:hidden"></div>
+              <!-- Step 2 -->
+              <div class="flex items-center">
+                <div class="w-1/2"></div>
                 <div
-                  class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl"
+                  class="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl mx-auto"
                 >
                   2
                 </div>
-                <div class="md:w-1/2 md:pl-12 md:mt-0 mt-6">
+                <div class="w-1/2 pl-6">
                   <h3 class="text-xl font-bold text-gray-900 mb-3">
                     Complete the Assessment
                   </h3>
@@ -334,8 +336,9 @@ definePageMeta({
                 </div>
               </div>
 
-              <div class="flex flex-col md:flex-row items-center mb-12">
-                <div class="md:w-1/2 md:pr-12 mb-6 md:mb-0 md:text-right">
+              <!-- Step 3 -->
+              <div class="flex items-center">
+                <div class="w-1/2 text-right pr-6">
                   <h3 class="text-xl font-bold text-gray-900 mb-3">
                     Review Your Results
                   </h3>
@@ -346,21 +349,22 @@ definePageMeta({
                   </p>
                 </div>
                 <div
-                  class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl"
+                  class="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl mx-auto"
                 >
                   3
                 </div>
-                <div class="md:w-1/2 md:pl-12 md:mt-0 mt-6"></div>
+                <div class="w-1/2"></div>
               </div>
 
-              <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 md:pr-12 md:text-right md:hidden"></div>
+              <!-- Step 4 -->
+              <div class="flex items-center">
+                <div class="w-1/2"></div>
                 <div
-                  class="flex-shrink-0 w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl"
+                  class="w-12 h-12 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xl mx-auto"
                 >
                   4
                 </div>
-                <div class="md:w-1/2 md:pl-12 md:mt-0 mt-6">
+                <div class="w-1/2 pl-6">
                   <h3 class="text-xl font-bold text-gray-900 mb-3">
                     Improve and Grow
                   </h3>
