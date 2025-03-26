@@ -2,6 +2,10 @@
 definePageMeta({
   layout: "top-menu",
 });
+
+// emit
+const router = useRouter();
+
 // Pagination
 const currentPage = ref(1);
 const itemsPerPage = 5;
@@ -310,7 +314,7 @@ function resetFilters() {
             />
           </div>
           <div class="text-center md:text-left">
-            <h1 class="text-3xl md:text-4xl font-bold mb-3">Categories</h1>
+            <h1 class="text-3xl md:text-4xl font-bold mb-3">Assessment</h1>
             <p class="text-indigo-100 text-lg max-w-2xl mb-6">
               Test your knowledge of web development technologies, frameworks,
               and best practices. From frontend, these assessments cover all
@@ -605,6 +609,7 @@ function resetFilters() {
                 v-for="assessment in filteredAssessments"
                 :key="assessment.id"
                 class="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition p-4"
+                @click="router.push(`/assessment/id`)"
               >
                 <div class="flex flex-col sm:flex-row">
                   <div class="sm:w-1/4 mb-4 sm:mb-0 sm:mr-6">

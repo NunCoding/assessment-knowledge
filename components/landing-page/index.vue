@@ -193,10 +193,10 @@ const popularAssessments = [
               class="text-indigo-600"
             />
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-3">Certification</h3>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Take Assessment</h3>
           <p class="text-gray-600">
-            Earn certificates upon successful completion of assessments to
-            showcase your skills to employers and peers.
+            Assessment provides many benefits, including self-awareness,
+            progress tracking, and informed decision-making.
           </p>
         </div>
       </div>
