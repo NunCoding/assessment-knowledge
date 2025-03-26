@@ -25,9 +25,9 @@ const mobileMenuOpen = ref(false);
             </li>
             <li>
               <nuxt-link
-                to="/category"
+                to="/assessment"
                 class="text-gray-700 hover:text-indigo-600 font-medium"
-                >Categories</nuxt-link
+                >Assessment</nuxt-link
               >
             </li>
             <li>
@@ -88,9 +88,9 @@ const mobileMenuOpen = ref(false);
             </li>
             <li>
               <nuxt-link
-                to="/category"
+                to="/assessment"
                 class="block py-2 text-gray-700 hover:text-indigo-600 font-medium"
-                >Categories</nuxt-link
+                >Assessment</nuxt-link
               >
             </li>
             <li>
