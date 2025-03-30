@@ -182,7 +182,9 @@ const showRegisterPassword = ref(false);
 const showConfirmPassword = ref(false);
 </script>
 <template>
-  <div class="bg-gray-50 flex flex-col justify-center p-56 sm:px-6 lg:px-8">
+  <div
+    class="bg-gray-50 flex flex-col justify-center p-5 sm:p-20 sm:px-6 lg:px-8"
+  >
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
         {{ isLogin ? "Sign in to your account" : "Create your account" }}
@@ -289,6 +291,7 @@ const showConfirmPassword = ref(false);
               type="submit"
               :disabled="isLoggingIn"
               class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              @click="navigateTo('/admin/dashboard')"
             >
               <CpIcon
                 name="loader"
