@@ -3,6 +3,9 @@ definePageMeta({
   layout: "dashboard-sidemenu",
 });
 
+// property
+const isCreateUserModal = ref(false);
+
 // make fake data
 const users = [
   {
@@ -102,12 +105,17 @@ const users = [
               placeholder="Search users..."
               class="pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             />
-            <!-- <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" /> -->
+            <CpIcon
+              name="search"
+              iconset="bytesize"
+              class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+            />
           </div>
           <button
             class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center"
+            @click="isCreateUserModal = true"
           >
-            <!-- <PlusIcon class="h-5 w-5 mr-1" /> -->
+            <CpIcon name="plus" iconset="uil" class="h-5 w-5 mr-1" />
             Add User
           </button>
         </div>
@@ -232,4 +240,7 @@ const users = [
       </div>
     </div>
   </div>
+
+  <!-- modal -->
+  <UserCreate v-model="isCreateUserModal" />
 </template>

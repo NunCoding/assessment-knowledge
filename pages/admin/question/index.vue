@@ -3,6 +3,9 @@ definePageMeta({
   layout: "dashboard-sidemenu",
 });
 
+// property
+const isCreateQuestionModal = ref(false);
+
 // make fake data
 const questions = [
   {
@@ -84,8 +87,9 @@ const questions = [
       <h3 class="text-lg font-medium text-gray-900">Question Bank</h3>
       <button
         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center"
+        @click="isCreateQuestionModal = true"
       >
-        <!-- <PlusIcon class="h-5 w-5 mr-1" /> -->
+        <CpIcon name="plus" iconset="uil" class="h-5 w-5 mr-1" />
         Add Question
       </button>
     </div>
@@ -243,4 +247,7 @@ const questions = [
       </div>
     </div>
   </div>
+
+  <!-- modal -->
+  <QuestionCreate v-model="isCreateQuestionModal" />
 </template>

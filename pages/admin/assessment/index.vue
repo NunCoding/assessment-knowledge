@@ -3,6 +3,9 @@ definePageMeta({
   layout: "dashboard-sidemenu",
 });
 
+// property
+const isCreateAssessmentModal = ref(false);
+
 // fake data
 const assessments = [
   {
@@ -73,8 +76,9 @@ const assessments = [
       <h3 class="text-lg font-medium text-gray-900">Assessments</h3>
       <button
         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center"
+        @click="isCreateAssessmentModal = true"
       >
-        <!-- <PlusIcon class="h-5 w-5 mr-1" /> -->
+        <CpIcon name="plus" iconset="uil" class="h-5 w-5 mr-1" />
         Create Assessment
       </button>
     </div>
@@ -139,4 +143,5 @@ const assessments = [
       </div>
     </div>
   </div>
+  <AssessmentCreate v-model="isCreateAssessmentModal" />
 </template>
