@@ -28,5 +28,10 @@ export default defineNuxtConfig({
     lazy: true,
     langDir: 'lang/',
     vueI18n: './i18n.config.ts'
-  }
+  },
+  runtimeConfig:{
+    public:{
+      API_BASE_URL: process.env.API_BASE_URL || 'http://assessment-api.test/',
+    }
+  },
 })

@@ -238,16 +238,13 @@ function retakeAssessment() {
 }
 
 function goToHome() {
-  // In a real app, you would navigate to the home page
-  // For this example, we'll just reset everything
   userAnswers.value = [];
   currentQuestionIndex.value = 0;
   isSubmitted.value = false;
   showResults.value = false;
   confirmExit.value = false;
   clearInterval(timerInterval.value);
-  // Navigate to home (in a real app)
-  // navigateTo('/');
+  navigateTo("/");
 }
 
 function formatTime(seconds) {
@@ -285,7 +282,10 @@ onBeforeUnmount(() => {
 <template>
   <div class="min-h-screen bg-gray-50 mt-10">
     <!-- Assessment Header -->
-    <header class="bg-white shadow sticky container mx-auto px-4 py-8">
+    <header
+      class="bg-white shadow sticky container mx-auto px-4 py-8"
+      v-if="!showResults"
+    >
       <div class="container mx-auto px-4 py-4">
         <div
           class="flex flex-col md:flex-row md:justify-between md:items-center gap-4"
