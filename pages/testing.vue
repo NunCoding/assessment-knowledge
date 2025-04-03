@@ -1,5 +1,4 @@
 <script setup>
-import { useApiFetch } from "~/composables/useApiFetch";
 const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 
 const message = ref(null);
@@ -11,11 +10,12 @@ onMounted(() => {
 
 // function
 function fetchTesting() {
-  useApiFetch("api/test", {
+  useFetchApi("api/test", {
     method: "get",
   })
     .then((data) => {
       message.value = data;
+      triggerAlert("fetch Successfully", "success", { position: "bottom" });
     })
     .catch((error) => {
       console.log(error);
@@ -23,7 +23,7 @@ function fetchTesting() {
 }
 
 const showSuccess = () => {
-  triggerAlert("Operation successful!", "success");
+  triggerAlert("Operation successful!", "success", { position: "bottom" });
 };
 
 const showError = () => {

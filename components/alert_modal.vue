@@ -41,10 +41,10 @@ onMounted(() => {
 // Dynamic classes based on alert type
 const alertClasses = computed(() => {
   return {
-    info: "bg-blue-100 text-blue-800 border-blue-300",
-    success: "bg-green-100 text-green-800 border-green-300",
-    warning: "bg-yellow-100 text-yellow-800 border-yellow-300",
-    error: "bg-red-100 text-red-800 border-red-300",
+    info: "bg-blue-50 text-blue-800 border-blue-100",
+    success: "bg-green-50 text-green-800 border-green-100",
+    warning: "bg-yellow-50 text-yellow-800 border-yellow-100",
+    error: "bg-red-50 text-red-800 border-red-100",
   }[props.type];
 });
 
@@ -63,7 +63,7 @@ const positionClasses = computed(() => {
 
 <template>
   <Transition
-    enter-active-class="transition-all duration-300 ease-out"
+    enter-active-class="transition-all duration-500 ease-out"
     leave-active-class="transition-all duration-200 ease-in"
     enter-from-class="opacity-0 translate-y-4"
     enter-to-class="opacity-100 translate-y-0"
@@ -75,15 +75,43 @@ const positionClasses = computed(() => {
       :class="positionClasses"
     >
       <div
-        class="p-4 rounded-lg shadow-lg pointer-events-auto border"
+        class="px-8 py-5 rounded-lg shadow-sm pointer-events-auto border"
         :class="alertClasses"
       >
-        <div class="flex items-center">
-          <span class="mr-2">
-            <span v-if="type === 'info'">ℹ️</span>
-            <span v-else-if="type === 'success'">✅</span>
-            <span v-else-if="type === 'warning'">⚠️</span>
-            <span v-else-if="type === 'error'">❌</span>
+        <div class="flex justify-center items-center">
+          <span class="mr-2 mt-2">
+            <span v-if="type === 'info'">
+              <CpIcon
+                name="info-24-regular"
+                iconset="fluent"
+                class="text-blue-600"
+                size="25"
+              />
+            </span>
+            <span v-else-if="type === 'success'">
+              <CpIcon
+                name="close-circle-linear"
+                iconset="solar"
+                class="text-green-600"
+                size="25"
+              />
+            </span>
+            <span v-else-if="type === 'warning'">
+              <CpIcon
+                name="warning-outline"
+                iconset="famicons"
+                class="text-orange-600"
+                size="25"
+              />
+            </span>
+            <span v-else-if="type === 'error'">
+              <CpIcon
+                name="close-one"
+                iconset="icon-park-outline"
+                class="text-red-600"
+                size="25"
+              />
+            </span>
           </span>
           <span>{{ message }}</span>
         </div>
