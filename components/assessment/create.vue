@@ -6,6 +6,9 @@ const props = defineProps({
 // Define emit
 const emit = defineEmits(["update:modelValue", "submit"]);
 
+// property
+const listCategories = ref(null);
+
 const formData = ref({
   title: "",
   description: "",
@@ -17,9 +20,27 @@ const formData = ref({
   tags: [],
 });
 
+// onMounted
+onMounted(() => {
+  fetchCategory();
+});
+
 // Close modal
 function closeModal() {
   emit("update:modelValue", false);
+}
+console.log(api.assessment);
+
+function fetchCategory() {
+  useFetchApi(api.category, {
+    method: "get",
+  })
+    .then((pass) => {
+      listCategories.value = pass;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 // Submit form
@@ -93,12 +114,13 @@ function removeTag(index) {
               v-model="formData.category_id"
               class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             >
-              <option :value="1">Programming</option>
-              <option :value="2">Data Science</option>
-              <option :value="3">Cloud</option>
-              <option :value="4">Design</option>
-              <option :value="5">Security</option>
-              <option :value="6">AI & ML</option>
+              <option
+                v-for="item in listCategories"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.name }}
+              </option>
             </select>
           </div>
 
