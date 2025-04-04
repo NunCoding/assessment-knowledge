@@ -1,20 +1,22 @@
 <script setup>
+const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
+
 definePageMeta({
   layout: "top-menu",
 });
 const isLogin = ref(true);
+const auth = useAuthStore();
 const toggleAuthMode = () => {
   isLogin.value = !isLogin.value;
 };
 
 // Login form
-const loginForm = reactive({
+const loginForm = ref({
   email: "",
   password: "",
-  rememberMe: false,
 });
 
-const loginErrors = reactive({
+const loginErrors = ref({
   email: "",
   password: "",
 });
@@ -25,21 +27,24 @@ const validateLoginForm = () => {
   let isValid = true;
 
   // Reset errors
-  loginErrors.email = "";
-  loginErrors.password = "";
+  loginErrors.value.email = "";
+  loginErrors.value.password = "";
 
   // Email validation
-  if (!loginForm.email) {
-    loginErrors.email = "Email is required";
+  if (!loginForm.value.email) {
+    loginErrors.value.email = "Email is required";
     isValid = false;
-  } else if (!/^\S+@\S+\.\S+$/.test(loginForm.email)) {
-    loginErrors.email = "Please enter a valid email address";
+  } else if (!/^\S+@\S+\.\S+$/.test(loginForm.value.email)) {
+    loginErrors.value.email = "Please enter a valid email address";
     isValid = false;
   }
 
   // Password validation
-  if (!loginForm.password) {
-    loginErrors.password = "Password is required";
+  if (!loginForm.value.password) {
+    loginErrors.value.password = "Password is required";
+    isValid = false;
+  } else if (loginForm.value.password.length < 8) {
+    loginErrors.value.password = "Password must be at least 8 characters";
     isValid = false;
   }
 
@@ -48,103 +53,101 @@ const validateLoginForm = () => {
 
 const handleLogin = async () => {
   if (!validateLoginForm()) return;
-
   isLoggingIn.value = true;
-
-  try {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    console.log("Login successful", loginForm);
-    // Here you would typically:
-    // 1. Call your authentication API
-    // 2. Store the token/user data
-    // 3. Redirect to dashboard or home page
-
-    // For Nuxt.js, you might use:
-    // await useAuth().login(loginForm)
-    // navigateTo('/dashboard')
-  } catch (error) {
-    console.error("Login failed", error);
-  } finally {
-    isLoggingIn.value = false;
-  }
+  await auth
+    .login({
+      ...loginForm.value,
+    })
+    .then(() => {
+      navigateTo("/admin/dashboard", { replace: true });
+    })
+    .catch(({ response }) => {
+      const message = response._data.message;
+      triggerAlert(message, "error");
+    })
+    .finally(() => {
+      isLoggingIn.value = false;
+    });
 };
 
 // Register form
-const registerForm = reactive({
-  firstName: "",
-  lastName: "",
+const registerForm = ref({
+  name: "",
   email: "",
   password: "",
-  confirmPassword: "",
+  password_confirmation: "",
   acceptTerms: false,
 });
 
-const registerErrors = reactive({
-  firstName: "",
-  lastName: "",
+const registerErrors = ref({
+  name: "",
   email: "",
   password: "",
-  confirmPassword: "",
+  password_confirmation: "",
   acceptTerms: "",
 });
 
 const isRegistering = ref(false);
 
+function resetForm() {
+  registerForm.value.name = "";
+  registerForm.value.email = "";
+  registerForm.value.password = "";
+  registerForm.value.password_confirmation = "";
+}
+
 const validateRegisterForm = () => {
   let isValid = true;
 
   // Reset errors
-  registerErrors.firstName = "";
-  registerErrors.lastName = "";
-  registerErrors.email = "";
-  registerErrors.password = "";
-  registerErrors.confirmPassword = "";
-  registerErrors.acceptTerms = "";
+  registerErrors.value = {
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    acceptTerms: "",
+  };
 
-  // First name validation
-  if (!registerForm.firstName) {
-    registerErrors.firstName = "First name is required";
-    isValid = false;
-  }
-
-  // Last name validation
-  if (!registerForm.lastName) {
-    registerErrors.lastName = "Last name is required";
+  // Name validation
+  if (!registerForm.value.name) {
+    registerErrors.value.name = "User name is required";
     isValid = false;
   }
 
   // Email validation
-  if (!registerForm.email) {
-    registerErrors.email = "Email is required";
+  if (!registerForm.value.email) {
+    registerErrors.value.email = "Email is required";
     isValid = false;
-  } else if (!/^\S+@\S+\.\S+$/.test(registerForm.email)) {
-    registerErrors.email = "Please enter a valid email address";
+  } else if (!/^\S+@\S+\.\S+$/.test(registerForm.value.email)) {
+    registerErrors.value.email = "Please enter a valid email address";
     isValid = false;
   }
 
   // Password validation
-  if (!registerForm.password) {
-    registerErrors.password = "Password is required";
+  if (!registerForm.value.password) {
+    registerErrors.value.password = "Password is required";
     isValid = false;
-  } else if (registerForm.password.length < 8) {
-    registerErrors.password = "Password must be at least 8 characters";
+  } else if (registerForm.value.password.length < 8) {
+    registerErrors.value.password = "Password must be at least 8 characters";
     isValid = false;
   }
 
   // Confirm password validation
-  if (!registerForm.confirmPassword) {
-    registerErrors.confirmPassword = "Please confirm your password";
+  if (!registerForm.value.password_confirmation) {
+    registerErrors.value.password_confirmation = "Please confirm your password";
     isValid = false;
-  } else if (registerForm.password !== registerForm.confirmPassword) {
-    registerErrors.confirmPassword = "Passwords do not match";
+  } else if (
+    registerForm.value.password !== registerForm.value.password_confirmation
+  ) {
+    registerErrors.value.password_confirmation = "Passwords do not match";
     isValid = false;
   }
 
   // Terms acceptance validation
-  if (!registerForm.acceptTerms) {
-    registerErrors.acceptTerms = "You must accept the terms and conditions";
+  if (!registerForm.value.acceptTerms) {
+    registerErrors.value.acceptTerms =
+      "You must accept the terms and conditions";
+    triggerAlert("You must accept the terms and conditions", "error");
     isValid = false;
   }
 
@@ -153,27 +156,27 @@ const validateRegisterForm = () => {
 
 const handleRegister = async () => {
   if (!validateRegisterForm()) return;
-
   isRegistering.value = true;
+  useFetchApi(api.register, {
+    method: "post",
+    body: registerForm.value,
+  })
+    .then((response) => {
+      const { token, user } = response;
+      auth.setAuth(token, user);
+      resetForm();
+    })
+    .catch((error) => {
+      triggerAlert(`${error}`, "error");
+    })
+    .finally(() => {
+      isRegistering.value = false;
+    });
+};
 
-  try {
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    console.log("Registration successful", registerForm);
-    // Here you would typically:
-    // 1. Call your registration API
-    // 2. Store the token/user data
-    // 3. Redirect to dashboard or verification page
-
-    // For Nuxt.js, you might use:
-    // await useAuth().register(registerForm)
-    // navigateTo('/verify-email')
-  } catch (error) {
-    console.error("Registration failed", error);
-  } finally {
-    isRegistering.value = false;
-  }
+// clear error
+const clearErrorOnType = (field) => {
+  loginErrors.value[field] = "";
 };
 
 // Password visibility toggles
@@ -204,7 +207,7 @@ const showConfirmPassword = ref(false);
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <!-- Login Form -->
-        <form v-if="isLogin" @submit.prevent="handleLogin" class="space-y-6">
+        <form v-if="isLogin" class="space-y-6">
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">
               Email address
@@ -214,6 +217,7 @@ const showConfirmPassword = ref(false);
                 id="email"
                 v-model="loginForm.email"
                 type="email"
+                @keyup="clearErrorOnType('email')"
                 required
                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
@@ -289,9 +293,9 @@ const showConfirmPassword = ref(false);
           <div>
             <button
               type="submit"
-              :disabled="isLoggingIn"
+              :disabled="auth.isLoggingIn"
               class="w-full flex gap-2 justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-              @click="navigateTo('/admin/dashboard')"
+              @click="handleLogin"
             >
               <CpIcon
                 name="loading-twotone-loop"
@@ -305,52 +309,25 @@ const showConfirmPassword = ref(false);
         </form>
 
         <!-- Register Form -->
-        <form v-else @submit.prevent="handleRegister" class="space-y-6">
-          <div class="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
+        <form v-else class="space-y-6">
+          <div class="grid grid-cols-1">
             <div>
               <label
                 for="first-name"
                 class="block text-sm font-medium text-gray-700"
               >
-                First name
+                User Name
               </label>
               <div class="mt-1">
                 <input
                   id="first-name"
-                  v-model="registerForm.firstName"
+                  v-model="registerForm.name"
                   type="text"
                   required
                   class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 />
-                <p
-                  v-if="registerErrors.firstName"
-                  class="mt-1 text-sm text-red-600"
-                >
-                  {{ registerErrors.firstName }}
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <label
-                for="last-name"
-                class="block text-sm font-medium text-gray-700"
-              >
-                Last name
-              </label>
-              <div class="mt-1">
-                <input
-                  id="last-name"
-                  v-model="registerForm.lastName"
-                  type="text"
-                  required
-                  class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                />
-                <p
-                  v-if="registerErrors.lastName"
-                  class="mt-1 text-sm text-red-600"
-                >
-                  {{ registerErrors.lastName }}
+                <p v-if="registerErrors.name" class="mt-1 text-sm text-red-600">
+                  {{ registerErrors.name }}
                 </p>
               </div>
             </div>
@@ -429,7 +406,7 @@ const showConfirmPassword = ref(false);
             <div class="mt-1 relative">
               <input
                 id="confirm-password"
-                v-model="registerForm.confirmPassword"
+                v-model="registerForm.password_confirmation"
                 :type="showConfirmPassword ? 'text' : 'password'"
                 required
                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -453,10 +430,10 @@ const showConfirmPassword = ref(false);
                 />
               </button>
               <p
-                v-if="registerErrors.confirmPassword"
+                v-if="registerErrors.password_confirmation"
                 class="mt-1 text-sm text-red-600"
               >
-                {{ registerErrors.confirmPassword }}
+                {{ registerErrors.password_confirmation }}
               </p>
             </div>
           </div>
@@ -464,7 +441,6 @@ const showConfirmPassword = ref(false);
           <div class="flex items-center">
             <input
               id="terms"
-              v-model="registerForm.acceptTerms"
               type="checkbox"
               required
               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
@@ -495,6 +471,7 @@ const showConfirmPassword = ref(false);
             <button
               type="submit"
               :disabled="isRegistering"
+              @click="handleRegister"
               class="w-full flex gap-2 justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
             >
               <CpIcon
@@ -509,5 +486,11 @@ const showConfirmPassword = ref(false);
         </form>
       </div>
     </div>
+    <AlertModal
+      v-if="showAlert"
+      :message="alertMessage"
+      :type="alertType"
+      @close="showAlert = false"
+    />
   </div>
 </template>
