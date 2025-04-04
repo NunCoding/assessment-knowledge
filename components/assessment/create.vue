@@ -1,4 +1,7 @@
 <script setup>
+const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
+import { Plus } from "@element-plus/icons-vue";
+
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
 });
@@ -8,11 +11,13 @@ const emit = defineEmits(["update:modelValue", "submit"]);
 
 // property
 const listCategories = ref(null);
+const upload = ref(null);
+const fileSource = ref(null);
 
 const formData = ref({
   title: "",
   description: "",
-  category_id: null,
+  categories_id: null,
   rating: 0,
   difficulty: "Intermediate",
   time_estimate: 15,
@@ -25,11 +30,34 @@ onMounted(() => {
   fetchCategory();
 });
 
+// computed
+const imageURL = computed(() => {
+  if (fileSource.value) {
+    return URL.createObjectURL(fileSource.value);
+  }
+});
+
 // Close modal
 function closeModal() {
   emit("update:modelValue", false);
+  resetForm();
 }
-console.log(api.assessment);
+
+function resetForm() {
+  formData.value = {
+    title: "",
+    description: "",
+    categories_id: null,
+    rating: 0,
+    difficulty: "Intermediate",
+    time_estimate: 15,
+    image: null,
+    tags: [],
+  };
+  fileSource.value = null;
+  upload.value.clearFiles();
+}
+// Fetch categories
 
 function fetchCategory() {
   useFetchApi(api.category, {
@@ -39,14 +67,54 @@ function fetchCategory() {
       listCategories.value = pass;
     })
     .catch((error) => {
-      console.log(error);
+      triggerAlert(`Error ${error}`, "error");
     });
 }
 
 // Submit form
-function saveAssessment() {
-  console.log(formData.value);
-  emit("submit", formData.value);
+async function saveAssessment() {
+  if (fileSource.value) {
+    console.log("work");
+    await handleUpload();
+  }
+}
+
+async function handleUpload() {
+  if (!fileSource.value) return;
+
+  const uploadData = new FormData();
+  uploadData.append("file", fileSource.value);
+
+  try {
+    const response = await useFetchApi(api.upload, {
+      method: "POST",
+      body: uploadData,
+    });
+    formData.value.image = response.url;
+    if (formData.value.image) {
+      await handleSubmit();
+    }
+  } catch (error) {
+    triggerAlert(`Error uploading image: ${error}`, "error");
+    throw error;
+  }
+}
+
+async function handleSubmit() {
+  console.log("submit", formData.value);
+  useFetchApi(api.assessment, {
+    method: "post",
+    body: formData.value,
+  })
+    .then(() => {
+      closeModal();
+      triggerAlert("The assessment has been created Successfully", "success");
+    })
+    .catch((error) => {
+      if (error) {
+        triggerAlert("Something Error", "error");
+      }
+    });
 }
 
 // Handle adding tags
@@ -63,6 +131,27 @@ function addTag() {
 function removeTag(index) {
   formData.value.tags.splice(index, 1);
 }
+
+const beforeUpload = async (file) => {
+  const isImage = file.type.startsWith("image/");
+  const isLt2M = file.size / 1024 / 1024 < 2;
+
+  if (!isImage) {
+    triggerAlert("Only image files are allowed!", "error");
+    return false;
+  }
+  if (!isLt2M) {
+    triggerAlert("Image size must be less than 2MB!", "error");
+    return false;
+  }
+  fileSource.value = file;
+  return true;
+};
+
+const handleRemove = () => {
+  fileSource.value = null;
+  formData.value.image = null;
+};
 </script>
 
 <template>
@@ -111,7 +200,7 @@ function removeTag(index) {
               >Category</label
             >
             <select
-              v-model="formData.category_id"
+              v-model="formData.categories_id"
               class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             >
               <option
@@ -135,13 +224,27 @@ function removeTag(index) {
               class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Difficulty</label
+            >
+            <select
+              v-model="formData.difficulty"
+              class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            >
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
         </div>
 
         <!-- Tags Input -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1"
-            >Tags</label
-          >
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            Tags
+          </label>
           <div class="flex gap-2">
             <input
               v-model="newTag"
@@ -173,6 +276,42 @@ function removeTag(index) {
             </span>
           </div>
         </div>
+        <div class="w-32">
+          <el-upload
+            v-if="!imageURL"
+            ref="upload"
+            list-type="picture"
+            accept="image/*"
+            drag
+            action="#"
+            :http-request="() => {}"
+            :before-upload="beforeUpload"
+            :on-remove="handleRemove"
+            :show-file-list="false"
+          >
+            <el-icon>
+              <Plus />
+            </el-icon>
+          </el-upload>
+          <div v-if="imageURL">
+            <div :class="['relative cursor-pointer w-full p-0.5']">
+              <img
+                :src="imageURL"
+                class="object-fit: cover; h-28 w-full rounded"
+              />
+              <!-- button hover -->
+              <div class="absolute top-3 right-3">
+                <div class="flex justify-center items-center">
+                  <CpIcon
+                    name="trash"
+                    class="cursor-pointer h-8 w-8 flex justify-center items-center bg-gray-100 rounded-full text-red-600"
+                    @click="handleRemove(media)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div class="mt-8 flex justify-end space-x-3">
@@ -191,4 +330,11 @@ function removeTag(index) {
       </div>
     </div>
   </div>
+  <!-- alert -->
+  <AlertModal
+    v-if="showAlert"
+    :message="alertMessage"
+    :type="alertType"
+    @close="showAlert = false"
+  />
 </template>

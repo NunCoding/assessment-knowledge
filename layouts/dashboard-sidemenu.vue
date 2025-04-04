@@ -1,4 +1,7 @@
 <script setup>
+// define emit
+const auth = useAuthStore();
+
 // property
 const selectNavBar = ref(null);
 const activeSideBar = ref(null);
@@ -91,6 +94,7 @@ function handleClickNavBar(data) {
         <nav>
           <a
             class="flex gap-2 items-center px-4 py-3 text-indigo-100 hover:bg-indigo-700 cursor-pointer"
+            @click="auth.logout()"
           >
             <CpIcon name="logout-2-outline" iconset="solar" class="mt-1" />
             <span>Logout</span>

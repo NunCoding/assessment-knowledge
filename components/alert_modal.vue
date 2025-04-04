@@ -90,7 +90,7 @@ const positionClasses = computed(() => {
             </span>
             <span v-else-if="type === 'success'">
               <CpIcon
-                name="close-circle-linear"
+                name="check-circle-outline"
                 iconset="solar"
                 class="text-green-600"
                 size="25"
