@@ -55,7 +55,9 @@ function resetForm() {
     tags: [],
   };
   fileSource.value = null;
-  upload.value.clearFiles();
+  if (upload.value) {
+    upload.value.clearFiles();
+  }
 }
 // Fetch categories
 
@@ -74,7 +76,6 @@ function fetchCategory() {
 // Submit form
 async function saveAssessment() {
   if (fileSource.value) {
-    console.log("work");
     await handleUpload();
   }
 }
@@ -101,7 +102,6 @@ async function handleUpload() {
 }
 
 async function handleSubmit() {
-  console.log("submit", formData.value);
   useFetchApi(api.assessment, {
     method: "post",
     body: formData.value,
