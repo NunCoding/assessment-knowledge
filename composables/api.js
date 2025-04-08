@@ -1,9 +1,11 @@
 export const api = {
     test:"api/test",
     upload:'api/upload',
+
     // assessment
     assessment:"api/assessments",
     getAssessment:"api/assessments/$id",
+    listAssessment:"api/assessments/list",
 
     // category
     category:"api/category",

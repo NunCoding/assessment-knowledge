@@ -1,12 +1,15 @@
 <script setup>
+const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
+
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
 });
 
-// emit
 const emit = defineEmits(["update:modelValue", "submit"]);
 
-// property
+// Property
+const listAssessments = ref([]);
+
 const formData = ref({
   title: null,
   category: null,
@@ -16,13 +19,32 @@ const formData = ref({
   explanation: null,
 });
 
-// function
+// onMounted
+onMounted(() => {
+  fetchAssessments();
+});
+
+// Methods
 function closeModal() {
   emit("update:modelValue", false);
 }
 
 function addOption() {
   formData.value.options.push("");
+}
+
+// fetch list assessments from API
+function fetchAssessments() {
+  useFetchApi(api.listAssessment, {
+    method: "get",
+  })
+    .then((pass) => {
+      listAssessments.value = pass;
+    })
+    .catch(({ response }) => {
+      const message = response._data.message;
+      triggerAlert(message, "error");
+    });
 }
 
 function removeOption(index) {
@@ -37,9 +59,23 @@ function removeOption(index) {
 }
 
 function handleSubmit() {
-  console.log(formData.value);
+  // Check for required fields
+  if (
+    !formData.value.title ||
+    !formData.value.category ||
+    formData.value.correctAnswer === null ||
+    !formData.value.difficulty
+  ) {
+    alert("Please fill in all required fields.");
+    return;
+  }
+
+  // Emit form data to parent component
+  emit("submit", formData.value);
+  closeModal();
 }
 </script>
+
 <template>
   <div
     class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-5"
@@ -69,17 +105,19 @@ function handleSubmit() {
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1"
-                >Category</label
+                >Assessment</label
               >
               <select
-                v-model="formData.category"
+                v-model="formData.assessment_id"
                 class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               >
-                <option>HTML</option>
-                <option>Css</option>
-                <option>JavaScript</option>
-                <option>Nuxt Js</option>
-                <option>Tailwind Css</option>
+                <option
+                  v-for="assessment in listAssessments"
+                  :key="assessment.id"
+                  :value="assessment.id"
+                >
+                  {{ assessment.title }}
+                </option>
               </select>
             </div>
 
@@ -91,9 +129,9 @@ function handleSubmit() {
                 v-model="formData.difficulty"
                 class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               >
-                <option>Easy</option>
-                <option>Medium</option>
-                <option>Hard</option>
+                <option value="Easy">Easy</option>
+                <option value="Medium">Medium</option>
+                <option value="Hard">Hard</option>
               </select>
             </div>
           </div>
@@ -182,4 +220,10 @@ function handleSubmit() {
       </div>
     </div>
   </div>
+  <AlertModal
+    v-if="showAlert"
+    :message="alertMessage"
+    :type="alertType"
+    @close="showAlert = false"
+  />
 </template>

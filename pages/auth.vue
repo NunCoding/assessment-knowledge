@@ -61,9 +61,11 @@ const handleLogin = async () => {
     .then(() => {
       navigateTo("/admin/dashboard", { replace: true });
     })
-    .catch(({ response }) => {
-      const message = response._data.message;
-      triggerAlert(message, "error");
+    .catch((error) => {
+      console.log(error);
+
+      // const message = response._data.message;
+      // triggerAlert(message, "error");
     })
     .finally(() => {
       isLoggingIn.value = false;
@@ -155,7 +157,7 @@ const validateRegisterForm = () => {
 };
 
 const handleRegister = async () => {
-  if (!validateRegisterForm()) return;
+  // if (!validateRegisterForm()) return;
   isRegistering.value = true;
   useFetchApi(api.register, {
     method: "post",
@@ -165,6 +167,7 @@ const handleRegister = async () => {
       const { token, user } = response;
       auth.setAuth(token, user);
       resetForm();
+      navigateTo("/", { replace: true });
     })
     .catch((error) => {
       triggerAlert(`${error}`, "error");
