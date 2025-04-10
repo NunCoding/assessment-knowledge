@@ -26,6 +26,7 @@ export const useAuthStore = defineStore("auth", {
         }
         this.setAuth(response.token, response.user);
         await nextTick();
+        return response;
       } catch (error) {
         throw error;
       } finally {

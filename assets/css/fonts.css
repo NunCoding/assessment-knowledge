@@ -1,0 +1,22 @@
+/* ~/assets/css/fonts.css */
+/* ~/assets/css/main.css */
+body {
+  font-family: 'Noto Sans Khmer', 'Inter', sans-serif;
+}
+
+.font-english {
+  font-family: 'Inter', sans-serif;
+}
+
+.font-khmer {
+  font-family: 'Noto Sans Khmer', sans-serif;
+}
+
+/* Automatic language detection */
+:lang(en), :lang(en-*) {
+  font-family: 'Inter', sans-serif;
+}
+
+:lang(km), :lang(km-*) {
+  font-family: 'Noto Sans Khmer', sans-serif;
+}

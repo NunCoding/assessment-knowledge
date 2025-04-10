@@ -11,8 +11,34 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     '@pinia/nuxt',
     'nuxt-lodash',
+    '@nuxtjs/google-fonts',
   ],
-  css: ['~/assets/css/tailwind.css'],
+  css: [
+    '~/assets/css/tailwind.css'
+  ],
+  googleFonts:{
+    families:{
+      Inter:[400,500,600,600],
+      'Noto Sans Khmer':[400,700]
+    },
+    display:"swap",
+    subsets:['latin','khmer'],
+    prefetch:true,
+    preconnect:true,
+  },
+  app:{
+    head:{
+      link:[
+        {
+          rel:'stylesheet',
+          href:'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;700&display=swap'
+        },
+      ],
+      htmlAttrs:{
+        lang:'en'
+      },
+    },
+  },
   postcss: {
     plugins: {
       tailwindcss: {},

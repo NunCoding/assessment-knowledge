@@ -4,12 +4,13 @@ const auth = useAuthStore();
 
 //  state
 const mobileMenuOpen = ref(false);
-const isHydrated = ref(false);
+const token = localStorage.getItem("token");
+const userState = localStorage.getItem("user");
 
-// onMounted
-onMounted(() => {
-  // auth.hydrate();
-  isHydrated.value = true;
+// computed
+const userName = computed(() => {
+  const user = JSON.parse(userState);
+  return user?.name;
 });
 </script>
 <template>
@@ -49,13 +50,13 @@ onMounted(() => {
             </li>
           </ul>
         </nav>
-        <div v-if="isHydrated && !isEmpty(auth.user)">
-          {{ auth.user?.name }}
+        <div v-if="!isEmpty(token)">
+          <div class="flex gap-2 font-medium">
+            <span>Hello,</span>
+            <span>{{ userName }}</span>
+          </div>
         </div>
-        <div
-          class="flex items-center space-x-4"
-          v-if="isHydrated && isEmpty(auth.user)"
-        >
+        <div class="flex items-center space-x-4" v-if="isEmpty(token)">
           <button
             class="hidden md:block text-gray-700 hover:text-indigo-600 font-medium"
             @click="navigateTo('/auth')"
