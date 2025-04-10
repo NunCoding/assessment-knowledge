@@ -58,14 +58,17 @@ const handleLogin = async () => {
     .login({
       ...loginForm.value,
     })
-    .then(() => {
-      navigateTo("/admin/dashboard", { replace: true });
+    .then(({ user }) => {
+      const role = useGet(user, "role");
+      if (role == "admin") {
+        navigateTo("/admin/dashboard", { replace: true });
+      } else {
+        navigateTo("/", { replace: true });
+      }
     })
-    .catch((error) => {
-      console.log(error);
-
-      // const message = response._data.message;
-      // triggerAlert(message, "error");
+    .catch(({ response }) => {
+      const message = response._data.message;
+      triggerAlert(message, "error");
     })
     .finally(() => {
       isLoggingIn.value = false;

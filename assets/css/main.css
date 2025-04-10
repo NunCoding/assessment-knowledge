@@ -1,0 +1,13 @@
+/* ~/assets/css/main.css */
+:root {
+  --font-english: 'Inter', sans-serif;
+  --font-khmer: 'Noto Sans Khmer', sans-serif;
+}
+
+body {
+  font-family: var(--font-english);
+}
+
+:lang(km) {
+  font-family: var(--font-khmer);
+}

@@ -5,7 +5,9 @@ definePageMeta({
 });
 
 // property
+const isLoading = ref(false);
 const isCreateAssessmentModal = ref(false);
+const listAssessment = ref([]);
 
 // fake data
 const assessments = [
@@ -69,6 +71,29 @@ const assessments = [
     status: "Draft",
   },
 ];
+
+// onMounted
+onMounted(async () => {
+  await fetchAssessments();
+});
+
+// functions
+async function fetchAssessments() {
+  isLoading.value = true;
+  await useFetchApi(api.assessment, {
+    method: "get",
+  })
+    .then((pass) => {
+      listAssessment.value = pass;
+      console.log(listAssessment.value);
+    })
+    .catch((error) => {
+      triggerAlert(error, "error");
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
 </script>
 <template>
   <!-- Assessments Management -->
