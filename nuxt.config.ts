@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
+  ssr: false,
   components: true,
   modules: [
     '@nuxtjs/tailwindcss',
@@ -9,6 +10,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@element-plus/nuxt',
     '@pinia/nuxt',
+    'nuxt-lodash',
   ],
   css: ['~/assets/css/tailwind.css'],
   postcss: {

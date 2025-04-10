@@ -2,13 +2,15 @@
 // emit
 const auth = useAuthStore();
 
-// computed
-const readyLogin = computed(() => {
-  return auth.isLoggedIn;
-});
-
 //  state
 const mobileMenuOpen = ref(false);
+const isHydrated = ref(false);
+
+// onMounted
+onMounted(() => {
+  // auth.hydrate();
+  isHydrated.value = true;
+});
 </script>
 <template>
   <div class="min-h-screen bg-gray-50">
@@ -47,8 +49,13 @@ const mobileMenuOpen = ref(false);
             </li>
           </ul>
         </nav>
-        <div>Hello</div>
-        <div class="flex items-center space-x-4">
+        <div v-if="isHydrated && !isEmpty(auth.user)">
+          {{ auth.user?.name }}
+        </div>
+        <div
+          class="flex items-center space-x-4"
+          v-if="isHydrated && isEmpty(auth.user)"
+        >
           <button
             class="hidden md:block text-gray-700 hover:text-indigo-600 font-medium"
             @click="navigateTo('/auth')"
