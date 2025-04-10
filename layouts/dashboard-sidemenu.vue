@@ -1,11 +1,11 @@
 <script setup>
 // define emit
 const auth = useAuthStore();
+const route = useRoute();
 
 // property
-const selectNavBar = ref(null);
-const activeSideBar = ref(null);
 const sidebarOpen = ref(true);
+
 // Navigation items
 const navItems = [
   {
@@ -45,16 +45,17 @@ const navItems = [
   },
 ];
 
-// onMounted
-onMounted(() => {
-  selectNavBar.value = "dashboard";
+// computed
+const selectNavBar = computed(() => {
+  const path = route.path.split("/").pop();
+  return navItems.find((item) => item.href === path)?.id ?? "dashboard";
 });
 
-// function
-function handleClickNavBar(data) {
-  selectNavBar.value = data.id;
-  activeSideBar.value = data.name;
-}
+const activeSideBar = computed(() => {
+  return (
+    navItems.find((item) => item.id === selectNavBar.value)?.name || "Dashboard"
+  );
+});
 </script>
 <template>
   <div class="min-h-screen bg-gray-50 flex">
@@ -79,7 +80,6 @@ function handleClickNavBar(data) {
             :to="`/admin/${item.href}`"
             class="flex gap-2 items-center px-4 py-2 text-indigo-100 hover:bg-indigo-700 cursor-pointer transition-colors"
             :class="selectNavBar == item.id ? 'bg-indigo-700' : ''"
-            @click="handleClickNavBar(item)"
           >
             <CpIcon :name="item.icon" :iconset="item.iconset" class="mt-1" />
             <span>{{ item.name }}</span>

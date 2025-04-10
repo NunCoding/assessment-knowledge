@@ -1,17 +1,17 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  const auth = useAuthStore();
-
+  const tokenStorage = localStorage.getItem("token");
+  
   // Wait for the next tick to ensure hydration is complete
   if (process.client) {
     await nextTick();
   }
 
   // Redirect logic
-  if (auth.token && to.path.startsWith("/auth")) {
+  if (tokenStorage && to.path.startsWith("/auth")) {
     return navigateTo("/admin/dashboard", { replace: true });
   }
 
-  if (!auth.token && !to.path.startsWith("/auth")) {
+  if (!tokenStorage && !to.path.startsWith("/auth")) {
     return navigateTo("/auth");
   }
 });
