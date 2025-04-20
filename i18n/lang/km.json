@@ -12,5 +12,15 @@
   "assessment":{
     "title":"ការវាយតម្លៃ",
     "create":"បង្កើតការវាយតម្លៃ"
+  },
+  "question":{
+    "title":"សំណួរ",
+    "create":"បង្កើតសំណួរ"
+  },
+  "message":{
+    "createQuestion":"សំណួរត្រូវបានបង្កើតដោយជោគជ័យ"
+  },
+  "error":{
+    "title":""
   }
 }

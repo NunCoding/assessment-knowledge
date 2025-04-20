@@ -6,14 +6,15 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["update:modelValue", "submit"]);
+const { t } = useI18n();
 
 // Property
 const listAssessments = ref([]);
+const isLoading = ref(false);
 
 const formData = ref({
   title: null,
-  category: null,
-  difficulty: null,
+  assessment_id: null,
   options: ["", "", "", ""],
   correctAnswer: null,
   explanation: null,
@@ -59,20 +60,32 @@ function removeOption(index) {
 }
 
 function handleSubmit() {
-  // Check for required fields
-  if (
-    !formData.value.title ||
-    !formData.value.category ||
-    formData.value.correctAnswer === null ||
-    !formData.value.difficulty
-  ) {
-    alert("Please fill in all required fields.");
-    return;
-  }
+  isLoading.value = true;
+  useFetchApi(api.createQuestion, {
+    method: "post",
+    body: { ...formData.value },
+  })
+    .then(() => {
+      resetForm();
+      closeModal();
+      triggerAlert(t("message.createQuestion"), "success");
+    })
+    .catch((error) => {
+      if (error) {
+        triggerAlert(error, "error");
+      }
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
 
-  // Emit form data to parent component
-  emit("submit", formData.value);
-  closeModal();
+function resetForm() {
+  formData.value.title = null;
+  formData.value.assessment_id = null;
+  formData.value.options = ["", "", "", ""];
+  formData.value.correctAnswer = null;
+  formData.value.explanation = null;
 }
 </script>
 
@@ -83,7 +96,9 @@ function handleSubmit() {
   >
     <div class="bg-white rounded-xl shadow-lg p-6 max-w-3xl w-full">
       <div class="flex justify-between items-center mb-6">
-        <h3 class="text-xl font-bold text-gray-900">Add New Question</h3>
+        <h3 class="text-xl font-bold text-gray-900">
+          {{ t("question.create") }}
+        </h3>
         <button @click="closeModal" class="text-gray-500 hover:text-gray-700">
           <CpIcon name="close-duotone" iconset="iconamoon" />
         </button>
@@ -102,7 +117,7 @@ function handleSubmit() {
             ></textarea>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-1"
                 >Assessment</label
@@ -118,20 +133,6 @@ function handleSubmit() {
                 >
                   {{ assessment.title }}
                 </option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1"
-                >Difficulty</label
-              >
-              <select
-                v-model="formData.difficulty"
-                class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-              >
-                <option value="Easy">Easy</option>
-                <option value="Medium">Medium</option>
-                <option value="Hard">Hard</option>
               </select>
             </div>
           </div>
@@ -212,6 +213,7 @@ function handleSubmit() {
           Cancel
         </button>
         <button
+          v-if="!isLoading"
           @click="handleSubmit"
           class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
         >

@@ -4,6 +4,9 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+// emit
+const { t } = useI18n();
+
 // property
 const isCreateQuestionModal = ref(false);
 
@@ -85,13 +88,15 @@ const questions = [
   <!-- Questions Management -->
   <div class="p-6">
     <div class="flex justify-between items-center mb-6">
-      <h3 class="text-lg font-medium text-gray-900">Question Bank</h3>
+      <h3 class="text-lg font-medium text-gray-900">
+        {{ t("question.title") }}
+      </h3>
       <button
         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center"
         @click="isCreateQuestionModal = true"
       >
         <CpIcon name="plus" iconset="uil" class="h-5 w-5 mr-1" />
-        Add Question
+        {{ t("question.create") }}
       </button>
     </div>
 
@@ -106,7 +111,11 @@ const questions = [
               placeholder="Search questions..."
               class="pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
             />
-            <!-- <SearchIcon class="absolute left-3 top-2.5 h-5 w-5 text-gray-400" /> -->
+            <CpIcon
+              name="search-outline"
+              iconset="ion"
+              class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+            />
           </div>
           <select
             class="rounded-md border border-gray-300 py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
