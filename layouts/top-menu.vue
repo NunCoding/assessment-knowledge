@@ -51,9 +51,17 @@ const userName = computed(() => {
           </ul>
         </nav>
         <div v-if="!isEmpty(token)">
-          <div class="flex gap-2 font-medium">
-            <span>Hello,</span>
-            <span>{{ userName }}</span>
+          <div class="flex gap-1 justify-center items-center">
+            <div class="flex gap-2 font-medium">
+              <span class="font-semibold">Hello,</span>
+              <span>{{ userName }}</span>
+            </div>
+            <div class="w-16">
+              <img
+                src="https://png.pngtree.com/png-vector/20191103/ourmid/pngtree-handsome-young-guy-avatar-cartoon-style-png-image_1947775.jpg"
+                alt=""
+              />
+            </div>
           </div>
         </div>
         <div class="flex items-center space-x-4" v-if="isEmpty(token)">

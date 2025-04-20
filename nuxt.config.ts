@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     },
   },
   i18n:{
+    // fallbackLocale: 'en',
     bundle: {
       optimizeTranslationDirective: false ,
     },
@@ -53,7 +54,7 @@ export default defineNuxtConfig({
       { code: 'en', iso: 'en-US', file: 'en.json' },
       { code: 'km', iso: 'km-KH', file: 'km.json' },
     ],
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     defaultLocale: 'en',
     lazy: true,
     langDir: 'lang/',

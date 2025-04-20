@@ -3,11 +3,7 @@ import km from "./lang/km.json"
 
 export default defineI18nConfig(() => ({
   legacy: false,
-  locales: ['en', 'km'],
+  locale: 'en',
   fallbackLocale: 'en',
-  locale: "en",
-  messages: {
-    en,
-    km,
-  }
+  messages: { en, km }
 }))

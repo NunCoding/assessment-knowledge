@@ -4,6 +4,9 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+// emit
+const { t } = useI18n();
+
 // property
 const isLoading = ref(false);
 const isCreateAssessmentModal = ref(false);
@@ -99,13 +102,15 @@ async function fetchAssessments() {
   <!-- Assessments Management -->
   <div class="p-6">
     <div class="flex justify-between items-center mb-6">
-      <h3 class="text-lg font-medium text-gray-900">Assessments</h3>
+      <h3 class="text-lg font-medium text-gray-900">
+        {{ t("assessment.title") }}
+      </h3>
       <button
         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center"
         @click="isCreateAssessmentModal = true"
       >
         <CpIcon name="plus" iconset="uil" class="h-5 w-5 mr-1" />
-        Create Assessment
+        {{ t("assessment.create") }}
       </button>
     </div>
 
