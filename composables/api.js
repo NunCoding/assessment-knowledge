@@ -12,5 +12,9 @@ export const api = {
 
     // user
     login:"api/login",
-    register:"api/register"
+    register:"api/register",
+
+    // question
+    createQuestion:"api/questions",
+    getQuestion:"api/assessment/$id/question",
 }

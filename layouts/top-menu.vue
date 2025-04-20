@@ -1,17 +1,16 @@
 <script setup>
-// emit
-const auth = useAuthStore();
-
 //  state
 const mobileMenuOpen = ref(false);
-const token = localStorage.getItem("token");
-const userState = localStorage.getItem("user");
 
-// computed
-const userName = computed(() => {
-  const user = JSON.parse(userState);
-  return user?.name;
-});
+// function
+function navigateToRegister() {
+  navigateTo({
+    path: "/auth",
+    query: {
+      type: "register",
+    },
+  });
+}
 </script>
 <template>
   <div class="min-h-screen bg-gray-50">
@@ -50,21 +49,8 @@ const userName = computed(() => {
             </li>
           </ul>
         </nav>
-        <div v-if="!isEmpty(token)">
-          <div class="flex gap-1 justify-center items-center">
-            <div class="flex gap-2 font-medium">
-              <span class="font-semibold">Hello,</span>
-              <span>{{ userName }}</span>
-            </div>
-            <div class="w-16">
-              <img
-                src="https://png.pngtree.com/png-vector/20191103/ourmid/pngtree-handsome-young-guy-avatar-cartoon-style-png-image_1947775.jpg"
-                alt=""
-              />
-            </div>
-          </div>
-        </div>
-        <div class="flex items-center space-x-4" v-if="isEmpty(token)">
+
+        <div class="flex items-center space-x-4">
           <button
             class="hidden md:block text-gray-700 hover:text-indigo-600 font-medium"
             @click="navigateTo('/auth')"
@@ -73,7 +59,7 @@ const userName = computed(() => {
           </button>
           <button
             class="hidden md:block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
-            @click="navigateTo('/auth')"
+            @click="navigateToRegister()"
           >
             Sign Up Free
           </button>

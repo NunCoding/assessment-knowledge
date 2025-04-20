@@ -12,5 +12,15 @@
   "assessment":{
     "title":"Assessment",
     "create":"Create Assessment"
+  },
+  "question":{
+    "title":"Question",
+    "create":"Create Question"
+  },
+  "message":{
+    "createQuestion":"The Questions has been created successfully"
+  },
+  "error":{
+    "title":""
   }
 }
