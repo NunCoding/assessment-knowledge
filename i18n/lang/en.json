@@ -1,4 +1,16 @@
 {
   "welcome": "Welcome",
-  "description": "This is an internationalized Nuxt app."
+  "description": "This is an internationalized Nuxt app.",
+  "sidebar":{
+    "dashboard":"Dashboard",
+    "users":"Users",
+    "questions":"Questions",
+    "assessment":"Assessment",
+    "analytics":"Analytics",
+    "logout":"Logout"
+  },
+  "assessment":{
+    "title":"Assessment",
+    "create":"Create Assessment"
+  }
 }
