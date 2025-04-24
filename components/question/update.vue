@@ -3,6 +3,12 @@ const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
+  dataSource: {
+    type: [Object, Array],
+    default: () => {
+      return {};
+    },
+  },
 });
 
 const emit = defineEmits(["update:modelValue", "submitted"]);
@@ -23,6 +29,25 @@ const formData = ref({
 // onMounted
 onMounted(() => {
   fetchAssessments();
+});
+
+// watch
+watch(
+  () => props.dataSource,
+  (newValue) => {
+    if (newValue) {
+      formData.value.title = newValue.title;
+      formData.value.assessment_id = newValue.assessment_id;
+      formData.value.options = newValue.options;
+      formData.value.correctAnswer = newValue.correctAnswer;
+      formData.value.explanation = newValue.explanation;
+    }
+  }
+);
+
+// computed
+const questions = computed(() => {
+  return useGet(props, "dataSource", {});
 });
 
 // Methods
@@ -59,17 +84,19 @@ function removeOption(index) {
   }
 }
 
-function handleSubmit() {
+function handleUpdate() {
+  let id = useGet(props, "dataSource.id");
   isLoading.value = true;
-  useFetchApi(api.createQuestion, {
-    method: "post",
+  useFetchApi(api.update, {
+    method: "put",
+    params: { id },
     body: { ...formData.value },
   })
     .then(() => {
       resetForm();
       closeModal();
       emit("submitted");
-      triggerAlert(t("message.createQuestion"), "success");
+      triggerAlert(t("message.updateQuestion"), "success");
     })
     .catch((error) => {
       if (error) {
@@ -215,10 +242,10 @@ function resetForm() {
         </button>
         <button
           v-if="!isLoading"
-          @click="handleSubmit"
+          @click="handleUpdate"
           class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
         >
-          {{ t("question.create") }}
+          {{ t("question.update") }}
         </button>
       </div>
     </div>

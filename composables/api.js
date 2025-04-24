@@ -18,4 +18,5 @@ export const api = {
     createQuestion:"api/questions",
     getQuestion:"api/assessment/$id/question",
     listQuestion:"api/questions/list",
+    update:"api/questions/$id"
 }

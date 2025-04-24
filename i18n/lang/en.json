@@ -15,10 +15,12 @@
   },
   "question":{
     "title":"Question",
-    "create":"Create Question"
+    "create":"Create Question",
+    "update":"Update Question"
   },
   "message":{
-    "createQuestion":"The Questions has been created successfully"
+    "createQuestion":"The Questions has been created successfully",
+    "updateQuestion":"The Questions has been updated successfully"
   },
   "error":{
     "title":""

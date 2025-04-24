@@ -9,10 +9,12 @@ const { t } = useI18n();
 
 // property
 const isCreateQuestionModal = ref(false);
+const isUpdateQuestionModal = ref(false);
 const isLoading = ref(false);
 const listQuestion = ref([]);
 const pagination = ref({});
 const totalPage = ref({});
+const selectedQuestion = ref({});
 
 // onMounted
 onMounted(async () => {
@@ -44,6 +46,8 @@ async function fetchQuestion(url = api.listQuestion) {
 // handle edit question
 async function handleEdit(id) {
   const findQuestion = useFind(listQuestion.value, (item) => item.id === id);
+  selectedQuestion.value = findQuestion;
+  isUpdateQuestionModal.value = true;
 }
 </script>
 <template>
@@ -223,4 +227,9 @@ async function handleEdit(id) {
 
   <!-- modal -->
   <QuestionCreate v-model="isCreateQuestionModal" @submitted="fetchQuestion" />
+  <QuestionUpdate
+    v-model="isUpdateQuestionModal"
+    :data-source="selectedQuestion"
+    @submitted="fetchQuestion"
+  />
 </template>
