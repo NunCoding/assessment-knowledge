@@ -17,4 +17,5 @@ export const api = {
     // question
     createQuestion:"api/questions",
     getQuestion:"api/assessment/$id/question",
+    listQuestion:"api/questions/list",
 }

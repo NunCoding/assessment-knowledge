@@ -5,7 +5,7 @@ const props = defineProps({
   modelValue: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(["update:modelValue", "submit"]);
+const emit = defineEmits(["update:modelValue", "submitted"]);
 const { t } = useI18n();
 
 // Property
@@ -68,6 +68,7 @@ function handleSubmit() {
     .then(() => {
       resetForm();
       closeModal();
+      emit("submitted");
       triggerAlert(t("message.createQuestion"), "success");
     })
     .catch((error) => {

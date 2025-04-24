@@ -87,8 +87,7 @@ async function fetchAssessments() {
     method: "get",
   })
     .then((pass) => {
-      listAssessment.value = pass;
-      console.log(listAssessment.value);
+      listAssessment.value = pass.data;
     })
     .catch((error) => {
       triggerAlert(error, "error");
@@ -116,8 +115,8 @@ async function fetchAssessments() {
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       <div
-        v-for="(assessment, index) in assessments"
-        :key="index"
+        v-for="(assessment, id) in listAssessment"
+        :key="id"
         class="bg-white rounded-lg shadow overflow-hidden"
       >
         <div class="h-40 bg-gray-200 relative">
@@ -126,25 +125,6 @@ async function fetchAssessments() {
             alt=""
             class="w-full h-full object-cover"
           />
-          <div class="absolute top-0 right-0 m-2">
-            <span
-              :class="`px-2 py-1 text-xs font-semibold rounded-full bg-${
-                assessment.status === 'Active'
-                  ? 'green'
-                  : assessment.status === 'Draft'
-                  ? 'yellow'
-                  : 'gray'
-              }-100 text-${
-                assessment.status === 'Active'
-                  ? 'green'
-                  : assessment.status === 'Draft'
-                  ? 'yellow'
-                  : 'gray'
-              }-800`"
-            >
-              {{ assessment.status }}
-            </span>
-          </div>
         </div>
         <div class="p-6">
           <h4 class="text-lg font-medium text-gray-900 mb-2">
@@ -156,19 +136,6 @@ async function fetchAssessments() {
           >
             <div>{{ assessment.questions }} questions</div>
             <div>{{ assessment.timeEstimate }} min</div>
-          </div>
-          <div class="flex justify-between items-center">
-            <div class="text-sm text-gray-500">
-              {{ assessment.completions }} completions
-            </div>
-            <div class="flex space-x-2">
-              <button class="p-1 text-indigo-600 hover:text-indigo-900">
-                <!-- <EditIcon class="h-5 w-5" /> -->
-              </button>
-              <button class="p-1 text-red-600 hover:text-red-900">
-                <!-- <TrashIcon class="h-5 w-5" /> -->
-              </button>
-            </div>
           </div>
         </div>
       </div>
