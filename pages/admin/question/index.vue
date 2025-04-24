@@ -9,80 +9,42 @@ const { t } = useI18n();
 
 // property
 const isCreateQuestionModal = ref(false);
+const isLoading = ref(false);
+const listQuestion = ref([]);
+const pagination = ref({});
+const totalPage = ref({});
 
-// make fake data
-const questions = [
-  {
-    text: "What does HTML stand for?",
-    category: "Programming",
-    type: "Multiple Choice",
-    difficulty: "Easy",
-    usedIn: 3,
-  },
-  {
-    text: "Which CSS property is used to change the text color?",
-    category: "Programming",
-    type: "Multiple Choice",
-    difficulty: "Easy",
-    usedIn: 2,
-  },
-  {
-    text: "Which of the following is NOT a JavaScript data type?",
-    category: "Programming",
-    type: "Multiple Choice",
-    difficulty: "Medium",
-    usedIn: 3,
-  },
-  {
-    text: "What is the time complexity of binary search?",
-    category: "Programming",
-    type: "Multiple Choice",
-    difficulty: "Hard",
-    usedIn: 1,
-  },
-  {
-    text: "Which of the following is a supervised learning algorithm?",
-    category: "Data Science",
-    type: "Multiple Choice",
-    difficulty: "Medium",
-    usedIn: 2,
-  },
-  {
-    text: "What is the purpose of normalization in database design?",
-    category: "Data Science",
-    type: "Multiple Choice",
-    difficulty: "Hard",
-    usedIn: 1,
-  },
-  {
-    text: "Which cloud service model provides virtualized computing resources over the internet?",
-    category: "Cloud",
-    type: "Multiple Choice",
-    difficulty: "Medium",
-    usedIn: 2,
-  },
-  {
-    text: "What principle states that related elements should be grouped together?",
-    category: "Design",
-    type: "Multiple Choice",
-    difficulty: "Easy",
-    usedIn: 1,
-  },
-  {
-    text: "Which encryption algorithm is considered more secure: AES or DES?",
-    category: "Security",
-    type: "Multiple Choice",
-    difficulty: "Medium",
-    usedIn: 1,
-  },
-  {
-    text: "What is the difference between HTTP and HTTPS?",
-    category: "Security",
-    type: "Multiple Choice",
-    difficulty: "Easy",
-    usedIn: 3,
-  },
-];
+// onMounted
+onMounted(async () => {
+  await fetchQuestion();
+});
+
+// function
+async function fetchQuestion(url = api.listQuestion) {
+  isLoading.value = true;
+  await useFetchApi(url, {
+    method: "get",
+  })
+    .then((pass) => {
+      listQuestion.value = pass.data;
+      totalPage.value = pass.meta;
+      pagination.value = {
+        next_page_url: pass.links?.next,
+        prev_page_url: pass.links?.prev,
+      };
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
+// handle edit question
+async function handleEdit(id) {
+  const findQuestion = useFind(listQuestion.value, (item) => item.id === id);
+}
 </script>
 <template>
   <!-- Questions Management -->
@@ -157,19 +119,7 @@ const questions = [
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Type
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
                 Difficulty
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Used In
               </th>
               <th
                 scope="col"
@@ -180,17 +130,14 @@ const questions = [
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="(question, index) in questions" :key="index">
+            <tr v-for="(question, id) in listQuestion" :key="id">
               <td class="px-6 py-4">
                 <div class="text-sm text-gray-900 max-w-md truncate">
-                  {{ question.text }}
+                  {{ question.title }}
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">{{ question.category }}</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ question.type }}</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <span
@@ -211,21 +158,23 @@ const questions = [
                   {{ question.difficulty }}
                 </span>
               </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">
-                  {{ question.usedIn }} assessments
-                </div>
-              </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div class="flex space-x-2">
-                  <button class="text-indigo-600 hover:text-indigo-900">
-                    <!-- <EyeIcon class="h-5 w-5" /> -->
+                  <button
+                    class="text-indigo-600 hover:text-indigo-900"
+                    @click="handleEdit(question.id)"
+                  >
+                    <CpIcon name="edit" iconset="lucide" class="h-5 w-5" />
                   </button>
-                  <button class="text-indigo-600 hover:text-indigo-900">
-                    <!-- <EditIcon class="h-5 w-5" /> -->
-                  </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    <!-- <TrashIcon class="h-5 w-5" /> -->
+                  <button
+                    class="text-red-600 hover:text-red-900"
+                    @click="handleDelete(question.id)"
+                  >
+                    <CpIcon
+                      name="delete-outline-rounded"
+                      iconset="material-symbols"
+                      class="h-5 w-5"
+                    />
                   </button>
                 </div>
               </td>
@@ -238,18 +187,32 @@ const questions = [
         class="px-6 py-4 border-t border-gray-200 flex items-center justify-between"
       >
         <div class="text-sm text-gray-700">
-          Showing <span class="font-medium">1</span> to
-          <span class="font-medium">10</span> of
-          <span class="font-medium">{{ questions.length }}</span> questions
+          Showing <span class="font-medium">{{ totalPage.from }}</span> to
+          <span class="font-medium">{{ totalPage.to }}</span> of
+          <span class="font-medium">{{ totalPage.total }}</span> questions
         </div>
         <div class="flex space-x-2">
           <button
+            :disabled="!pagination.prev_page_url"
             class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
+            :class="[
+              !pagination.prev_page_url
+                ? 'bg-gray-100 cursor-not-allowed'
+                : 'bg-white cursor-pointer',
+            ]"
+            @click="fetchQuestion(pagination.prev_page_url)"
           >
             Previous
           </button>
           <button
+            :disabled="!pagination.next_page_url"
             class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
+            :class="[
+              !pagination.next_page_url
+                ? 'bg-gray-100 cursor-not-allowed'
+                : 'bg-white cursor-pointer',
+            ]"
+            @click="fetchQuestion(pagination.next_page_url)"
           >
             Next
           </button>
@@ -259,5 +222,5 @@ const questions = [
   </div>
 
   <!-- modal -->
-  <QuestionCreate v-model="isCreateQuestionModal" />
+  <QuestionCreate v-model="isCreateQuestionModal" @submitted="fetchQuestion" />
 </template>
