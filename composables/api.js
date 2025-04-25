@@ -4,9 +4,11 @@ export const api = {
 
     // assessment
     assessment:"api/assessments",
+    popularAssessment:"api/assessments/popular",
     getAssessment:"api/assessments/$id",
     listAssessment:"api/assessments/list",
     assessmentCategory:"api/assessment/category",
+    taskAssessment:"api/assessment/$id/task",
 
     // category
     category:"api/category",

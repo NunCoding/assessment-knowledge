@@ -240,7 +240,15 @@ function toggleTag(tag) {
 }
 
 function navigateToAssessment(id) {
-  console.log(id);
+  const userAllReadyLogin = localStorage.getItem("token");
+  if (userAllReadyLogin) {
+    navigateTo({
+      name: "assessment-id",
+      params: { id },
+    });
+  } else {
+    router.push("/auth");
+  }
 }
 
 function parseTags(tags) {

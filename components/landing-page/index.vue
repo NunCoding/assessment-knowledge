@@ -1,4 +1,8 @@
 <script setup>
+//property
+const isLoading = ref(false);
+const popularAssessment = ref([]);
+
 // fake data
 const categories = [
   { name: "HTML", count: 124, icon: "html5", iconset: "devicon" },
@@ -51,6 +55,28 @@ const popularAssessments = [
     timeEstimate: 12,
   },
 ];
+
+// onMounted
+onMounted(async () => {
+  await fetchPopularAssessments();
+});
+
+// function
+async function fetchPopularAssessments() {
+  isLoading.value = true;
+  await useFetchApi(api.popularAssessment, {
+    method: "get",
+  })
+    .then((data) => {
+      popularAssessment.value = data;
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
 </script>
 <template>
   <!-- Hero Section -->
@@ -132,7 +158,7 @@ const popularAssessments = [
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Why Choose Assessment Knowledge?
+          Why Choose Assessment IT Knowledge?
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
           Our platform offers a comprehensive approach to knowledge assessment
@@ -257,6 +283,7 @@ const popularAssessments = [
         <div class="mt-4 md:mt-0">
           <button
             class="text-indigo-600 font-medium hover:text-indigo-800 transition flex items-center"
+            @click="navigateTo('/assessment')"
           >
             View All Assessments
             <CpIcon
@@ -270,7 +297,7 @@ const popularAssessments = [
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div
-          v-for="(assessment, index) in popularAssessments"
+          v-for="(assessment, index) in popularAssessment"
           :key="index"
           class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition cursor-pointer"
         >
