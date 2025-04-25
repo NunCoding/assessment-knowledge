@@ -7,8 +7,10 @@ definePageMeta({
 const router = useRouter();
 
 // Pagination
+const isLoading = ref(false);
 const currentPage = ref(1);
 const itemsPerPage = 5;
+const listAssessmentsCategory = ref([]);
 
 // Filters
 const filters = ref({
@@ -81,7 +83,7 @@ const featuredAssessments = [
     title: "Modern JavaScript Fundamentals",
     description:
       "Test your knowledge of ES6+ features, async programming, and modern JavaScript patterns.",
-    // image: "/placeholder.svg?height=300&width=500",
+    image: "",
     rating: 4.9,
     difficulty: "Intermediate",
     duration: 25,
@@ -100,85 +102,9 @@ const featuredAssessments = [
   },
 ];
 
-// Mock data for all assessments
-const assessments = [
-  {
-    id: 1,
-    title: "HTML5 & CSS3 Essentials",
-    description:
-      "Test your knowledge of modern HTML5 elements, CSS3 properties, and responsive design techniques.",
-    // image: "/placeholder.svg?height=200&width=300",
-    rating: 4.7,
-    difficulty: "Beginner",
-    duration: 15,
-    completions: "8.5k",
-    tags: ["HTML", "CSS", "Responsive Design"],
-  },
-  {
-    id: 2,
-    title: "JavaScript Core Concepts",
-    description:
-      "Evaluate your understanding of JavaScript fundamentals including scope, closures, and the event loop.",
-    // image: "/placeholder.svg?height=200&width=300",
-    rating: 4.8,
-    difficulty: "Intermediate",
-    duration: 20,
-    completions: "12.3k",
-    tags: ["JavaScript", "ES6", "Functions"],
-  },
-  {
-    id: 3,
-    title: "React Component Patterns",
-    description:
-      "Test your knowledge of React component patterns, hooks, and state management techniques.",
-    // image: "/placeholder.svg?height=200&width=300",
-    rating: 4.9,
-    difficulty: "Advanced",
-    duration: 30,
-    completions: "5.7k",
-    tags: ["React", "Hooks", "Components", "Patterns"],
-  },
-  {
-    id: 4,
-    title: "Node.js & Express Fundamentals",
-    description:
-      "Assess your understanding of building server-side applications with Node.js and Express.",
-    // image: "/placeholder.svg?height=200&width=300",
-    rating: 4.6,
-    difficulty: "Intermediate",
-    duration: 25,
-    completions: "4.2k",
-    tags: ["Node.js", "Express", "Backend", "API"],
-  },
-  {
-    id: 5,
-    title: "RESTful API Design",
-    description:
-      "Test your knowledge of RESTful API design principles, best practices, and implementation.",
-    // image: "/placeholder.svg?height=200&width=300",
-    rating: 4.7,
-    difficulty: "Intermediate",
-    duration: 20,
-    completions: "3.8k",
-    tags: ["API", "REST", "HTTP", "Backend"],
-  },
-  {
-    id: 6,
-    title: "TypeScript for JavaScript Developers",
-    description:
-      "Evaluate your TypeScript skills including types, interfaces, generics, and advanced features.",
-    // image: "/placeholder.svg?height=200&width=300",
-    rating: 4.8,
-    difficulty: "Intermediate",
-    duration: 25,
-    completions: "2.9k",
-    tags: ["TypeScript", "JavaScript", "Types"],
-  },
-];
-
 // Computed property for filtered assessments
 const filteredAssessments = computed(() => {
-  let result = [...assessments];
+  let result = [...listAssessmentsCategory.value];
 
   // Apply search filter
   if (filters.value.search) {
@@ -259,10 +185,17 @@ const filteredAssessments = computed(() => {
     default:
       // Sort by completions (most popular first)
       result = [...result].sort((a, b) => {
-        const aCompletions = parseInt(a.completions.replace("k", "000"));
-        const bCompletions = parseInt(b.completions.replace("k", "000"));
-        return bCompletions - aCompletions;
+        const getCompletions = (val) => {
+          if (!val?.completions) return 0;
+          const str = String(val.completions).toLowerCase();
+          if (str.includes("k")) return parseFloat(str) * 1000;
+          if (str.includes("m")) return parseFloat(str) * 1000000;
+          return parseInt(str) || 0;
+        };
+
+        return getCompletions(b) - getCompletions(a);
       });
+
       break;
   }
 
@@ -274,7 +207,29 @@ const totalPages = computed(() =>
   Math.ceil(filteredAssessments.value.length / itemsPerPage)
 );
 
-// Methods
+// onMounted
+onMounted(async () => {
+  await fetchAssessments();
+});
+
+// function
+async function fetchAssessments() {
+  isLoading.value = true;
+  await useFetchApi(api.assessmentCategory, {
+    method: "GET",
+  })
+    .then((pass) => {
+      listAssessmentsCategory.value = pass;
+    })
+    .catch((error) => {
+      console.error("Error fetching assessments:", error);
+      triggerAlert("Something went wrong!.", "error");
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
 function toggleTag(tag) {
   const index = filters.value.tags.indexOf(tag);
   if (index === -1) {
@@ -282,6 +237,24 @@ function toggleTag(tag) {
   } else {
     filters.value.tags.splice(index, 1);
   }
+}
+
+function navigateToAssessment(id) {
+  console.log(id);
+}
+
+function parseTags(tags) {
+  if (Array.isArray(tags)) {
+    const jsonString = tags.join(",");
+    try {
+      return JSON.parse(jsonString);
+    } catch (e) {
+      console.error("JSON parse failed:", jsonString, e);
+      return [];
+    }
+  }
+
+  return [];
 }
 
 function resetFilters() {
@@ -576,7 +549,7 @@ function resetFilters() {
               <h2 class="text-xl font-bold text-gray-900">All Assessments</h2>
               <div class="text-sm text-gray-500">
                 Showing {{ filteredAssessments.length }} of
-                {{ assessments.length }} assessments
+                {{ listAssessmentsCategory.length }} assessments
               </div>
             </div>
 
@@ -609,7 +582,6 @@ function resetFilters() {
                 v-for="assessment in filteredAssessments"
                 :key="assessment.id"
                 class="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition p-4"
-                @click="router.push(`/assessment/id`)"
               >
                 <div class="flex flex-col sm:flex-row">
                   <div class="sm:w-1/4 mb-4 sm:mb-0 sm:mr-6">
@@ -640,7 +612,7 @@ function resetFilters() {
                     </p>
                     <div class="flex flex-wrap gap-2 mb-4">
                       <span
-                        v-for="tag in assessment.tags"
+                        v-for="tag in parseTags(assessment.tags)"
                         :key="tag"
                         class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs"
                       >
@@ -667,24 +639,21 @@ function resetFilters() {
                           />
                           <span>{{ assessment.duration }} min</span>
                         </div>
-                        <div class="flex items-center text-sm text-gray-500">
+                        <div
+                          class="flex justify-center items-center text-sm text-gray-500"
+                        >
                           <CpIcon
                             name="user-group"
                             iconset="nimbus"
                             class="h-4 w-4 mr-2"
                           />
-                          <span>{{ assessment.completions }}</span>
+                          <span class="text-lg">{{ assessment.users }}</span>
                         </div>
                       </div>
                       <div class="flex space-x-2">
                         <button
-                          class="px-3 py-1.5 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition flex items-center"
-                        >
-                          <!-- <BookmarkIcon class="h-4 w-4 mr-1" /> -->
-                          Save
-                        </button>
-                        <button
                           class="px-4 py-1.5 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+                          @click="navigateToAssessment(assessment.id)"
                         >
                           Start
                         </button>

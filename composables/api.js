@@ -6,6 +6,7 @@ export const api = {
     assessment:"api/assessments",
     getAssessment:"api/assessments/$id",
     listAssessment:"api/assessments/list",
+    assessmentCategory:"api/assessment/category",
 
     // category
     category:"api/category",
@@ -18,5 +19,6 @@ export const api = {
     createQuestion:"api/questions",
     getQuestion:"api/assessment/$id/question",
     listQuestion:"api/questions/list",
-    update:"api/questions/$id"
+    update:"api/questions/$id",
+    delete:"api/questions/$id/delete",
 }
