@@ -113,7 +113,7 @@ async function fetchAssessments() {
       </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <div
         v-for="(assessment, id) in listAssessment"
         :key="id"
@@ -141,5 +141,8 @@ async function fetchAssessments() {
       </div>
     </div>
   </div>
-  <AssessmentCreate v-model="isCreateAssessmentModal" />
+  <AssessmentCreate
+    v-model="isCreateAssessmentModal"
+    @submitted="fetchAssessments"
+  />
 </template>

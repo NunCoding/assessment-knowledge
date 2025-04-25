@@ -10,11 +10,13 @@ const { t } = useI18n();
 // property
 const isCreateQuestionModal = ref(false);
 const isUpdateQuestionModal = ref(false);
+const isDeleteQuestionModal = ref(false);
 const isLoading = ref(false);
 const listQuestion = ref([]);
 const pagination = ref({});
 const totalPage = ref({});
 const selectedQuestion = ref({});
+const selectDeleteQuestion = ref({});
 
 // onMounted
 onMounted(async () => {
@@ -36,7 +38,7 @@ async function fetchQuestion(url = api.listQuestion) {
       };
     })
     .catch((error) => {
-      console.log(error);
+      triggerAlert("Something went wrong!.", "error");
     })
     .finally(() => {
       isLoading.value = false;
@@ -48,6 +50,12 @@ async function handleEdit(id) {
   const findQuestion = useFind(listQuestion.value, (item) => item.id === id);
   selectedQuestion.value = findQuestion;
   isUpdateQuestionModal.value = true;
+}
+
+function handleDelete(id) {
+  const findQuestion = useFind(listQuestion.value, (item) => item.id === id);
+  selectDeleteQuestion.value = findQuestion;
+  isDeleteQuestionModal.value = true;
 }
 </script>
 <template>
@@ -226,10 +234,20 @@ async function handleEdit(id) {
   </div>
 
   <!-- modal -->
+  <!-- create  -->
   <QuestionCreate v-model="isCreateQuestionModal" @submitted="fetchQuestion" />
+
+  <!-- update -->
   <QuestionUpdate
     v-model="isUpdateQuestionModal"
     :data-source="selectedQuestion"
+    @submitted="fetchQuestion"
+  />
+
+  <!-- delete -->
+  <QuestionDelete
+    v-model="isDeleteQuestionModal"
+    :data-source="selectDeleteQuestion"
     @submitted="fetchQuestion"
   />
 </template>

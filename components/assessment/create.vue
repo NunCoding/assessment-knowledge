@@ -7,7 +7,7 @@ const props = defineProps({
 });
 
 // Define emit
-const emit = defineEmits(["update:modelValue", "submit"]);
+const emit = defineEmits(["update:modelValue", "submitted"]);
 
 // property
 const listCategories = ref(null);
@@ -108,6 +108,7 @@ async function handleSubmit() {
   })
     .then(() => {
       closeModal();
+      emit("submitted");
       triggerAlert("The assessment has been created Successfully", "success");
     })
     .catch((error) => {

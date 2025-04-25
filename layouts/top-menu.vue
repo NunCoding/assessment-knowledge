@@ -20,9 +20,7 @@ function navigateToRegister() {
       >
         <div class="flex items-center space-x-2">
           <img src="/public/images/logo_num.png" alt="logo num" class="h-12" />
-          <h1 class="text-2xl font-bold text-gray-900">
-            Assessments Knowledge
-          </h1>
+          <h1 class="text-2xl font-bold text-gray-900">NUM AIK</h1>
         </div>
         <nav class="hidden md:block">
           <ul class="flex space-x-8">
@@ -142,7 +140,7 @@ function navigateToRegister() {
                 alt="logo num"
                 class="h-12"
               />
-              <span class="text-2xl font-bold">Assessments Knowledge</span>
+              <span class="text-2xl font-bold">NUM AIK</span>
             </div>
             <p class="text-gray-400 mb-4">
               Test your knowledge, track your progress, and grow your skills

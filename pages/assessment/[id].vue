@@ -2,110 +2,16 @@
 definePageMeta({
   layout: "top-menu",
 });
-// Mock data - in a real app, you would fetch this from an API
-const assessment = {
-  id: 1,
-  title: "Web Development Fundamentals",
-  description: "Test your knowledge of HTML, CSS, and JavaScript basics.",
-  category: "Programming",
-  questions: [
-    {
-      question: "What does HTML stand for?",
-      options: [
-        "Hyper Text Markup Language",
-        "High Tech Modern Language",
-        "Hyper Transfer Markup Language",
-        "Hyperlink Text Management Language",
-      ],
-      correctAnswer: 0,
-      explanation:
-        "HTML (Hyper Text Markup Language) is the standard markup language for creating web pages.",
-    },
-    {
-      question: "Which CSS property is used to change the text color?",
-      options: ["font-color", "text-color", "color", "text-style"],
-      correctAnswer: 2,
-      explanation:
-        'The "color" property is used to set the color of text in CSS.',
-    },
-    {
-      question: "Which of the following is NOT a JavaScript data type?",
-      options: ["String", "Boolean", "Float", "Object"],
-      correctAnswer: 2,
-      explanation:
-        "JavaScript has six primitive data types: String, Number, Boolean, Undefined, Null, and Symbol. Float is not a distinct data type in JavaScript; it falls under Number.",
-    },
-    {
-      question: "What symbol is used to select elements by ID in CSS?",
-      options: [".", "#", "@", "&"],
-      correctAnswer: 1,
-      explanation:
-        "The hash symbol (#) is used to select elements by their ID in CSS.",
-    },
-    {
-      question: "Which HTML tag is used to create a hyperlink?",
-      options: ["<link>", "<href>", "<a>", "<url>"],
-      correctAnswer: 2,
-      explanation: "The <a> (anchor) tag is used to create hyperlinks in HTML.",
-    },
-    {
-      question: "Which of the following is a CSS preprocessor?",
-      options: ["jQuery", "SASS", "React", "Angular"],
-      correctAnswer: 1,
-      explanation:
-        "SASS (Syntactically Awesome Style Sheets) is a CSS preprocessor that extends CSS with features like variables, nested rules, and mixins.",
-    },
-    {
-      question: 'What does the "box-sizing: border-box" CSS property do?',
-      options: [
-        "Makes all boxes square-shaped",
-        "Includes padding and border in the element's total width and height",
-        "Creates a border around all box elements",
-        "Centers all boxes in their container",
-      ],
-      correctAnswer: 1,
-      explanation:
-        'The "box-sizing: border-box" property includes the padding and border in an element\'s total width and height calculation, making it easier to size elements.',
-    },
-    {
-      question:
-        "Which JavaScript method is used to add an element at the end of an array?",
-      options: ["push()", "append()", "add()", "insert()"],
-      correctAnswer: 0,
-      explanation:
-        "The push() method adds one or more elements to the end of an array and returns the new length of the array.",
-    },
-    {
-      question: "What is the correct way to comment in JavaScript?",
-      options: [
-        "<!-- This is a comment -->",
-        "/* This is a comment */",
-        "// This is a comment",
-        "# This is a comment",
-      ],
-      correctAnswer: 2,
-      explanation:
-        "In JavaScript, single-line comments start with // and multi-line comments are wrapped between /* and */.",
-    },
-    {
-      question: "Which of the following is used to make a website responsive?",
-      options: [
-        "JavaScript functions",
-        "Media queries",
-        "PHP scripts",
-        "SQL databases",
-      ],
-      correctAnswer: 1,
-      explanation:
-        "Media queries in CSS allow you to apply different styles for different devices or screen sizes, making websites responsive.",
-    },
-  ],
-};
+
+// emit
+const route = useRoute();
 
 // State
 const currentQuestionIndex = ref(0);
 const userAnswers = ref([]);
+const assessmentTask = ref({});
 const isSubmitted = ref(false);
+const isLoading = ref(false);
 const confirmExit = ref(false);
 const showResults = ref(false);
 const timer = ref(0);
@@ -113,16 +19,19 @@ const timerInterval = ref(null);
 
 // Computed properties
 const currentQuestion = computed(() => {
-  return (
-    assessment.questions[currentQuestionIndex.value] || {
-      question: "",
-      options: [],
-    }
-  );
+  const questions = assessmentTask.value?.questions;
+  if (Array.isArray(questions) && questions.length > 0) {
+    return (
+      questions[currentQuestionIndex.value] || { question: "", options: [] }
+    );
+  }
+  return { question: "", options: [] };
 });
 
 const isLastQuestion = computed(() => {
-  return currentQuestionIndex.value === assessment.questions.length - 1;
+  return (
+    currentQuestionIndex.value === assessmentTask.value.questions?.length - 1
+  );
 });
 
 const isCorrect = computed(() => {
@@ -141,8 +50,8 @@ const isCorrect = computed(() => {
 const score = computed(() => {
   return userAnswers.value.reduce((total, answer, index) => {
     if (
-      assessment.questions[index] &&
-      answer === assessment.questions[index].correctAnswer
+      assessmentTask.value.questions[index] &&
+      answer === assessmentTask.value.questions[index].correctAnswer
     ) {
       return total + 1;
     }
@@ -151,10 +60,35 @@ const score = computed(() => {
 });
 
 const scorePercentage = computed(() => {
-  return Math.round((score.value / assessment.questions.length) * 100);
+  return Math.round(
+    (score.value / assessmentTask.value.questions?.length) * 100
+  );
 });
 
-// Methods
+// onMounted
+onMounted(async () => {
+  await assessmentTaskTake();
+});
+
+// functions
+async function assessmentTaskTake() {
+  let id = route.params.id;
+  isLoading.value = true;
+  await useFetchApi(api.taskAssessment, {
+    method: "get",
+    params: { id },
+  })
+    .then((data) => {
+      assessmentTask.value = data;
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
 function selectOption(index) {
   if (!isSubmitted.value) {
     userAnswers.value[currentQuestionIndex.value] = index;
@@ -201,7 +135,10 @@ function getQuestionButtonClass(index) {
     return "bg-gray-200 text-gray-700 hover:bg-gray-300";
   }
 
-  if (userAnswers.value[index] === assessment.questions[index].correctAnswer) {
+  if (
+    userAnswers.value[index] ===
+    assessmentTask.value.questions[index].correctAnswer
+  ) {
     return "bg-green-500 text-white";
   }
 
@@ -209,7 +146,10 @@ function getQuestionButtonClass(index) {
 }
 
 function isQuestionCorrect(index) {
-  return userAnswers.value[index] === assessment.questions[index].correctAnswer;
+  return (
+    userAnswers.value[index] ===
+    assessmentTask.value.questions[index].correctAnswer
+  );
 }
 
 function exitAssessment() {
@@ -266,18 +206,18 @@ onMounted(() => {
   startTimer();
 
   // Handle page refresh or navigation away
-  window.addEventListener("beforeunload", (e) => {
-    if (!showResults.value) {
-      e.preventDefault();
-      e.returnValue = "";
-    }
-  });
+  // window.addEventListener("beforeunload", (e) => {
+  //   if (!showResults.value) {
+  //     e.preventDefault();
+  //     e.returnValue = "";
+  //   }
+  // });
 });
 
-onBeforeUnmount(() => {
-  clearInterval(timerInterval.value);
-  window.removeEventListener("beforeunload", () => {});
-});
+// onBeforeUnmount(() => {
+//   clearInterval(timerInterval.value);
+//   window.removeEventListener("beforeunload", () => {});
+// });
 </script>
 <template>
   <div class="min-h-screen bg-gray-50 mt-10">
@@ -292,9 +232,9 @@ onBeforeUnmount(() => {
         >
           <div>
             <h1 class="text-2xl font-bold text-gray-900">
-              {{ assessment.title }}
+              {{ assessmentTask.title }}
             </h1>
-            <p class="text-gray-600">{{ assessment.category }}</p>
+            <p class="text-gray-600">{{ assessmentTask.category }}</p>
           </div>
 
           <div class="flex items-center gap-6">
@@ -308,7 +248,7 @@ onBeforeUnmount(() => {
             <div class="flex items-center gap-2">
               <span class="text-indigo-600 font-medium">
                 {{ currentQuestionIndex + 1 }} /
-                {{ assessment.questions.length }}
+                {{ assessmentTask.questions?.length }}
               </span>
             </div>
 
@@ -327,7 +267,8 @@ onBeforeUnmount(() => {
           <div
             class="bg-indigo-600 h-2 rounded-full transition-all duration-300"
             :style="`width: ${
-              ((currentQuestionIndex + 1) / assessment.questions.length) * 100
+              ((currentQuestionIndex + 1) / assessmentTask.questions?.length) *
+              100
             }%`"
           ></div>
         </div>
@@ -483,7 +424,7 @@ onBeforeUnmount(() => {
               </h3>
               <div class="grid grid-cols-5 sm:grid-cols-8 gap-2">
                 <button
-                  v-for="(_, index) in assessment.questions"
+                  v-for="(_, index) in assessmentTask.questions"
                   :key="index"
                   class="w-10 h-10 rounded-md flex items-center justify-center font-medium transition"
                   :class="getQuestionButtonClass(index)"
@@ -504,7 +445,7 @@ onBeforeUnmount(() => {
             </h3>
             <div class="grid grid-cols-4 gap-2">
               <button
-                v-for="(_, index) in assessment.questions"
+                v-for="(_, index) in assessmentTask.questions"
                 :key="index"
                 class="w-10 h-10 rounded-md flex items-center justify-center font-medium transition"
                 :class="getQuestionButtonClass(index)"
@@ -583,7 +524,7 @@ onBeforeUnmount(() => {
             Assessment Complete!
           </h2>
           <p class="text-xl text-gray-600">
-            You scored {{ score }} out of {{ assessment.questions.length }}
+            You scored {{ score }} out of {{ assessmentTask.questions?.length }}
           </p>
         </div>
 
@@ -613,7 +554,7 @@ onBeforeUnmount(() => {
           <h3 class="text-xl font-bold text-gray-900 mb-4">Question Summary</h3>
           <div class="space-y-4">
             <div
-              v-for="(question, index) in assessment.questions"
+              v-for="(question, index) in assessmentTask.questions"
               :key="index"
               class="border rounded-lg p-4"
               :class="
