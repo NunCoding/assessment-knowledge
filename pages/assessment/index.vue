@@ -11,6 +11,7 @@ const isLoading = ref(false);
 const currentPage = ref(1);
 const itemsPerPage = 5;
 const listAssessmentsCategory = ref([]);
+const listPopularAssessment = ref([]);
 
 // Filters
 const filters = ref({
@@ -88,6 +89,17 @@ const featuredAssessments = [
     difficulty: "Intermediate",
     duration: 25,
     tags: ["JavaScript", "ES6", "Async/Await", "Promises"],
+  },
+  {
+    id: 2,
+    title: "React & Redux Mastery",
+    description:
+      "Comprehensive assessment of React concepts, hooks, state management with Redux, and performance optimization.",
+    // image: "/placeholder.svg?height=300&width=500",
+    rating: 4.8,
+    difficulty: "Advanced",
+    duration: 35,
+    tags: ["React", "Redux", "Hooks", "Performance"],
   },
   {
     id: 2,
@@ -210,6 +222,7 @@ const totalPages = computed(() =>
 // onMounted
 onMounted(async () => {
   await fetchAssessments();
+  await fetchPopularAssessments();
 });
 
 // function
@@ -223,6 +236,22 @@ async function fetchAssessments() {
     })
     .catch((error) => {
       console.error("Error fetching assessments:", error);
+      triggerAlert("Something went wrong!.", "error");
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
+async function fetchPopularAssessments() {
+  isLoading.value = true;
+  await useFetchApi(api.popularAssessment, {
+    method: "GET",
+  })
+    .then((pass) => {
+      listPopularAssessment.value = pass;
+    })
+    .catch((error) => {
       triggerAlert("Something went wrong!.", "error");
     })
     .finally(() => {
@@ -473,78 +502,85 @@ function resetFilters() {
               </button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div
-                v-for="assessment in featuredAssessments"
-                :key="assessment.id"
-                class="bg-white rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition"
-              >
-                <div class="relative">
-                  <img
-                    :src="assessment.image"
-                    alt=""
-                    class="w-full h-48 object-cover"
-                  />
-                  <div
-                    class="absolute top-0 right-0 bg-indigo-600 text-white px-3 py-1 rounded-bl-lg"
-                  >
-                    Featured
+            <div
+              class="max-w-7xl overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
+            >
+              <div class="flex gap-5 flex-nowrap w-max">
+                <div
+                  v-for="assessment in listPopularAssessment"
+                  :key="assessment.id"
+                  class="bg-white max-w-[500px] rounded-lg shadow-md overflow-hidden border border-gray-100 hover:shadow-lg transition"
+                >
+                  <div class="relative">
+                    <img
+                      :src="assessment.image"
+                      alt=""
+                      class="w-full h-48 object-cover"
+                    />
+                    <div
+                      class="absolute top-0 right-0 bg-indigo-600 text-white px-3 py-1 rounded-bl-lg"
+                    >
+                      Featured
+                    </div>
                   </div>
-                </div>
-                <div class="p-6">
-                  <div class="flex justify-between items-start mb-2">
-                    <h3 class="text-lg font-bold text-gray-900">
-                      {{ assessment.title }}
-                    </h3>
-                    <div class="flex justify-center items-center">
-                      <CpIcon
-                        name="star-outline"
-                        iconset="flowbite"
-                        class="h-4 w-4 mb-1 text-yellow-400"
-                      />
-                      <span class="ml-2 text-sm font-medium">
-                        {{ assessment.rating }}
+                  <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                      <h3 class="text-lg font-bold text-gray-900">
+                        {{ assessment.title }}
+                      </h3>
+                      <div class="flex justify-center items-center">
+                        <CpIcon
+                          name="star-outline"
+                          iconset="flowbite"
+                          class="h-4 w-4 mb-1 text-yellow-400"
+                        />
+                        <span class="ml-2 text-sm font-medium">
+                          {{ assessment.rating }}
+                        </span>
+                      </div>
+                    </div>
+                    <p class="text-gray-600 mb-4 whitespace-break-spaces">
+                      {{ assessment.description }}
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-4">
+                      <span
+                        v-for="tag in assessment.tags"
+                        :key="tag"
+                        class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs"
+                      >
+                        {{ tag }}
                       </span>
                     </div>
-                  </div>
-                  <p class="text-gray-600 mb-4">{{ assessment.description }}</p>
-                  <div class="flex flex-wrap gap-2 mb-4">
-                    <span
-                      v-for="tag in assessment.tags"
-                      :key="tag"
-                      class="px-2 py-1 bg-gray-100 text-gray-600 rounded-full text-xs"
-                    >
-                      {{ tag }}
-                    </span>
-                  </div>
-                  <div class="flex justify-between items-center">
-                    <div class="flex items-center space-x-4">
-                      <div
-                        class="flex justify-center items-center text-sm text-gray-500"
-                      >
-                        <CpIcon
-                          name="chart-bar-solid"
-                          iconset="mynaui"
-                          class="h-4 w-4 mr-2"
-                        />
-                        <span>{{ assessment.difficulty }}</span>
+                    <div class="flex justify-between items-center">
+                      <div class="flex items-center space-x-4">
+                        <div
+                          class="flex justify-center items-center text-sm text-gray-500"
+                        >
+                          <CpIcon
+                            name="chart-bar-solid"
+                            iconset="mynaui"
+                            class="h-4 w-4 mr-2"
+                          />
+                          <span>{{ assessment.difficulty }}</span>
+                        </div>
+                        <div
+                          class="flex justify-center items-center text-sm text-gray-500"
+                        >
+                          <CpIcon
+                            name="clock-12-regular"
+                            iconset="fluent"
+                            class="h-4 w-4 mr-2"
+                          />
+                          <span>{{ assessment.timeEstimate }} min</span>
+                        </div>
                       </div>
-                      <div
-                        class="flex justify-center items-center text-sm text-gray-500"
+                      <button
+                        @click="navigateToAssessment(assessment.id)"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
                       >
-                        <CpIcon
-                          name="clock-12-regular"
-                          iconset="fluent"
-                          class="h-4 w-4 mr-2"
-                        />
-                        <span>{{ assessment.duration }} min</span>
-                      </div>
+                        Start
+                      </button>
                     </div>
-                    <button
-                      class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
-                    >
-                      Start
-                    </button>
                   </div>
                 </div>
               </div>
@@ -655,7 +691,10 @@ function resetFilters() {
                             iconset="nimbus"
                             class="h-4 w-4 mr-2"
                           />
-                          <span class="text-lg">{{ assessment.users }}</span>
+                          <span class="text-lg">
+                            {{ assessment.users }}
+                            <span class="text-sm">Users</span>
+                          </span>
                         </div>
                       </div>
                       <div class="flex space-x-2">

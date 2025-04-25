@@ -1,10 +1,12 @@
 <script setup>
+const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 definePageMeta({
   layout: "top-menu",
 });
 
 // emit
 const route = useRoute();
+const auth = useAuthStore();
 
 // State
 const currentQuestionIndex = ref(0);
@@ -168,13 +170,31 @@ function reviewAssessment() {
   showResults.value = false;
 }
 
-function retakeAssessment() {
-  userAnswers.value = [];
-  currentQuestionIndex.value = 0;
-  isSubmitted.value = false;
-  showResults.value = false;
-  timer.value = 0;
-  startTimer();
+function handleSubmitResult() {
+  let formData = {
+    user_id: auth.user.id,
+    assessment_id: useGet(route, "params.id"),
+    score: score.value,
+    completion_time: timer.value,
+  };
+
+  isLoading.value = true;
+  useFetchApi(api.submitAssessment, {
+    method: "post",
+    body: { ...formData },
+  })
+    .then(() => {
+      triggerAlert(
+        "The result assessment has been submitted successfully",
+        "success"
+      );
+    })
+    .catch((error) => {
+      triggerAlert("Something went wrong!.", "error");
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 }
 
 function goToHome() {
@@ -624,14 +644,22 @@ onMounted(() => {
               Review Answers
             </button>
             <button
-              @click="retakeAssessment"
+              @click="handleSubmitResult"
               class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
             >
-              Retake Assessment
+              Submit Results
             </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- alert modal -->
+  <AlertModal
+    v-if="showAlert"
+    :message="alertMessage"
+    :type="alertType"
+    @close="showAlert = false"
+  />
 </template>
