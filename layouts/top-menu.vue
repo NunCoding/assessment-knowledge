@@ -1,6 +1,22 @@
 <script setup>
+// emit
+const auth = useAuthStore();
+
 //  state
 const mobileMenuOpen = ref(false);
+
+//onMounted
+onMounted(() => {
+  if (!auth.hydrated) {
+    const token = localStorage.getItem("token");
+    if (token) {
+      auth.token = token;
+      const user = localStorage.getItem("user");
+      auth.user = user ? JSON.parse(user) : null;
+    }
+    auth.hydrated = true;
+  }
+});
 
 // function
 function navigateToRegister() {
@@ -49,35 +65,41 @@ function navigateToRegister() {
         </nav>
 
         <div class="flex items-center space-x-4">
-          <button
-            class="hidden md:block text-gray-700 hover:text-indigo-600 font-medium"
-            @click="navigateTo('/auth')"
-          >
-            Log In
-          </button>
-          <button
-            class="hidden md:block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
-            @click="navigateToRegister()"
-          >
-            Sign Up Free
-          </button>
-          <button
-            class="md:hidden text-gray-700"
-            @click="mobileMenuOpen = !mobileMenuOpen"
-          >
-            <CpIcon
-              v-if="!mobileMenuOpen"
-              name="burger-arrow-right-duotone"
-              iconset="stash"
-              size="35"
-            />
-            <CpIcon
-              v-else
-              name="menu-to-close-transition"
-              iconset="line-md"
-              size="35"
-            />
-          </button>
+          <div v-if="auth.isAuthenticated">
+            <UserProfile />
+          </div>
+
+          <div class="flex items-center space-x-4" v-else>
+            <button
+              class="hidden md:block text-gray-700 hover:text-indigo-600 font-medium"
+              @click="navigateTo('/auth')"
+            >
+              Log In
+            </button>
+            <button
+              class="hidden md:block bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
+              @click="navigateToRegister()"
+            >
+              Sign Up Free
+            </button>
+            <button
+              class="md:hidden text-gray-700"
+              @click="mobileMenuOpen = !mobileMenuOpen"
+            >
+              <CpIcon
+                v-if="!mobileMenuOpen"
+                name="burger-arrow-right-duotone"
+                iconset="stash"
+                size="35"
+              />
+              <CpIcon
+                v-else
+                name="menu-to-close-transition"
+                iconset="line-md"
+                size="35"
+              />
+            </button>
+          </div>
         </div>
       </div>
 

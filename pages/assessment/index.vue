@@ -565,11 +565,11 @@ function resetFilters() {
               v-if="filteredAssessments.length === 0"
               class="bg-white rounded-lg shadow-md p-8 text-center"
             >
-              wpf
               <CpIcon
                 name="search"
                 iconset="wpf"
-                class="h-12 w-12 text-gray-400 mx-auto mb-4"
+                class="text-gray-400 mx-auto mb-4"
+                size="32"
               />
               <h3 class="text-lg font-medium text-gray-900 mb-2">
                 No assessments found
@@ -685,7 +685,11 @@ function resetFilters() {
                       : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300',
                   ]"
                 >
-                  <!-- <ChevronLeftIcon class="h-5 w-5" /> -->
+                  <CpIcon
+                    name="chevron-left-32-filled"
+                    iconset="fluent"
+                    class="h-5 w-5"
+                  />
                 </button>
 
                 <button
@@ -712,7 +716,11 @@ function resetFilters() {
                       : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300',
                   ]"
                 >
-                  <!-- <ChevronRightIcon class="h-5 w-5" /> -->
+                  <CpIcon
+                    name="chevron-right"
+                    iconset="line-md"
+                    class="h-5 w-5"
+                  />
                 </button>
               </nav>
             </div>
