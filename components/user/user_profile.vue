@@ -29,7 +29,7 @@ const userProfile = computed(() => {
     </div>
     <div
       v-if="isOpen"
-      class="mt-2 fixed bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden"
+      class="mt-2 mr-24 fixed bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden"
     >
       <div class="p-5 flex flex-col items-center space-y-4">
         <div class="cursor-pointer flex justify-start items-center gap-2">

@@ -77,43 +77,6 @@ const relatedCategories = [
   { name: "DevOps", slug: "devops", assessmentCount: 19 },
 ];
 
-// Mock data for featured assessments
-const featuredAssessments = [
-  {
-    id: 1,
-    title: "Modern JavaScript Fundamentals",
-    description:
-      "Test your knowledge of ES6+ features, async programming, and modern JavaScript patterns.",
-    image: "",
-    rating: 4.9,
-    difficulty: "Intermediate",
-    duration: 25,
-    tags: ["JavaScript", "ES6", "Async/Await", "Promises"],
-  },
-  {
-    id: 2,
-    title: "React & Redux Mastery",
-    description:
-      "Comprehensive assessment of React concepts, hooks, state management with Redux, and performance optimization.",
-    // image: "/placeholder.svg?height=300&width=500",
-    rating: 4.8,
-    difficulty: "Advanced",
-    duration: 35,
-    tags: ["React", "Redux", "Hooks", "Performance"],
-  },
-  {
-    id: 2,
-    title: "React & Redux Mastery",
-    description:
-      "Comprehensive assessment of React concepts, hooks, state management with Redux, and performance optimization.",
-    // image: "/placeholder.svg?height=300&width=500",
-    rating: 4.8,
-    difficulty: "Advanced",
-    duration: 35,
-    tags: ["React", "Redux", "Hooks", "Performance"],
-  },
-];
-
 // Computed property for filtered assessments
 const filteredAssessments = computed(() => {
   let result = [...listAssessmentsCategory.value];
@@ -488,7 +451,7 @@ function resetFilters() {
           <div class="mb-8">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-xl font-bold text-gray-900">
-                Featured Assessments
+                Popular Assessments
               </h2>
               <button
                 class="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center"
@@ -520,7 +483,7 @@ function resetFilters() {
                     <div
                       class="absolute top-0 right-0 bg-indigo-600 text-white px-3 py-1 rounded-bl-lg"
                     >
-                      Featured
+                      Popular
                     </div>
                   </div>
                   <div class="p-6">
@@ -572,6 +535,12 @@ function resetFilters() {
                             class="h-4 w-4 mr-2"
                           />
                           <span>{{ assessment.timeEstimate }} min</span>
+                        </div>
+                        <div
+                          class="flex justify-center items-center text-sm text-gray-500"
+                        >
+                          <CpIcon name="user" class="h-4 w-4 mr-2" />
+                          <span>{{ assessment.users }} users</span>
                         </div>
                       </div>
                       <button

@@ -26,4 +26,8 @@ export const api = {
     listQuestion:"api/questions/list",
     update:"api/questions/$id",
     delete:"api/questions/$id/delete",
+
+    // stats
+    stats:"api/statistics",
+    dashboardStats:"api/dashboard/stats",
 }

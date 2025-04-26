@@ -2,6 +2,7 @@
 //property
 const isLoading = ref(false);
 const popularAssessment = ref([]);
+const dataStats = ref({});
 
 // fake data
 const categories = [
@@ -59,6 +60,7 @@ const popularAssessments = [
 // onMounted
 onMounted(async () => {
   await fetchPopularAssessments();
+  await fetchStats();
 });
 
 // function
@@ -76,6 +78,31 @@ async function fetchPopularAssessments() {
     .finally(() => {
       isLoading.value = false;
     });
+}
+
+async function fetchStats() {
+  isLoading.value = true;
+  await useFetchApi(api.stats, {
+    method: "get",
+  })
+    .then((data) => {
+      dataStats.value = data;
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
+function navigatePage() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    navigateTo("/assessment");
+  } else {
+    navigateTo("/auth");
+  }
 }
 </script>
 <template>
@@ -101,6 +128,7 @@ async function fetchPopularAssessments() {
           >
             <button
               class="bg-indigo-600 text-white px-6 py-3 rounded-md hover:bg-indigo-700 transition text-lg font-medium"
+              @click="navigatePage"
             >
               Get Started
             </button>
@@ -128,25 +156,25 @@ async function fetchPopularAssessments() {
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         <div>
           <div class="text-3xl md:text-4xl font-bold text-indigo-600 mb-2">
-            500+
+            {{ dataStats.total_assessment }}
           </div>
           <div class="text-gray-600">Assessments</div>
         </div>
         <div>
           <div class="text-3xl md:text-4xl font-bold text-indigo-600 mb-2">
-            25k+
+            {{ dataStats.total_users }}
           </div>
           <div class="text-gray-600">Users</div>
         </div>
         <div>
           <div class="text-3xl md:text-4xl font-bold text-indigo-600 mb-2">
-            12
+            {{ dataStats.total_category }}
           </div>
           <div class="text-gray-600">Categories</div>
         </div>
         <div>
           <div class="text-3xl md:text-4xl font-bold text-indigo-600 mb-2">
-            98%
+            {{ dataStats.satisfaction }}
           </div>
           <div class="text-gray-600">Satisfaction</div>
         </div>

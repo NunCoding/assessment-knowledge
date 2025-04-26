@@ -4,6 +4,9 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+// property
+const dataStats = ref({});
+
 // Mock data
 const stats = [
   {
@@ -100,6 +103,23 @@ const popularAssessments = [
     questions: 10,
   },
 ];
+
+// onMounted
+onMounted(async () => {
+  await fetchDashboardData();
+});
+
+// function
+async function fetchDashboardData() {
+  useFetchApi(api.dashboardStats, {
+    method: "get",
+  })
+    .then((pass) => {
+      dataStats.value = pass;
+    })
+    .catch(() => {})
+    .finally(() => {});
+}
 </script>
 <template>
   <!-- Dashboard Overview -->
