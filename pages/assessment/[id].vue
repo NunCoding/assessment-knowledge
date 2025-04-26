@@ -50,7 +50,8 @@ const isCorrect = computed(() => {
 });
 
 const score = computed(() => {
-  return userAnswers.value.reduce((total, answer, index) => {
+  const totalQuestions = assessmentTask.value.questions.length;
+  const correctAnswers = userAnswers.value.reduce((total, answer, index) => {
     if (
       assessmentTask.value.questions[index] &&
       answer === assessmentTask.value.questions[index].correctAnswer
@@ -59,12 +60,14 @@ const score = computed(() => {
     }
     return total;
   }, 0);
+
+  if (totalQuestions === 0) return 0;
+
+  return Math.round((correctAnswers / totalQuestions) * 100);
 });
 
 const scorePercentage = computed(() => {
-  return Math.round(
-    (score.value / assessmentTask.value.questions?.length) * 100
-  );
+  return Math.min(100, Math.max(0, score.value));
 });
 
 // onMounted
