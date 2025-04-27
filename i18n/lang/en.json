@@ -22,7 +22,10 @@
     "totalUsers":"Total Users",
     "assessmentTaken":"Assessment Taken",
     "questionCreated":"Questions Created",
-    "avgCompletionTime":"Avg. Completion Time"
+    "avgCompletionTime":"Avg. Completion Time",
+    "popularAssessment":"Popular Assessments",
+    "assessmentCompletion":"Assessment Completion",
+    "recentActivity":"Recent Activity"
   },
   "message":{
     "createQuestion":"The Questions has been created successfully",

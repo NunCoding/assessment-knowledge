@@ -9,107 +9,32 @@ const { t } = useI18n();
 
 // property
 const dataStats = ref({});
+const listPopularAssessments = ref([]);
+const recentActivity = ref([]);
 
-// Mock data
-const stats = [
-  {
-    name: "Total Users",
-    value: "2,543",
-    color: "indigo",
-    icon: "user",
-    trend: 12,
-  },
-  {
-    name: "Assessments Taken",
-    value: "8,234",
-    color: "green",
-    icon: "check-one",
-    iconset: "icon-park-outline",
-    trend: 8,
-  },
-  {
-    name: "Questions Created",
-    value: "1,432",
-    color: "blue",
-    icon: "task-01",
-    iconset: "hugeicons",
-    trend: 24,
-  },
-  {
-    name: "Avg. Completion Time",
-    value: "18:42",
-    color: "yellow",
-    icon: "clock",
-    iconset: "meteor-icons",
-    trend: -5,
-  },
-];
-
-const recentActivity = [
-  {
-    title: "New user registered",
-    time: "5 minutes ago",
-  },
-  {
-    title: "John Doe completed Web Development Fundamentals",
-    time: "1 hour ago",
-  },
-  {
-    title: "New question added to Data Science Essentials",
-    time: "2 hours ago",
-  },
-  {
-    title: "New assessment created: Machine Learning Basics",
-    time: "3 hours ago",
-  },
-];
-
-const popularAssessments = [
-  {
-    name: "Web Development Fundamentals",
-    category: "Programming",
-    completions: 1245,
-    avgScore: 78,
-    status: "Active",
-    questions: 10,
-  },
-  {
-    name: "Data Science Essentials",
-    category: "Data Science",
-    completions: 876,
-    avgScore: 72,
-    status: "Active",
-    questions: 12,
-  },
-  {
-    name: "Cloud Computing Basics",
-    category: "Cloud",
-    completions: 543,
-    avgScore: 81,
-    status: "Active",
-    questions: 8,
-  },
-  {
-    name: "UI/UX Design Principles",
-    category: "Design",
-    completions: 321,
-    avgScore: 75,
-    status: "Draft",
-    questions: 15,
-  },
-  {
-    name: "Cybersecurity Fundamentals",
-    category: "Security",
-    completions: 210,
-    avgScore: 68,
-    status: "Active",
-    questions: 10,
-  },
-];
+// const recentActivity = [
+//   {
+//     title: "New user registered",
+//     time: "5 minutes ago",
+//   },
+//   {
+//     title: "John Doe completed Web Development Fundamentals",
+//     time: "1 hour ago",
+//   },
+//   {
+//     title: "New question added to Data Science Essentials",
+//     time: "2 hours ago",
+//   },
+//   {
+//     title: "New assessment created: Machine Learning Basics",
+//     time: "3 hours ago",
+//   },
+// ];
 
 // onMounted
 onMounted(async () => {
   await fetchDashboardData();
+  await fetchPopularAssessment();
 });
 
 // function
@@ -119,6 +44,17 @@ async function fetchDashboardData() {
   })
     .then((pass) => {
       dataStats.value = pass;
+    })
+    .catch(() => {})
+    .finally(() => {});
+}
+
+async function fetchPopularAssessment() {
+  useFetchApi(api.dashboardPopularAssessment, {
+    method: "get",
+  })
+    .then((pass) => {
+      listPopularAssessments.value = pass;
     })
     .catch(() => {})
     .finally(() => {});
@@ -153,8 +89,8 @@ async function fetchDashboardData() {
       />
       <DashboardStats
         :label="t('dashboard.avgCompletionTime')"
-        icon="media-media-complete"
-        iconset="nrk"
+        icon="clock"
+        iconset="meteor-icons"
         class="text-green-600"
         :value="useGet(dataStats.avg_completion_time, 'value')"
         :trend="useGet(dataStats.avg_completion_time, 'trend')"
@@ -165,7 +101,9 @@ async function fetchDashboardData() {
       <!-- Recent Activity -->
       <div class="bg-white rounded-lg shadow">
         <div class="p-6 border-b border-gray-200">
-          <h3 class="text-lg font-medium text-gray-900">Recent Activity</h3>
+          <h3 class="text-lg font-medium text-gray-900">
+            {{ t("dashboard.recentActivity") }}
+          </h3>
         </div>
         <div class="p-6">
           <div class="space-y-6">
@@ -189,14 +127,6 @@ async function fetchDashboardData() {
               </div>
             </div>
           </div>
-          <div class="mt-6">
-            <a
-              href="#"
-              class="text-sm font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              View all activity
-            </a>
-          </div>
         </div>
       </div>
 
@@ -204,7 +134,7 @@ async function fetchDashboardData() {
       <div class="bg-white rounded-lg shadow">
         <div class="p-6 border-b border-gray-200">
           <h3 class="text-lg font-medium text-gray-900">
-            Assessment Completion
+            {{ t("dashboard.assessmentCompletion") }}
           </h3>
         </div>
         <div class="p-6">
@@ -222,8 +152,11 @@ async function fetchDashboardData() {
       <div
         class="p-6 border-b border-gray-200 flex justify-between items-center"
       >
-        <h3 class="text-lg font-medium text-gray-900">Popular Assessments</h3>
+        <h3 class="text-lg font-medium text-gray-900">
+          {{ t("dashboard.popularAssessment") }}
+        </h3>
         <button
+          @click="$router.push('/admin/assessment')"
           class="text-sm font-medium text-indigo-600 hover:text-indigo-500"
         >
           View all
@@ -257,25 +190,20 @@ async function fetchDashboardData() {
               >
                 Avg. Score
               </th>
-              <th
-                scope="col"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Status
-              </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="(assessment, index) in popularAssessments" :key="index">
+            <tr v-for="(assessment, id) in listPopularAssessments" :key="id">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div
                     class="flex-shrink-0 h-10 w-10 rounded bg-indigo-100 flex items-center justify-center"
                   >
-                    <component
+                    <img :src="assessment.image" alt="" class="h-5 w-5" />
+                    <!-- <component
                       :is="assessment.icon"
                       class="h-5 w-5 text-indigo-600"
-                    />
+                    /> -->
                   </div>
                   <div class="ml-4">
                     <div class="text-sm font-medium text-gray-900">
@@ -299,27 +227,8 @@ async function fetchDashboardData() {
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">
-                  {{ assessment.avgScore }}%
+                  {{ assessment.avg_score }}%
                 </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  :class="`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${
-                    assessment.status === 'Active'
-                      ? 'green'
-                      : assessment.status === 'Draft'
-                      ? 'yellow'
-                      : 'gray'
-                  }-100 text-${
-                    assessment.status === 'Active'
-                      ? 'green'
-                      : assessment.status === 'Draft'
-                      ? 'yellow'
-                      : 'gray'
-                  }-800`"
-                >
-                  {{ assessment.status }}
-                </span>
               </td>
             </tr>
           </tbody>
