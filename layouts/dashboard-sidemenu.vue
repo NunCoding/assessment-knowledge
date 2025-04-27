@@ -118,7 +118,7 @@ const selectLanguage = async (langValue) => {
     >
       <div class="p-4 flex items-center border-b border-indigo-700">
         <img src="/images/logo_num.png" alt="logo" class="h-12" />
-        <h1 class="text-xl font-bold ml-2">Assessment Knowledge</h1>
+        <h1 class="text-xl font-bold ml-2">NUM AIK</h1>
       </div>
 
       <div class="py-4">
