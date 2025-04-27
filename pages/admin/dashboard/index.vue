@@ -35,6 +35,7 @@ const recentActivity = ref([]);
 onMounted(async () => {
   await fetchDashboardData();
   await fetchPopularAssessment();
+  await fetchRecentActivity();
 });
 
 // function
@@ -55,6 +56,17 @@ async function fetchPopularAssessment() {
   })
     .then((pass) => {
       listPopularAssessments.value = pass;
+    })
+    .catch(() => {})
+    .finally(() => {});
+}
+
+async function fetchRecentActivity() {
+  useFetchApi(api.dashboardRecentActivity, {
+    method: "get",
+  })
+    .then((pass) => {
+      recentActivity.value = pass;
     })
     .catch(() => {})
     .finally(() => {});
@@ -106,7 +118,7 @@ async function fetchPopularAssessment() {
           </h3>
         </div>
         <div class="p-6">
-          <div class="space-y-6">
+          <div class="max-h-[300px] overflow-y-auto space-y-6">
             <div
               v-for="(activity, index) in recentActivity"
               :key="index"
@@ -116,7 +128,11 @@ async function fetchPopularAssessment() {
                 <div
                   class="flex items-center justify-center h-10 w-10 rounded-md bg-indigo-100 text-indigo-600"
                 >
-                  <!-- <component :is="activity.icon" class="h-5 w-5" /> -->
+                  <CpIcon
+                    name="activity-square"
+                    iconset="mynaui"
+                    class="h-5 w-5"
+                  />
                 </div>
               </div>
               <div class="ml-4">
