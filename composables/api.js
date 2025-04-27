@@ -19,6 +19,7 @@ export const api = {
     // user
     login:"api/login",
     register:"api/register",
+    updateUser:"api/user/$id",
 
     // question
     createQuestion:"api/questions",
@@ -32,4 +33,5 @@ export const api = {
     dashboardStats:"api/dashboard/stats",
     dashboardPopularAssessment:"api/dashboard/popular-assessments",
     dashboardRecentActivity:"api/dashboard/activity",
+    dashboardUser:"api/dashboard/users",
 }

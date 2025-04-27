@@ -1,6 +1,13 @@
 <script setup>
+const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
+  dataSource: {
+    type: Object,
+    default: () => {
+      return {};
+    },
+  },
 });
 
 // emit
@@ -19,6 +26,18 @@ const errors = ref({
   name: "",
   email: "",
 });
+
+// watch
+watch(
+  () => props.dataSource,
+  (newValue) => {
+    formData.value = {
+      name: newValue.name || "",
+      email: newValue.email || "",
+      role: newValue.role || "student",
+    };
+  }
+);
 
 // close modal
 function closeModal() {
@@ -45,8 +64,22 @@ function validateForm() {
   return valid;
 }
 
-function saveUser() {
+function updateUser() {
   if (!validateForm()) return;
+  let id = useGet(props.dataSource, "id");
+  useFetchApi(api.updateUser, {
+    method: "put",
+    params: { id },
+    body: { ...formData.value },
+  })
+    .then(() => {
+      closeModal();
+      triggerAlert(t("message.updateUser"), "success");
+      emit("submit");
+    })
+    .catch(() => {
+      triggerAlert("Something went wrong!.", "error");
+    });
 }
 </script>
 <template>
@@ -56,7 +89,7 @@ function saveUser() {
   >
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
       <div class="flex justify-between items-center mb-6">
-        <h3 class="text-xl font-bold text-gray-900">{{ t("user.create") }}</h3>
+        <h3 class="text-xl font-bold text-gray-900">{{ t("user.update") }}</h3>
         <button @click="closeModal" class="text-gray-500 hover:text-gray-700">
           <CpIcon name="close-duotone" iconset="iconamoon" />
         </button>
@@ -64,9 +97,9 @@ function saveUser() {
 
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">{{
-            t("user.name")
-          }}</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Name</label
+          >
           <input
             v-model="formData.name"
             type="text"
@@ -79,9 +112,9 @@ function saveUser() {
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">{{
-            t("user.email")
-          }}</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Email</label
+          >
           <input
             v-model="formData.email"
             type="email"
@@ -94,16 +127,16 @@ function saveUser() {
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">{{
-            t("user.role")
-          }}</label>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+            >Role</label
+          >
           <select
             v-model="formData.role"
             class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
-            <option>Student</option>
-            <option>Instructor</option>
-            <option>Admin</option>
+            <option value="student">Student</option>
+            <option value="instructor">Instructor</option>
+            <option value="admin">Admin</option>
           </select>
         </div>
 
@@ -129,12 +162,19 @@ function saveUser() {
           {{ t("action.cancel") }}
         </button>
         <button
-          @click="saveUser"
+          @click="updateUser"
           class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
         >
-          {{ t("action.create") }}
+          {{ t("action.update") }}
         </button>
       </div>
     </div>
   </div>
+
+  <AlertModal
+    v-if="showAlert"
+    :message="alertMessage"
+    :type="alertType"
+    @close="showAlert = false"
+  />
 </template>

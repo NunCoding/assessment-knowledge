@@ -4,92 +4,59 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+// emit
+const { t } = useI18n();
+
 // property
 const isCreateUserModal = ref(false);
+const isUpdateUserModal = ref(false);
+const isDeleteUserModal = ref(false);
+const listUser = ref([]);
+const pagination = ref({});
+const totalPage = ref({});
+const queryText = ref("");
+const selectUpdate = ref(null);
+const selectDelete = ref(null);
+const filterUser = ref({});
 
-// make fake data
-const users = [
-  {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    role: "Student",
-    assessments: 12,
-    status: "Active",
-    joined: "Jan 15, 2023",
-  },
-  {
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    role: "Student",
-    assessments: 8,
-    status: "Active",
-    joined: "Feb 3, 2023",
-  },
-  {
-    name: "Robert Johnson",
-    email: "robert.j@example.com",
-    role: "Instructor",
-    assessments: 5,
-    status: "Active",
-    joined: "Mar 12, 2023",
-  },
-  {
-    name: "Emily Davis",
-    email: "emily.d@example.com",
-    role: "Student",
-    assessments: 15,
-    status: "Active",
-    joined: "Jan 28, 2023",
-  },
-  {
-    name: "Michael Wilson",
-    email: "michael.w@example.com",
-    role: "Student",
-    assessments: 7,
-    status: "Inactive",
-    joined: "Apr 5, 2023",
-  },
-  {
-    name: "Sarah Brown",
-    email: "sarah.b@example.com",
-    role: "Student",
-    assessments: 10,
-    status: "Active",
-    joined: "Feb 18, 2023",
-  },
-  {
-    name: "David Miller",
-    email: "david.m@example.com",
-    role: "Admin",
-    assessments: 3,
-    status: "Active",
-    joined: "Jan 10, 2023",
-  },
-  {
-    name: "Lisa Taylor",
-    email: "lisa.t@example.com",
-    role: "Student",
-    assessments: 9,
-    status: "Active",
-    joined: "Mar 22, 2023",
-  },
-  {
-    name: "James Anderson",
-    email: "james.a@example.com",
-    role: "Student",
-    assessments: 6,
-    status: "Inactive",
-    joined: "Apr 15, 2023",
-  },
-  {
-    name: "Patricia Thomas",
-    email: "patricia.t@example.com",
-    role: "Instructor",
-    assessments: 4,
-    status: "Active",
-    joined: "Feb 8, 2023",
-  },
-];
+// onMounted
+onMounted(async () => {
+  await fetchListUser();
+});
+
+// function
+async function fetchListUser(url = api.dashboardUser) {
+  useFetchApi(url, {
+    method: "get",
+    query: { ...filterUser.value },
+  })
+    .then((pass) => {
+      listUser.value = pass.data;
+      totalPage.value = pass;
+      pagination.value = {
+        next_page_url: pass.next_page_url,
+        prev_page_url: pass.prev_page_url,
+      };
+    })
+    .catch(() => {})
+    .finally(() => {});
+}
+
+// function
+async function handleFilterUser() {
+  filterUser.value = { name: queryText.value };
+  await fetchListUser();
+}
+
+function handleUpdate(id) {
+  selectUpdate.value = useFind(listUser.value, (item) => item.id === id);
+  isUpdateUserModal.value = true;
+}
+
+function handleDelete(id) {
+  selectDelete.value = id;
+  isDeleteUserModal.value = true;
+}
 </script>
 <template>
   <!-- Users Management -->
@@ -98,13 +65,15 @@ const users = [
       <div
         class="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0"
       >
-        <h3 class="text-lg font-medium text-gray-900">Users</h3>
+        <h3 class="text-lg font-medium text-gray-900">{{ t("user.title") }}</h3>
         <div class="flex space-x-3">
           <div class="relative">
             <input
+              v-model="queryText"
               type="text"
               placeholder="Search users..."
               class="pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              @input="handleFilterUser"
             />
             <CpIcon
               name="search"
@@ -148,12 +117,6 @@ const users = [
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Assessments
-              </th>
-              <th
-                scope="col"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
                 Status
               </th>
               <th
@@ -165,15 +128,15 @@ const users = [
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="(user, index) in users" :key="index">
+            <tr v-for="(user, id) in listUser" :key="id">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 h-10 w-10">
-                    <!-- <img
+                    <img
                       class="h-10 w-10 rounded-full"
-                      :src="user.avatar"
+                      src="https://img.freepik.com/premium-vector/avatar-profile-picture-icon-blue-background-flat-design-style-resources-graphic-element-design_991720-653.jpg?semt=ais_hybrid&w=740"
                       alt=""
-                    /> -->
+                    />
                   </div>
                   <div class="ml-4">
                     <div class="text-sm font-medium text-gray-900">
@@ -192,24 +155,31 @@ const users = [
                 <div class="text-sm text-gray-900">{{ user.role }}</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ user.assessments }}</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
                 <span
                   :class="`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${
-                    user.status === 'Active' ? 'green' : 'red'
-                  }-100 text-${user.status === 'Active' ? 'green' : 'red'}-800`"
+                    user.status === 'active' ? 'green' : 'red'
+                  }-100 text-${user.status === 'active' ? 'green' : 'red'}-600`"
                 >
                   {{ user.status }}
                 </span>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 <div class="flex space-x-2">
-                  <button class="text-indigo-600 hover:text-indigo-900">
-                    <!-- <EditIcon class="h-5 w-5" /> -->Edit
+                  <button
+                    @click="handleUpdate(user.id)"
+                    class="text-indigo-600 hover:text-indigo-900"
+                  >
+                    <CpIcon name="edit" iconset="lucide" class="h-5 w-5" />
                   </button>
-                  <button class="text-red-600 hover:text-red-900">
-                    <!-- <TrashIcon class="h-5 w-5" /> -->Delete
+                  <button
+                    @click="handleDelete(user.id)"
+                    class="text-red-600 hover:text-red-900"
+                  >
+                    <CpIcon
+                      name="delete-outline-rounded"
+                      iconset="material-symbols"
+                      class="h-5 w-5"
+                    />
                   </button>
                 </div>
               </td>
@@ -222,18 +192,32 @@ const users = [
         class="px-6 py-4 border-t border-gray-200 flex items-center justify-between"
       >
         <div class="text-sm text-gray-700">
-          Showing <span class="font-medium">1</span> to
-          <span class="font-medium">10</span> of
-          <span class="font-medium">{{ users.length }}</span> users
+          Showing <span class="font-medium">{{ totalPage.from }}</span> to
+          <span class="font-medium">{{ totalPage.to }}</span> of
+          <span class="font-medium">{{ totalPage.total }}</span> users
         </div>
         <div class="flex space-x-2">
           <button
+            :disabled="!pagination.prev_page_url"
             class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
+            :class="[
+              !pagination.prev_page_url
+                ? 'bg-gray-100 cursor-not-allowed'
+                : 'bg-white cursor-pointer',
+            ]"
+            @click="fetchListUser(pagination.prev_page_url)"
           >
             Previous
           </button>
           <button
+            :disabled="!pagination.next_page_url"
             class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
+            :class="[
+              !pagination.next_page_url
+                ? 'bg-gray-100 cursor-not-allowed'
+                : 'bg-white cursor-pointer',
+            ]"
+            @click="fetchListUser(pagination.next_page_url)"
           >
             Next
           </button>
@@ -243,5 +227,10 @@ const users = [
   </div>
 
   <!-- modal -->
-  <UserCreate v-model="isCreateUserModal" />
+  <UserCreate v-model="isCreateUserModal" @submit="fetchListUser" />
+  <UserUpdate
+    v-model="isUpdateUserModal"
+    :data-source="selectUpdate"
+    @submit="fetchListUser"
+  />
 </template>
