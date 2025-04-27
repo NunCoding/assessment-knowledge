@@ -1,4 +1,5 @@
 <script setup>
+const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
 });
@@ -11,8 +12,7 @@ const { t } = useI18n();
 const formData = ref({
   name: "",
   email: "",
-  role: "Student",
-  status: "Active",
+  role: "student",
 });
 
 const errors = ref({
@@ -47,6 +47,18 @@ function validateForm() {
 
 function saveUser() {
   if (!validateForm()) return;
+  useFetchApi(api.createUser, {
+    method: "post",
+    body: { ...formData.value },
+  })
+    .then(() => {
+      closeModal();
+      triggerAlert(t("message.createUser"), "success");
+      emit("submit");
+    })
+    .catch(() => {
+      triggerAlert("Something went wrong!.", "error");
+    });
 }
 </script>
 <template>
@@ -101,9 +113,9 @@ function saveUser() {
             v-model="formData.role"
             class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
-            <option>Student</option>
-            <option>Instructor</option>
-            <option>Admin</option>
+            <option value="student">Student</option>
+            <option value="student">Instructor</option>
+            <option value="admin">Admin</option>
           </select>
         </div>
 
@@ -137,4 +149,11 @@ function saveUser() {
       </div>
     </div>
   </div>
+
+  <AlertModal
+    v-if="showAlert"
+    :message="alertMessage"
+    :type="alertType"
+    @close="showAlert = false"
+  />
 </template>
