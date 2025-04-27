@@ -30,4 +30,5 @@ export const api = {
     // stats
     stats:"api/statistics",
     dashboardStats:"api/dashboard/stats",
+    dashboardPopularAssessment:"api/dashboard/popular-assessments",
 }
