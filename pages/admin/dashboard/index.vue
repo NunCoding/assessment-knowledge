@@ -4,6 +4,9 @@ definePageMeta({
   middleware: ["auth"],
 });
 
+// emit
+const { t } = useI18n();
+
 // property
 const dataStats = ref({});
 
@@ -125,38 +128,37 @@ async function fetchDashboardData() {
   <!-- Dashboard Overview -->
   <div class="p-6">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-      <div
-        v-for="(stat, index) in stats"
-        :key="index"
-        class="bg-white rounded-lg shadow p-6"
-      >
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-gray-600">{{ stat.name }}</p>
-            <p class="text-3xl font-bold text-gray-900">{{ stat.value }}</p>
-          </div>
-          <div :class="`p-3 rounded-full bg-${stat.color}-100`">
-            <CpIcon
-              :name="stat.icon"
-              :iconset="stat.iconset"
-              :class="`h-6 w-6 text-${stat.color}-600`"
-              class="text-blue-600"
-            />
-          </div>
-        </div>
-        <div class="mt-4 flex items-center">
-          <span
-            :class="`text-${
-              stat.trend > 0 ? 'green' : 'red'
-            }-500 text-sm font-medium flex items-center`"
-          >
-            <!-- <TrendingUpIcon v-if="stat.trend > 0" class="h-4 w-4 mr-1" /> -->
-            <!-- <TrendingDownIcon v-else class="h-4 w-4 mr-1" /> -->
-            {{ Math.abs(stat.trend) }}%
-          </span>
-          <span class="text-gray-500 text-sm ml-2">from last month</span>
-        </div>
-      </div>
+      <DashboardStats
+        :label="t('dashboard.totalUsers')"
+        icon="user"
+        class="text-blue-600"
+        :value="useGet(dataStats.total_users, 'value')"
+        :trend="useGet(dataStats.total_users, 'trend')"
+      />
+      <DashboardStats
+        :label="t('dashboard.assessmentTaken')"
+        icon="task-2-line"
+        iconset="mingcute"
+        class="text-teal-600"
+        :value="useGet(dataStats.assessments_taken, 'value')"
+        :trend="useGet(dataStats.assessments_taken, 'trend')"
+      />
+      <DashboardStats
+        :label="t('dashboard.questionCreated')"
+        icon="questionnaire-mirrored"
+        iconset="fluent-mdl2"
+        class="text-indigo-600"
+        :value="useGet(dataStats.questions_created, 'value')"
+        :trend="useGet(dataStats.questions_created, 'trend')"
+      />
+      <DashboardStats
+        :label="t('dashboard.avgCompletionTime')"
+        icon="media-media-complete"
+        iconset="nrk"
+        class="text-green-600"
+        :value="useGet(dataStats.avg_completion_time, 'value')"
+        :trend="useGet(dataStats.avg_completion_time, 'trend')"
+      />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
