@@ -20,6 +20,7 @@ export const api = {
     login:"api/login",
     register:"api/register",
     updateUser:"api/user/$id",
+    createUser:"api/users",
 
     // question
     createQuestion:"api/questions",

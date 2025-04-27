@@ -34,7 +34,7 @@ watch(
     formData.value = {
       name: newValue.name || "",
       email: newValue.email || "",
-      role: newValue.role || "student",
+      role: newValue?.role?.toLowerCase() || "student",
     };
   }
 );
