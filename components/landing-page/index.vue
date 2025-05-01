@@ -6,25 +6,27 @@ const dataStats = ref({});
 
 // fake data
 const categories = [
-  { name: "HTML", count: 124, icon: "html5", iconset: "devicon" },
-  { name: "CSS", count: 87, icon: "file-type-css2", iconset: "vscode-icons" },
+  { name: "HTML", icon: "html5", iconset: "devicon" },
+  { name: "CSS", icon: "file-type-css2", iconset: "vscode-icons" },
   {
     name: "JavaScript",
-    count: 56,
     icon: "file-type-js",
     iconset: "vscode-icons",
   },
   {
     name: "JavaScript",
-    count: 72,
     icon: "file-type-nuxt",
     iconset: "vscode-icons",
   },
   {
     name: "JavaScript",
-    count: 43,
     icon: "tailwindcss-icon",
     iconset: "logos",
+  },
+  {
+    name: "Laravel",
+    icon: "laravel",
+    iconset: "devicon",
   },
 ];
 
@@ -286,9 +288,6 @@ function navigatePage() {
             />
           </div>
           <h3 class="font-medium text-gray-900">{{ category.name }}</h3>
-          <p class="text-sm text-gray-500 mt-1">
-            {{ category.count }} assessments
-          </p>
         </div>
       </div>
     </div>

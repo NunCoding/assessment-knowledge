@@ -65,7 +65,7 @@ function navigateToRegister() {
         </nav>
 
         <div class="flex items-center space-x-4">
-          <div v-if="auth.isAuthenticated">
+          <div v-if="auth.isAuthenticated" class="hidden md:block">
             <UserProfile />
           </div>
 
@@ -82,25 +82,25 @@ function navigateToRegister() {
             >
               Sign Up Free
             </button>
-            <button
-              class="md:hidden text-gray-700"
-              @click="mobileMenuOpen = !mobileMenuOpen"
-            >
-              <CpIcon
-                v-if="!mobileMenuOpen"
-                name="burger-arrow-right-duotone"
-                iconset="stash"
-                size="35"
-              />
-              <CpIcon
-                v-else
-                name="menu-to-close-transition"
-                iconset="line-md"
-                size="35"
-              />
-            </button>
           </div>
         </div>
+        <button
+          class="md:hidden text-gray-700"
+          @click="mobileMenuOpen = !mobileMenuOpen"
+        >
+          <CpIcon
+            v-if="!mobileMenuOpen"
+            name="burger-arrow-right-duotone"
+            iconset="stash"
+            size="35"
+          />
+          <CpIcon
+            v-else
+            name="menu-to-close-transition"
+            iconset="line-md"
+            size="35"
+          />
+        </button>
       </div>
 
       <!-- Mobile Menu -->
@@ -131,20 +131,25 @@ function navigateToRegister() {
                 >About</nuxt-link
               >
             </li>
-            <li>
-              <nuxt-link
-                to="/auth"
-                class="block py-2 text-gray-700 hover:text-indigo-600 font-medium"
-                >Login</nuxt-link
-              >
-            </li>
-            <li>
-              <nuxt-link
-                to="/auth"
-                class="block text-center w-32 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
-                >Sign Up</nuxt-link
-              >
-            </li>
+            <div v-if="auth.isAuthenticated">
+              <UserProfile />
+            </div>
+            <div v-else>
+              <li>
+                <nuxt-link
+                  to="/auth"
+                  class="block py-2 text-gray-700 hover:text-indigo-600 font-medium"
+                  >Login</nuxt-link
+                >
+              </li>
+              <li>
+                <nuxt-link
+                  to="/auth"
+                  class="block text-center w-32 bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
+                  >Sign Up</nuxt-link
+                >
+              </li>
+            </div>
           </ul>
         </nav>
       </div>
