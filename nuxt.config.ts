@@ -12,7 +12,11 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-lodash',
     '@nuxtjs/google-fonts',
+    'nuxt-echarts',
   ],
+  echarts: {
+    renderer: ['svg']
+  },
   css: [
     '~/assets/css/tailwind.css'
   ],

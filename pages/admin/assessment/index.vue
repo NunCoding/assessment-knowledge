@@ -12,69 +12,6 @@ const isLoading = ref(false);
 const isCreateAssessmentModal = ref(false);
 const listAssessment = ref([]);
 
-// fake data
-const assessments = [
-  {
-    name: "Web Development Fundamentals",
-    description: "Test your knowledge of HTML, CSS, and JavaScript basics.",
-    category: "Programming",
-    questions: 10,
-    timeEstimate: 15,
-    completions: 1245,
-    status: "Active",
-  },
-  {
-    name: "Data Science Essentials",
-    description:
-      "Evaluate your understanding of data science concepts and tools.",
-    category: "Data Science",
-    questions: 12,
-    timeEstimate: 20,
-    completions: 876,
-    status: "Active",
-  },
-  {
-    name: "Cloud Computing Basics",
-    description:
-      "Test your knowledge of cloud services, deployment models, and best practices.",
-    category: "Cloud",
-    questions: 8,
-    timeEstimate: 12,
-    completions: 543,
-    status: "Active",
-  },
-  {
-    name: "UI/UX Design Principles",
-    description:
-      "Assess your understanding of user interface and experience design.",
-    category: "Design",
-    questions: 15,
-    timeEstimate: 25,
-    completions: 321,
-    status: "Draft",
-  },
-  {
-    name: "Cybersecurity Fundamentals",
-    description:
-      "Test your knowledge of security concepts, threats, and protections.",
-    category: "Security",
-    questions: 10,
-    timeEstimate: 15,
-    completions: 210,
-    status: "Active",
-  },
-  {
-    name: "Machine Learning Basics",
-    description:
-      "Evaluate your understanding of ML algorithms and applications.",
-    category: "AI & ML",
-    questions: 12,
-    timeEstimate: 18,
-    completions: 156,
-    status: "Draft",
-  },
-];
-
 // onMounted
 onMounted(async () => {
   await fetchAssessments();
@@ -113,7 +50,7 @@ async function fetchAssessments() {
       </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
       <div
         v-for="(assessment, id) in listAssessment"
         :key="id"
