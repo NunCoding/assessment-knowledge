@@ -10,6 +10,16 @@ const userProfile = computed(() => {
   const userState = localStorage.getItem("user");
   return userState ? JSON.parse(userState) : {};
 });
+
+function navigateToProfile() {
+  let userProfile = JSON.parse(localStorage.getItem("user"));
+  let userId = useGet(userProfile, "id");
+
+  navigateTo({
+    path: "/profile",
+    query: { id: userId },
+  });
+}
 </script>
 <template>
   <div class="w-full max-w-md mx-auto">
@@ -32,7 +42,10 @@ const userProfile = computed(() => {
       class="mt-2 mr-24 fixed bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden"
     >
       <div class="p-5 flex flex-col items-center space-y-4">
-        <div class="cursor-pointer flex justify-start items-center gap-2">
+        <div
+          class="cursor-pointer flex justify-start items-center gap-2"
+          @click="navigateToProfile"
+        >
           <CpIcon name="profile" iconset="gg" size="25" />
           <span>Profile</span>
         </div>
