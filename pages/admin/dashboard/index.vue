@@ -156,8 +156,7 @@ async function fetchRecentActivity() {
         <div class="p-6">
           <div class="h-64 flex items-center justify-center">
             <div class="text-center text-gray-500">
-              <!-- <BarChartIcon class="h-16 w-16 mx-auto text-gray-300" /> -->
-              <p class="mt-2">Chart visualization would appear here</p>
+              <DashboardChart :data-source="{}" />
             </div>
           </div>
         </div>

@@ -15,7 +15,10 @@ export default defineNuxtConfig({
     'nuxt-echarts',
   ],
   echarts: {
-    renderer: ['svg']
+    renderer: ['svg'],
+    charts: ["BarChart", "PieChart"],
+    components: ["DatasetComponent", "GridComponent", "TooltipComponent", "ToolboxComponent", "LegendComponent", "TitleComponent"],
+    features: ["LabelLayout", "UniversalTransition"],
   },
   css: [
     '~/assets/css/tailwind.css'
