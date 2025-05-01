@@ -2,7 +2,7 @@
 // props
 const props = defineProps({
   label: { type: String, default: "" },
-  value: { type: Number, default: 0 },
+  value: { type: [Number, String], default: 0 },
   icon: { type: String, default: "" },
   iconset: { type: String, default: "heroicons" },
   trend: { type: Number, default: 0 },

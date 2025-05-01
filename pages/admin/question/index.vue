@@ -13,14 +13,23 @@ const isUpdateQuestionModal = ref(false);
 const isDeleteQuestionModal = ref(false);
 const isLoading = ref(false);
 const listQuestion = ref([]);
+const listAssessment = ref([]);
 const pagination = ref({});
 const totalPage = ref({});
 const selectedQuestion = ref({});
 const selectDeleteQuestion = ref({});
 
+// filter
+const filterQuestion = {
+  title: null,
+  name: null,
+  difficulty: null,
+};
+
 // onMounted
 onMounted(async () => {
   await fetchQuestion();
+  await fetchListAssessment();
 });
 
 // function
@@ -43,6 +52,27 @@ async function fetchQuestion(url = api.listQuestion) {
     .finally(() => {
       isLoading.value = false;
     });
+}
+
+async function fetchListAssessment() {
+  isLoading.value = true;
+  await useFetchApi(api.listAssessment, {
+    method: "get",
+  })
+    .then((pass) => {
+      listAssessment.value = pass;
+    })
+    .catch((error) => {
+      triggerAlert("Something went wrong!.", "error");
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
+// handle filter
+async function handleFilter() {
+  console.log(filterQuestion.value);
 }
 
 // handle edit question
@@ -79,35 +109,52 @@ function handleDelete(id) {
         class="p-6 border-b border-gray-200 flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-4 sm:space-y-0"
       >
         <div class="flex space-x-4">
-          <div class="relative">
-            <input
-              type="text"
-              placeholder="Search questions..."
-              class="pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            />
-            <CpIcon
-              name="search-outline"
-              iconset="ion"
-              class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
-            />
+          <div class="flex flex-col">
+            <label for="text">{{ t("question.name") }}</label>
+            <div class="relative">
+              <input
+                v-model="filterQuestion.title"
+                @input="handleFilter"
+                type="text"
+                placeholder="Search questions..."
+                class="pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              />
+              <CpIcon
+                name="search-outline"
+                iconset="ion"
+                class="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+              />
+            </div>
           </div>
-          <select
-            class="rounded-md border border-gray-300 py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <option>All Categories</option>
-            <option>Programming</option>
-            <option>Data Science</option>
-            <option>Cloud Computing</option>
-            <option>UI/UX Design</option>
-          </select>
-          <select
-            class="rounded-md border border-gray-300 py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <option>All Difficulty</option>
-            <option>Easy</option>
-            <option>Medium</option>
-            <option>Hard</option>
-          </select>
+          <div class="flex flex-col">
+            <label for="text">{{ t("assessment.title") }}</label>
+            <select
+              @change="handleFilter"
+              class="rounded-md border border-gray-300 py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              v-model="filterQuestion.name"
+            >
+              <option
+                v-for="item in listAssessment"
+                :key="item.id"
+                :value="item.id"
+              >
+                {{ item.title }}
+              </option>
+            </select>
+          </div>
+          <div class="flex flex-col">
+            <label for="text">{{ t("question.difficulty") }}</label>
+            <select
+              v-model="filterQuestion.difficulty"
+              class="rounded-md border border-gray-300 py-2 pl-3 pr-10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Select difficulty..."
+              @change="handleFilter"
+            >
+              <option value="Beginner">Beginner</option>
+              <option value="Intermediate">Intermediate</option>
+              <option value="Advanced">Advanced</option>
+            </select>
+          </div>
         </div>
       </div>
 

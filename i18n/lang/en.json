@@ -16,7 +16,9 @@
   "question":{
     "title":"Question",
     "create":"Create Question",
-    "update":"Update Question"
+    "update":"Update Question",
+    "name":"Name",
+    "difficulty":"Difficulty"
   },
   "dashboard":{
     "totalUsers":"Total Users",
