@@ -35,4 +35,10 @@ export const api = {
     dashboardPopularAssessment:"api/dashboard/popular-assessments",
     dashboardRecentActivity:"api/dashboard/activity",
     dashboardUser:"api/dashboard/users",
+
+    // user profile
+    userProfile:"api/profile/user/$id",
+    userSkills:"api/profile/skill-proficient/$id",
+    userTakenAssessment:"api/profile/user-assessments/$id",
+    userRecentActivity:"api/profile/user-activity/$id",
 }
