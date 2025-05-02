@@ -9,6 +9,7 @@ export const api = {
     listAssessment:"api/assessments/list",
     assessmentCategory:"api/assessment/category",
     taskAssessment:"api/assessment/$id/task",
+    assessmentStats:"api/assessment/stats",
 
     // user assessment
     submitAssessment:"api/user-assessment/submit",

@@ -12,6 +12,7 @@ const currentPage = ref(1);
 const itemsPerPage = 5;
 const listAssessmentsCategory = ref([]);
 const listPopularAssessment = ref([]);
+const assessmentStats = ref({});
 
 // Filters
 const filters = ref({
@@ -136,7 +137,6 @@ const filteredAssessments = computed(() => {
         Beginner: 1,
         Intermediate: 2,
         Advanced: 3,
-        Expert: 4,
       };
       result = [...result].sort(
         (a, b) => difficultyOrder[a.difficulty] - difficultyOrder[b.difficulty]
@@ -147,7 +147,6 @@ const filteredAssessments = computed(() => {
         Beginner: 1,
         Intermediate: 2,
         Advanced: 3,
-        Expert: 4,
       };
       result = [...result].sort(
         (a, b) =>
@@ -185,6 +184,7 @@ const totalPages = computed(() =>
 onMounted(async () => {
   await fetchAssessments();
   await fetchPopularAssessments();
+  await fetchAssessmentsStats();
 });
 
 // function
@@ -212,6 +212,22 @@ async function fetchPopularAssessments() {
   })
     .then((pass) => {
       listPopularAssessment.value = pass;
+    })
+    .catch((error) => {
+      triggerAlert("Something went wrong!.", "error");
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
+async function fetchAssessmentsStats() {
+  isLoading.value = true;
+  await useFetchApi(api.assessmentStats, {
+    method: "GET",
+  })
+    .then((pass) => {
+      assessmentStats.value = pass;
     })
     .catch((error) => {
       triggerAlert("Something went wrong!.", "error");
@@ -299,7 +315,7 @@ function resetFilters() {
                   iconset="lucide"
                   class="h-5 w-5 mr-2"
                 />
-                <span>93 Assessments</span>
+                <span>{{ assessmentStats.total_assessment }} Assessments</span>
               </div>
               <div class="flex items-center">
                 <CpIcon
@@ -307,7 +323,7 @@ function resetFilters() {
                   iconset="stash"
                   class="h-5 w-5 mr-2 font-semibold"
                 />
-                <span>15.2k+ Users</span>
+                <span>{{ assessmentStats.total_user }} Users</span>
               </div>
               <div class="flex items-center">
                 <CpIcon
@@ -315,7 +331,7 @@ function resetFilters() {
                   iconset="mdi"
                   class="h-5 w-5 mr-2 font-semibold"
                 />
-                <span>4.7 Average Rating</span>
+                <span>{{ assessmentStats.avg_score }} Average Score</span>
               </div>
             </div>
           </div>
@@ -446,7 +462,7 @@ function resetFilters() {
 
         <!-- Main Content Area -->
         <div class="lg:w-3/4">
-          <!-- Featured Assessments -->
+          <!-- Popular Assessments -->
           <div class="mb-8">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-xl font-bold text-gray-900">
@@ -490,16 +506,6 @@ function resetFilters() {
                       <h3 class="text-lg font-bold text-gray-900">
                         {{ assessment.title }}
                       </h3>
-                      <div class="flex justify-center items-center">
-                        <CpIcon
-                          name="star-outline"
-                          iconset="flowbite"
-                          class="h-4 w-4 mb-1 text-yellow-400"
-                        />
-                        <span class="ml-2 text-sm font-medium">
-                          {{ assessment.rating }}
-                        </span>
-                      </div>
                     </div>
                     <p class="text-gray-600 mb-4 whitespace-break-spaces">
                       {{ assessment.description }}
@@ -608,16 +614,6 @@ function resetFilters() {
                       <h3 class="text-lg font-bold text-gray-900">
                         {{ assessment.title }}
                       </h3>
-                      <div class="flex justify-center items-center">
-                        <CpIcon
-                          name="star-outline"
-                          iconset="flowbite"
-                          class="h-4 w-4 mb-1 text-yellow-400"
-                        />
-                        <span class="ml-2 text-sm font-medium">
-                          {{ assessment.rating }}
-                        </span>
-                      </div>
                     </div>
                     <p class="text-gray-600 mb-3">
                       {{ assessment.description }}
