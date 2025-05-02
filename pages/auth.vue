@@ -48,18 +48,22 @@ const validateLoginForm = () => {
   if (!loginForm.value.email) {
     loginErrors.value.email = "Email is required";
     isValid = false;
+    return;
   } else if (!/^\S+@\S+\.\S+$/.test(loginForm.value.email)) {
     loginErrors.value.email = "Please enter a valid email address";
     isValid = false;
+    return;
   }
 
   // Password validation
   if (!loginForm.value.password) {
     loginErrors.value.password = "Password is required";
     isValid = false;
+    return;
   } else if (loginForm.value.password.length < 8) {
     loginErrors.value.password = "Password must be at least 8 characters";
     isValid = false;
+    return;
   }
 
   return isValid;
