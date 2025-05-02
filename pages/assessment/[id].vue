@@ -18,15 +18,17 @@ const confirmExit = ref(false);
 const showResults = ref(false);
 const timer = ref(0);
 const timerInterval = ref(null);
+const randomQuestions = ref([]);
 
 // Computed properties
 const currentQuestion = computed(() => {
-  const questions = assessmentTask.value?.questions;
-  if (Array.isArray(questions) && questions.length > 0) {
-    return (
-      questions[currentQuestionIndex.value] || { question: "", options: [] }
-    );
+  const questions = randomQuestions.value;
+  const index = currentQuestionIndex.value;
+
+  if (Array.isArray(questions) && index >= 0 && index < questions.length) {
+    return questions[index];
   }
+
   return { question: "", options: [] };
 });
 
@@ -50,11 +52,11 @@ const isCorrect = computed(() => {
 });
 
 const score = computed(() => {
-  const totalQuestions = assessmentTask.value.questions.length;
+  const totalQuestions = randomQuestions.value?.length;
   const correctAnswers = userAnswers.value.reduce((total, answer, index) => {
     if (
-      assessmentTask.value.questions[index] &&
-      answer === assessmentTask.value.questions[index].correctAnswer
+      randomQuestions.value[index] &&
+      answer === randomQuestions.value[index].correctAnswer
     ) {
       return total + 1;
     }
@@ -73,6 +75,15 @@ const scorePercentage = computed(() => {
 // onMounted
 onMounted(async () => {
   await assessmentTaskTake();
+  if (assessmentTask.value) {
+    const questions = assessmentTask.value?.questions;
+    if (Array.isArray(questions) && questions.length > 0) {
+      randomQuestions.value = [...questions]
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 10);
+      currentQuestionIndex.value = 0;
+    }
+  }
 });
 
 // functions
@@ -140,10 +151,7 @@ function getQuestionButtonClass(index) {
     return "bg-gray-200 text-gray-700 hover:bg-gray-300";
   }
 
-  if (
-    userAnswers.value[index] ===
-    assessmentTask.value.questions[index].correctAnswer
-  ) {
+  if (userAnswers.value[index] === randomQuestions.value[index].correctAnswer) {
     return "bg-green-500 text-white";
   }
 
@@ -152,8 +160,7 @@ function getQuestionButtonClass(index) {
 
 function isQuestionCorrect(index) {
   return (
-    userAnswers.value[index] ===
-    assessmentTask.value.questions[index].correctAnswer
+    userAnswers.value[index] === randomQuestions.value[index].correctAnswer
   );
 }
 
@@ -169,8 +176,13 @@ function finishAssessment() {
   showResults.value = true;
 }
 
-function reviewAssessment() {
+function takeAssessmentAgain() {
+  userAnswers.value = [];
+  currentQuestionIndex.value = 0;
+  isSubmitted.value = false;
   showResults.value = false;
+  timer.value = 0;
+  startTimer();
 }
 
 function handleSubmitResult() {
@@ -270,8 +282,7 @@ onMounted(() => {
             <!-- Progress -->
             <div class="flex items-center gap-2">
               <span class="text-indigo-600 font-medium">
-                {{ currentQuestionIndex + 1 }} /
-                {{ assessmentTask.questions?.length }}
+                {{ currentQuestionIndex + 1 }} / {{ randomQuestions.length }}
               </span>
             </div>
 
@@ -447,7 +458,7 @@ onMounted(() => {
               </h3>
               <div class="grid grid-cols-5 sm:grid-cols-8 gap-2">
                 <button
-                  v-for="(_, index) in assessmentTask.questions"
+                  v-for="(_, index) in randomQuestions"
                   :key="index"
                   class="w-10 h-10 rounded-md flex items-center justify-center font-medium transition"
                   :class="getQuestionButtonClass(index)"
@@ -468,7 +479,7 @@ onMounted(() => {
             </h3>
             <div class="grid grid-cols-4 gap-2">
               <button
-                v-for="(_, index) in assessmentTask.questions"
+                v-for="(_, index) in randomQuestions"
                 :key="index"
                 class="w-10 h-10 rounded-md flex items-center justify-center font-medium transition"
                 :class="getQuestionButtonClass(index)"
@@ -547,7 +558,8 @@ onMounted(() => {
             Assessment Complete!
           </h2>
           <p class="text-xl text-gray-600">
-            You scored {{ score }} out of {{ assessmentTask.questions?.length }}
+            You scored {{ score }} out of
+            {{ randomQuestions?.length }}
           </p>
         </div>
 
@@ -577,7 +589,7 @@ onMounted(() => {
           <h3 class="text-xl font-bold text-gray-900 mb-4">Question Summary</h3>
           <div class="space-y-4">
             <div
-              v-for="(question, index) in assessmentTask.questions"
+              v-for="(question, index) in randomQuestions"
               :key="index"
               class="border rounded-lg p-4"
               :class="
@@ -641,10 +653,10 @@ onMounted(() => {
           </button>
           <div class="flex gap-4">
             <button
-              @click="reviewAssessment"
+              @click="takeAssessmentAgain"
               class="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-md hover:bg-indigo-50 transition"
             >
-              Review Answers
+              Retake Assessment
             </button>
             <button
               @click="handleSubmitResult"
