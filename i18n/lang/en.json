@@ -27,7 +27,9 @@
     "avgCompletionTime":"Avg. Completion Time",
     "popularAssessment":"Popular Assessments",
     "assessmentCompletion":"Assessment Completion",
-    "recentActivity":"Recent Activity"
+    "recentActivity":"Recent Activity",
+    "assessmentCompletionRate":"Assessment Completion Rates",
+    "averageScoresByCategory":"Average Scores By Category"
   },
   "user":{
     "title":"Users",

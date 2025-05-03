@@ -10,6 +10,7 @@ const prop = defineProps({
 // property
 const refBarChartProfit = ref(null);
 const renderer = ref("svg");
+
 const initOptions = computed(() => {
   return {
     height: 350,
@@ -17,16 +18,17 @@ const initOptions = computed(() => {
     renderer: renderer.value,
   };
 });
+
 provide(INIT_OPTIONS_KEY, initOptions);
+
 const optionSource = ref({
   color: ["#059669"],
   tooltip: {
     trigger: "axis",
   },
   legend: {
-    data: ["Completed Time"],
+    data: ["Completed"],
   },
-
   yAxis: [
     {
       type: "value",
@@ -47,6 +49,10 @@ watch(
           {
             type: "category",
             data: labels,
+            axisLabel: {
+              interval: 0,
+              rotate: 0,
+            },
           },
         ],
         series: [
@@ -70,6 +76,7 @@ watch(
   }
 );
 </script>
+
 <template>
   <div class="h-[20rem] mt-5 max-w-full">
     <VChart

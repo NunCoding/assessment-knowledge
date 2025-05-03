@@ -2,6 +2,34 @@
 definePageMeta({
   layout: "dashboard-sidemenu",
 });
+
+// emit
+const { t } = useI18n();
+
+// property
+const isLoading = ref(false);
+const dataChartAssessmentCompletion = ref({});
+
+// onMounted
+onMounted(async () => {
+  await fetchCompletionAssessment();
+});
+
+// function
+async function fetchCompletionAssessment() {
+  isLoading.value = true;
+  await useFetchApi(api.assessmentCompletionRate, {
+    method: "get",
+  })
+    .then((pass) => {
+      dataChartAssessmentCompletion.value = pass;
+    })
+    .catch(() => {})
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
 // fake data
 const topUsers = [
   {
@@ -52,63 +80,29 @@ const topUsers = [
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       <div class="bg-white rounded-lg shadow">
         <div class="p-6 border-b border-gray-200">
-          <h3 class="text-lg font-medium text-gray-900">User Engagement</h3>
-        </div>
-        <div class="p-6">
-          <div class="h-64 flex items-center justify-center">
-            <div class="text-center text-gray-500">
-              <!-- <LineChartIcon class="h-16 w-16 mx-auto text-gray-300" /> -->
-              <p class="mt-2">User engagement chart would appear here</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-lg shadow">
-        <div class="p-6 border-b border-gray-200">
           <h3 class="text-lg font-medium text-gray-900">
-            Assessment Completion Rates
+            {{ t("dashboard.assessmentCompletionRate") }}
           </h3>
         </div>
         <div class="p-6">
           <div class="h-64 flex items-center justify-center">
-            <div class="text-center text-gray-500">
-              <!-- <PieChartIcon class="h-16 w-16 mx-auto text-gray-300" /> -->
-              <p class="mt-2">Completion rate chart would appear here</p>
-            </div>
+            <div class="text-center text-gray-500"></div>
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
       <div class="bg-white rounded-lg shadow">
         <div class="p-6 border-b border-gray-200">
           <h3 class="text-lg font-medium text-gray-900">
-            Average Scores by Category
+            {{ t("dashboard.averageScoresByCategory") }}
           </h3>
         </div>
         <div class="p-6">
-          <div class="h-64 flex items-center justify-center">
+          <div class="h-72 flex items-center justify-center">
             <div class="text-center text-gray-500">
-              <!-- <BarChartIcon class="h-16 w-16 mx-auto text-gray-300" /> -->
-              <p class="mt-2">Category score chart would appear here</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-lg shadow">
-        <div class="p-6 border-b border-gray-200">
-          <h3 class="text-lg font-medium text-gray-900">
-            Question Difficulty Analysis
-          </h3>
-        </div>
-        <div class="p-6">
-          <div class="h-64 flex items-center justify-center">
-            <div class="text-center text-gray-500">
-              <!-- <ActivityIcon class="h-16 w-16 mx-auto text-gray-300" /> -->
-              <p class="mt-2">Question difficulty analysis would appear here</p>
+              <DashboardCategoryChart
+                :data-source="dataChartAssessmentCompletion"
+                :loading="isLoading"
+              />
             </div>
           </div>
         </div>
