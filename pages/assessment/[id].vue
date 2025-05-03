@@ -33,9 +33,7 @@ const currentQuestion = computed(() => {
 });
 
 const isLastQuestion = computed(() => {
-  return (
-    currentQuestionIndex.value === assessmentTask.value.questions?.length - 1
-  );
+  return currentQuestionIndex.value === randomQuestions.value?.length - 1;
 });
 
 const isCorrect = computed(() => {
@@ -435,9 +433,11 @@ onMounted(() => {
                   @click="nextQuestion"
                 >
                   <div class="flex items-center gap-1">
-                    <span>{{
-                      isLastQuestion ? "Finish Assessment" : "Next Question"
-                    }}</span>
+                    <span>
+                      {{
+                        isLastQuestion ? "Finish Assessment" : "Next Question"
+                      }}
+                    </span>
                     <CpIcon
                       name="chevron-right"
                       iconset="mi"
