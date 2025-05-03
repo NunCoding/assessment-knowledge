@@ -30,13 +30,14 @@ export const api = {
     update:"api/questions/$id",
     delete:"api/questions/$id/delete",
 
-    // stats
+    // dashboard
     stats:"api/statistics",
     dashboardStats:"api/dashboard/stats",
     dashboardPopularAssessment:"api/dashboard/popular-assessments",
     dashboardRecentActivity:"api/dashboard/activity",
     dashboardUser:"api/dashboard/users",
     completeAssessmentChart:"api/analytics/weekly-assessments",
+    assessmentCompletionRate:"api/analytics/average-assessments",
 
     // user profile
     userProfile:"api/profile/user/$id",
