@@ -1,7 +1,7 @@
-[![MasterHead](https://images.prismic.io/turing/652ec75afbd9a45bcec81a31_Front_End_Developer_Outsource_6b0889ba3a.webp?auto=format%2Ccompress&fit=max&w=3840)]
+![MasterHead](https://images.prismic.io/turing/652ec75afbd9a45bcec81a31_Front_End_Developer_Outsource_6b0889ba3a.webp?auto=format%2Ccompress&fit=max&w=3840)
 <h1 align="center">Hi 👋, I'm Sian Nun</h1>
 <h3 align="center">A passionate frontend developer from Cambodia</h3>
-<img align="right" alt="Coding" width="500" src:"https://i.pinimg.com/originals/f9/b8/8d/f9b88deeae101d6a8572063bb63c286e.gif"/>
+<!-- <img align="right" alt="Coding" width="500" src:"https://i.pinimg.com/originals/f9/b8/8d/f9b88deeae101d6a8572063bb63c286e.gif"/> -->
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=nuncoding&label=Profile%20views&color=0e75b6&style=flat" alt="nuncoding" /> </p>
 
