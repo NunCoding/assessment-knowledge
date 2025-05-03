@@ -46,7 +46,7 @@ const props = defineProps({
         />
         {{ Math.abs(props.trend) }}%
       </span>
-      <span class="text-gray-500 text-sm ml-2">from last month</span>
+      <span class="text-gray-500 text-sm ml-2">Of this month</span>
     </div>
   </div>
 </template>

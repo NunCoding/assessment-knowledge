@@ -9,10 +9,12 @@ const { t } = useI18n();
 // property
 const isLoading = ref(false);
 const dataChartAssessmentCompletion = ref({});
+const dataUserRegister = ref({});
 
 // onMounted
 onMounted(async () => {
   await fetchCompletionAssessment();
+  await fetchUserRegister();
 });
 
 // function
@@ -23,6 +25,20 @@ async function fetchCompletionAssessment() {
   })
     .then((pass) => {
       dataChartAssessmentCompletion.value = pass;
+    })
+    .catch(() => {})
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
+async function fetchUserRegister() {
+  isLoading.value = true;
+  await useFetchApi(api.userRegister, {
+    method: "get",
+  })
+    .then((pass) => {
+      dataUserRegister.value = pass;
     })
     .catch(() => {})
     .finally(() => {
@@ -86,7 +102,12 @@ const topUsers = [
         </div>
         <div class="p-6">
           <div class="h-64 flex items-center justify-center">
-            <div class="text-center text-gray-500"></div>
+            <div class="text-center text-gray-500">
+              <DashboardUserChart
+                :data-source="dataUserRegister"
+                :loading="isLoading"
+              />
+            </div>
           </div>
         </div>
       </div>
