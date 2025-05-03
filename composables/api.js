@@ -36,6 +36,7 @@ export const api = {
     dashboardPopularAssessment:"api/dashboard/popular-assessments",
     dashboardRecentActivity:"api/dashboard/activity",
     dashboardUser:"api/dashboard/users",
+    completeAssessmentChart:"api/analytics/weekly-assessments",
 
     // user profile
     userProfile:"api/profile/user/$id",

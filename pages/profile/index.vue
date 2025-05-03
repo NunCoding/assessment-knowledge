@@ -271,7 +271,7 @@ function formatTimeSpent(seconds) {
                 <h2 class="text-lg font-medium text-gray-900">
                   {{ userProfile.join_at }}
                 </h2>
-                <p class="text-sm text-gray-500">Next Assessment</p>
+                <p class="text-sm text-gray-500">Joined at</p>
               </div>
             </div>
           </div>

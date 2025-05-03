@@ -8,34 +8,18 @@ definePageMeta({
 const { t } = useI18n();
 
 // property
+const isLoading = ref(false);
 const dataStats = ref({});
 const listPopularAssessments = ref([]);
 const recentActivity = ref([]);
-
-// const recentActivity = [
-//   {
-//     title: "New user registered",
-//     time: "5 minutes ago",
-//   },
-//   {
-//     title: "John Doe completed Web Development Fundamentals",
-//     time: "1 hour ago",
-//   },
-//   {
-//     title: "New question added to Data Science Essentials",
-//     time: "2 hours ago",
-//   },
-//   {
-//     title: "New assessment created: Machine Learning Basics",
-//     time: "3 hours ago",
-//   },
-// ];
+const completionAssessment = ref({});
 
 // onMounted
 onMounted(async () => {
   await fetchDashboardData();
   await fetchPopularAssessment();
   await fetchRecentActivity();
+  await fetchCompletionAssessment();
 });
 
 // function
@@ -70,6 +54,20 @@ async function fetchRecentActivity() {
     })
     .catch(() => {})
     .finally(() => {});
+}
+
+async function fetchCompletionAssessment() {
+  isLoading.value = true;
+  useFetchApi(api.completeAssessmentChart, {
+    method: "get",
+  })
+    .then((pass) => {
+      completionAssessment.value = pass;
+    })
+    .catch(() => {})
+    .finally(() => {
+      isLoading.value = false;
+    });
 }
 </script>
 <template>
@@ -156,7 +154,10 @@ async function fetchRecentActivity() {
         <div class="p-6">
           <div class="h-64 flex items-center justify-center">
             <div class="text-center text-gray-500">
-              <DashboardChart :data-source="{}" />
+              <DashboardChart
+                :data-source="completionAssessment"
+                :loading="isLoading"
+              />
             </div>
           </div>
         </div>
