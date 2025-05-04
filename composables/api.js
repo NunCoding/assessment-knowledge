@@ -39,6 +39,7 @@ export const api = {
     completeAssessmentChart:"api/analytics/weekly-assessments",
     assessmentCompletionRate:"api/analytics/average-assessments",
     userRegister:"api/analytics/user-register",
+    userPerformance:"api/dashboard/userPerformance",
 
     // user profile
     userProfile:"api/profile/user/$id",

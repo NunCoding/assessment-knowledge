@@ -132,7 +132,7 @@ function resetForm() {
                   :key="assessment.id"
                   :value="assessment.id"
                 >
-                  {{ assessment.title }}
+                  {{ assessment.title }} ({{ assessment.difficulty }})
                 </option>
               </select>
             </div>

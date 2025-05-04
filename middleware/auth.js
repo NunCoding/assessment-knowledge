@@ -1,9 +1,13 @@
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const tokenStorage = localStorage.getItem("token");
+  const user = localStorage.getItem('user');
   
-  // Wait for the next tick to ensure hydration is complete
   if (process.client) {
     await nextTick();
+  }
+  const users = JSON.parse(user) ?? {};
+  if (users.role == "student") {
+    return navigateTo("/");
   }
 
   // Redirect logic
