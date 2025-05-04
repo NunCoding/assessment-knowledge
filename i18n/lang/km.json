@@ -1,28 +1,66 @@
 {
-  "welcome": "ស្វាគមន៍",
-  "description": "នេះគឺជាកម្មវិធី Nuxt ដែលបានបកប្រែ។",
-  "sidebar":{
-    "dashboard":"ផ្ទាំងគ្រប់គ្រង",
-    "users":"អ្នកប្រើប្រាស់",
-    "questions":"សំណួរ",
-    "assessment":"ការវាយតម្លៃ",
-    "analytics":"វិភាគ",
-    "logout":"ចាកចេញ"
+  "welcome": "សូមស្វាគមន៍",
+  "description": "នេះជាកម្មវិធី Nuxt ដែលមានការបកប្រែជាភាសាផ្សេងៗ។",
+  "sidebar": {
+    "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+    "users": "អ្នកប្រើប្រាស់",
+    "questions": "សំណួរ",
+    "assessment": "ការវាយតម្លៃ",
+    "analytics": "វិភាគ",
+    "logout": "ចេញពីប្រព័ន្ធ"
   },
-  "assessment":{
-    "title":"ការវាយតម្លៃ",
-    "create":"បង្កើតការវាយតម្លៃ"
+  "assessment": {
+    "title": "ការវាយតម្លៃ",
+    "create": "បង្កើតការវាយតម្លៃ"
   },
-  "question":{
-    "title":"សំណួរ",
-    "create":"បង្កើតសំណួរ",
-    "update":"កែប្រែសំណួរ"
+  "question": {
+    "title": "សំណួរ",
+    "create": "បង្កើតសំណួរ",
+    "update": "ធ្វើបច្ចុប្បន្នភាពសំណួរ",
+    "name": "ឈ្មោះ",
+    "difficulty": "កម្រិតពិបាក"
   },
-  "message":{
-    "createQuestion":"សំណួរត្រូវបានបង្កើតដោយជោគជ័យ",
-    "updateQuestion":"សំណួរត្រូវបានធ្វើបច្ចុប្បន្នភាពដោយជោគជ័យ"
+  "dashboard": {
+    "totalUsers": "ចំនួនអ្នកប្រើប្រាស់សរុប",
+    "assessmentTaken": "បានធ្វើការវាយតម្លៃ",
+    "questionCreated": "សំណួរបានបង្កើត",
+    "avgCompletionTime": "ម៉ោងសម្រេចមធ្យម",
+    "popularAssessment": "ការវាយតម្លៃពេញនិយម",
+    "assessmentCompletion": "ការសម្រេចការវាយតម្លៃ",
+    "recentActivity": "សកម្មភាពថ្មីៗ",
+    "assessmentCompletionRate": "អត្រាសម្រេចការវាយតម្លៃ",
+    "averageScoresByCategory": "ពិន្ទុមធ្យមតាមប្រភេទ",
+    "userPerformance": "សមត្ថភាពអ្នកប្រើប្រាស់",
+    "userRegister":"ចំនួនអ្នកចុះឈ្មោះប្រើប្រាស់ក្នុងមួយថ្ងៃ"
   },
-  "error":{
-    "title":""
+  "user": {
+    "title": "អ្នកប្រើប្រាស់",
+    "name": "ឈ្មោះ",
+    "email": "អ៊ីមែល",
+    "role": "តួនាទី",
+    "status": "ស្ថានភាព",
+    "create": "បង្កើតអ្នកប្រើប្រាស់",
+    "update": "ធ្វើបច្ចុប្បន្នភាពអ្នកប្រើប្រាស់",
+    "delete": "លុបអ្នកប្រើប្រាស់",
+    "deleteConfirmation": "តើអ្នកពិតជាចង់លុបអ្នកប្រើប្រាស់នេះឬ?",
+    "deleteSuccess": "លុបអ្នកប្រើប្រាស់ដោយជោគជ័យ"
+  },
+  "action": {
+    "create": "បង្កើត",
+    "update": "ធ្វើបច្ចុប្បន្នភាព",
+    "delete": "លុប",
+    "cancel": "បោះបង់",
+    "save": "រក្សាទុក",
+    "confirm": "បញ្ជាក់"
+  },
+  "message": {
+    "createUser": "បានបង្កើតអ្នកប្រើប្រាស់ដោយជោគជ័យ",
+    "updateUser": "បានធ្វើបច្ចុប្បន្នភាពអ្នកប្រើប្រាស់ដោយជោគជ័យ",
+    "deleteUser": "បានលុបអ្នកប្រើប្រាស់ដោយជោគជ័យ",
+    "createQuestion": "បានបង្កើតសំណួរដោយជោគជ័យ",
+    "updateQuestion": "បានធ្វើបច្ចុប្បន្នភាពសំណួរដោយជោគជ័យ"
+  },
+  "error": {
+    "title": "មានបញ្ហាកើតឡើង"
   }
 }

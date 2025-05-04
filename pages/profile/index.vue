@@ -150,7 +150,7 @@ function formatTimeSpent(seconds) {
       <!-- Profile Header -->
       <div class="bg-white rounded-lg shadow overflow-hidden">
         <div
-          class="relative h-40 bg-gradient-to-r from-indigo-500 to-indigo-300"
+          class="relative h-40 bg-gradient-to-r from-indigo-700 to-indigo-400"
         >
           <div class="absolute -bottom-16 left-8">
             <div class="relative">
@@ -178,14 +178,9 @@ function formatTimeSpent(seconds) {
             </div>
             <div class="mt-4 md:mt-0 flex space-x-3">
               <button
-                class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition"
+                class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-purple-700 transition"
               >
                 Edit Profile
-              </button>
-              <button
-                class="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50 transition"
-              >
-                View Reports
               </button>
             </div>
           </div>
@@ -193,7 +188,7 @@ function formatTimeSpent(seconds) {
             <div class="flex items-center">
               <div class="flex-shrink-0">
                 <div
-                  class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-100 text-purple-600"
+                  class="flex items-center justify-center h-12 w-12 rounded-md bg-gray-50 text-indigo-600"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -221,7 +216,7 @@ function formatTimeSpent(seconds) {
             <div class="flex items-center">
               <div class="flex-shrink-0">
                 <div
-                  class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-100 text-purple-600"
+                  class="flex items-center justify-center h-12 w-12 rounded-md bg-gray-50 text-indigo-600"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -249,7 +244,7 @@ function formatTimeSpent(seconds) {
             <div class="flex items-center">
               <div class="flex-shrink-0">
                 <div
-                  class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-100 text-purple-600"
+                  class="flex items-center justify-center h-12 w-12 rounded-md bg-gray-50 text-indigo-600"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -344,7 +339,7 @@ function formatTimeSpent(seconds) {
                         :key="n"
                         class="h-2 flex-1 rounded-sm"
                         :class="
-                          n <= skill.level ? 'bg-purple-600' : 'bg-gray-200'
+                          n <= skill.level ? 'bg-indigo-600' : 'bg-gray-200'
                         "
                       ></div>
                     </div>
@@ -370,7 +365,7 @@ function formatTimeSpent(seconds) {
             <div class="flex items-start">
               <div class="flex-shrink-0">
                 <div
-                  class="h-10 w-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600"
+                  class="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center text-indigo-600"
                 >
                   <CpIcon name="flow-logs-vpc" iconset="carbon" />
                 </div>

@@ -10,11 +10,13 @@ const { t } = useI18n();
 const isLoading = ref(false);
 const dataChartAssessmentCompletion = ref({});
 const dataUserRegister = ref({});
+const listUserPerformance = ref([]);
 
 // onMounted
 onMounted(async () => {
   await fetchCompletionAssessment();
   await fetchUserRegister();
+  await fetchUserPerformance();
 });
 
 // function
@@ -46,49 +48,19 @@ async function fetchUserRegister() {
     });
 }
 
-// fake data
-const topUsers = [
-  {
-    name: "Emily Davis",
-    email: "emily.d@example.com",
-    assessmentsTaken: 15,
-    avgScore: 92,
-    completionRate: 100,
-    lastActive: "2 hours ago",
-  },
-  {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    assessmentsTaken: 12,
-    avgScore: 88,
-    completionRate: 95,
-    lastActive: "1 day ago",
-  },
-  {
-    name: "Sarah Brown",
-    email: "sarah.b@example.com",
-    assessmentsTaken: 10,
-    avgScore: 85,
-    completionRate: 90,
-    lastActive: "3 hours ago",
-  },
-  {
-    name: "Lisa Taylor",
-    email: "lisa.t@example.com",
-    assessmentsTaken: 9,
-    avgScore: 82,
-    completionRate: 100,
-    lastActive: "5 hours ago",
-  },
-  {
-    name: "Jane Smith",
-    email: "jane.smith@example.com",
-    assessmentsTaken: 8,
-    avgScore: 79,
-    completionRate: 88,
-    lastActive: "1 hour ago",
-  },
-];
+async function fetchUserPerformance() {
+  isLoading.value = true;
+  await useFetchApi(api.userPerformance, {
+    method: "get",
+  })
+    .then((pass) => {
+      listUserPerformance.value = pass.data;
+    })
+    .catch(() => {})
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
 </script>
 <template>
   <!-- Analytics -->
@@ -97,7 +69,7 @@ const topUsers = [
       <div class="bg-white rounded-lg shadow">
         <div class="p-6 border-b border-gray-200">
           <h3 class="text-lg font-medium text-gray-900">
-            {{ t("dashboard.assessmentCompletionRate") }}
+            {{ t("dashboard.userRegister") }}
           </h3>
         </div>
         <div class="p-6">
@@ -132,7 +104,9 @@ const topUsers = [
 
     <div class="bg-white rounded-lg shadow">
       <div class="p-6 border-b border-gray-200">
-        <h3 class="text-lg font-medium text-gray-900">User Performance</h3>
+        <h3 class="text-lg font-medium text-gray-900">
+          {{ t("dashboard.userPerformance") }}
+        </h3>
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
@@ -171,13 +145,13 @@ const topUsers = [
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="(user, index) in topUsers" :key="index">
+            <tr v-for="(user, index) in listUserPerformance" :key="index">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 h-10 w-10">
                     <img
                       class="h-10 w-10 rounded-full"
-                      :src="user.avatar"
+                      src="https://toppng.com/uploads/preview/avatar-png-115540218987bthtxfhls.png"
                       alt=""
                     />
                   </div>
@@ -191,19 +165,19 @@ const topUsers = [
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">
-                  {{ user.assessmentsTaken }}
+                  {{ user.assessment_taken }}
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ user.avgScore }}%</div>
+                <div class="text-sm text-gray-900">{{ user.avg_score }}%</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">
-                  {{ user.completionRate }}%
+                  {{ user.completion_rate }}%
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{{ user.lastActive }}</div>
+                <div class="text-sm text-gray-900">{{ user.last_active }}</div>
               </td>
             </tr>
           </tbody>

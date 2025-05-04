@@ -29,7 +29,9 @@
     "assessmentCompletion":"Assessment Completion",
     "recentActivity":"Recent Activity",
     "assessmentCompletionRate":"Assessment Completion Rates",
-    "averageScoresByCategory":"Average Scores By Category"
+    "averageScoresByCategory":"Average Scores By Category",
+    "userPerformance":"User Performance",
+    "userRegister":"User Register Per day"
   },
   "user":{
     "title":"Users",
