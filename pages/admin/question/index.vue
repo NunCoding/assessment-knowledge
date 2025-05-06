@@ -199,21 +199,7 @@ function handleDelete(id) {
                 <div class="text-sm text-gray-900">{{ question.category }}</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  :class="`px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${
-                    question.difficulty === 'Easy'
-                      ? 'green'
-                      : question.difficulty === 'Medium'
-                      ? 'yellow'
-                      : 'red'
-                  }-100 text-${
-                    question.difficulty === 'Easy'
-                      ? 'green'
-                      : question.difficulty === 'Medium'
-                      ? 'yellow'
-                      : 'red'
-                  }-800`"
-                >
+                <span>
                   {{ question.difficulty }}
                 </span>
               </td>

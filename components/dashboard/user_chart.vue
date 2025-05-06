@@ -31,7 +31,7 @@ const optionSource = ref({
     trigger: "axis",
   },
   legend: {
-    data: ["Completed"],
+    data: ["Register"],
   },
   yAxis: [
     {
@@ -67,7 +67,7 @@ watch(
         ],
         series: [
           {
-            name: "Completed",
+            name: "Register",
             type: "bar",
             data: dataSet,
             markPoint: {
