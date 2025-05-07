@@ -41,16 +41,22 @@ function navigateToProfile() {
       v-if="isOpen"
       class="mt-2 mr-24 fixed bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden"
     >
-      <div class="p-5 flex flex-col items-center space-y-4">
+      <div class="flex flex-col items-center space-y-3">
         <div
-          class="cursor-pointer flex justify-start items-center gap-2"
+          class="px-5 pt-5 cursor-pointer flex justify-start items-center gap-2"
           @click="navigateToProfile"
         >
-          <CpIcon name="profile" iconset="gg" size="25" />
+          <CpIcon
+            name="profile"
+            iconset="gg"
+            size="25"
+            class="text-indigo-600"
+          />
           <span>Profile</span>
         </div>
+        <div class="w-full h-[2px] bg-gray-100"></div>
         <div
-          class="cursor-pointer flex justify-start items-center gap-2 text-red-500"
+          class="px-5 pb-5 cursor-pointer flex justify-start items-center gap-2 text-red-500"
           @click="auth.logout()"
         >
           <CpIcon name="logout" iconset="tabler" size="25" />
