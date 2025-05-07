@@ -74,6 +74,9 @@ async function fetchAssessments() {
             <div>{{ assessment.questions }} questions</div>
             <div>{{ assessment.timeEstimate }} min</div>
           </div>
+          <div>
+            <span>{{ assessment.total_taken }} Users</span>
+          </div>
         </div>
       </div>
     </div>

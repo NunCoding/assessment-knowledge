@@ -2,6 +2,16 @@
 definePageMeta({
   layout: "top-menu",
 });
+
+// function
+function handleNavigatePage() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    navigateTo("/assessment");
+  } else {
+    navigateTo("/auth");
+  }
+}
 </script>
 <template>
   <div class="min-h-screen bg-gray-50">
@@ -42,6 +52,7 @@ definePageMeta({
           </p>
           <div class="flex flex-wrap justify-center gap-4">
             <button
+              @click="handleNavigatePage"
               class="px-6 py-3 bg-white text-indigo-700 rounded-md hover:bg-indigo-50 transition font-medium"
             >
               Get Started

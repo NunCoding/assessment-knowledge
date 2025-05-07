@@ -1,4 +1,13 @@
 <script setup>
+// function
+function handleNavigatePage() {
+  const token = localStorage.getItem("token");
+  if (token) {
+    navigateTo("/assessment");
+  } else {
+    navigateTo("/auth");
+  }
+}
 </script>
 <template>
   <!-- CTA Section -->
@@ -16,11 +25,12 @@
       >
         <button
           class="bg-white text-indigo-600 px-8 py-4 rounded-md hover:bg-gray-100 transition text-lg font-medium"
-          @click="navigateTo('/auth')"
+          @click="handleNavigatePage"
         >
           Get Started For Free
         </button>
         <button
+          @click="navigateTo('/about')"
           class="border border-white text-white px-8 py-4 rounded-md hover:bg-indigo-700 transition text-lg font-medium"
         >
           Learn More

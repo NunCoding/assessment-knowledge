@@ -47,21 +47,14 @@ const popularTags = [
 // Mock data for related categories
 const relatedCategories = [
   {
-    name: "JavaScript",
-    slug: "javascript",
-    assessmentCount: 47,
-  },
-  {
     name: "UI/UX Design",
     slug: "ui-ux-design",
-    assessmentCount: 32,
   },
   {
     name: "Mobile Development",
     slug: "mobile-development",
-    assessmentCount: 28,
   },
-  { name: "DevOps", slug: "devops", assessmentCount: 19 },
+  { name: "DevOps", slug: "devops" },
 ];
 
 // Computed property for filtered assessments
@@ -728,7 +721,7 @@ function resetFilters() {
     <section class="bg-gray-100 py-12">
       <div class="container mx-auto px-4">
         <h2 class="text-2xl font-bold text-gray-900 mb-6">
-          Related Categories
+          Coming Soon Assessments
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div
@@ -736,14 +729,8 @@ function resetFilters() {
             :key="category.slug"
             class="bg-white rounded-lg shadow-sm p-6 text-center hover:shadow-md transition cursor-pointer"
           >
-            <component
-              :is="category.icon"
-              class="h-10 w-10 text-indigo-600 mx-auto mb-3"
-            />
+            <CpIcon :name="category.icon" :iconset="category.iconset" />
             <h3 class="font-medium text-gray-900 mb-1">{{ category.name }}</h3>
-            <p class="text-sm text-gray-500">
-              {{ category.assessmentCount }} assessments
-            </p>
           </div>
         </div>
       </div>
