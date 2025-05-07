@@ -38,23 +38,10 @@ const durations = [
 
 const popularTags = [
   "JavaScript",
-  "React",
-  "Node.js",
+  "Tailwind Css",
   "HTML/CSS",
-  "TypeScript",
-  "Frontend",
-  "Backend",
-  "Full Stack",
-  "API",
-  "Frameworks",
-];
-
-// Mock data for subcategories
-const subcategories = [
-  { name: "Frontend", slug: "frontend" },
-  { name: "Backend", slug: "backend" },
-  { name: "Databases", slug: "databases" },
-  { name: "Cloud & DevOps", slug: "cloud-devops" },
+  "Nuxt Js",
+  "Laravel",
 ];
 
 // Mock data for related categories
@@ -117,10 +104,15 @@ const filteredAssessments = computed(() => {
   }
 
   // Apply tags filter
-  if (filters.value.tags.length > 0) {
-    result = result.filter((assessment) =>
-      assessment.tags.some((tag) => filters.value.tags.includes(tag))
-    );
+  if (filters.value.tags && filters.value.tags.length > 0) {
+    const filterTags = filters.value.tags;
+
+    const query = useFilter(result, (item) => {
+      const itemCategories =
+        item.category?.split(",").map((c) => c.trim()) || [];
+      return itemCategories.some((cat) => filterTags.includes(cat));
+    });
+    result = query;
   }
 
   // Apply sorting
