@@ -137,8 +137,12 @@ function navigatePage() {
             <button
               class="border border-indigo-600 text-indigo-600 px-6 py-3 rounded-md hover:bg-indigo-50 transition text-lg font-medium flex items-center justify-center"
             >
-              <!-- <PlayIcon class="h-5 w-5 mr-2" /> -->
-              How It Works
+              <CpIcon
+                name="player-start-light"
+                iconset="iconamoon"
+                class="h-5 w-5 mr-2"
+              />
+              <a href="#progress">How It Works</a>
             </button>
           </div>
         </div>
@@ -361,7 +365,7 @@ function navigatePage() {
     </div>
   </section>
   <!-- How It Works -->
-  <section class="py-16 bg-white">
+  <section class="py-16 bg-white" id="progress">
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -472,3 +476,8 @@ function navigatePage() {
     </div>
   </section>
 </template>
+<style scope>
+* {
+  scroll-behavior: smooth;
+}
+</style>
