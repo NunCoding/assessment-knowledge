@@ -49,8 +49,14 @@ function handleCopy(link) {
           class="border border-gray-200 px-4 py-2 rounded-md"
           @click="handleCopy(dataSource)"
         >
-          <CpIcon name="check" v-if="copied" size="25" />
-          <CpIcon name="copy-line" iconset="si" size="25" v-else />
+          <CpIcon class="text-green-600" name="check" v-if="copied" size="25" />
+          <CpIcon
+            class="text-blue-600"
+            name="copy-line"
+            iconset="si"
+            size="25"
+            v-else
+          />
         </button>
       </div>
     </template>

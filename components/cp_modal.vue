@@ -28,7 +28,7 @@ function closeModal() {
           <CpIcon
             name="close"
             iconset="simple-line-icons"
-            class="mt-1 text-gray-600"
+            class="mt-1 text-red-600"
           />
         </span>
       </div>

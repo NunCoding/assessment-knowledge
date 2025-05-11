@@ -5,8 +5,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   if (process.client) {
     await nextTick();
   }
+
   const users = JSON.parse(user) ?? {};
-  if (users.role == "student") {
+  if (!tokenStorage && to.path.startsWith('/take-assessment/')) {
+    return navigateTo(`/student-register?redirect=${to.fullPath}`);
+  }
+
+  if (users.role == "student" && !to.path.startsWith('/take-assessment/')) {
     return navigateTo("/");
   }
 
