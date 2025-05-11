@@ -78,7 +78,7 @@ const handleLogin = async () => {
     })
     .then(({ user }) => {
       const role = useGet(user, "role");
-      if (role == "admin") {
+      if (role == "admin" || role == "instructor") {
         navigateTo("/admin/dashboard", { replace: true });
       } else {
         navigateTo("/", { replace: true });
