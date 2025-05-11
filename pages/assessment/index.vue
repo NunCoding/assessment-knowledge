@@ -20,7 +20,7 @@ const filters = ref({
   difficulty: [],
   duration: [],
   tags: [],
-  sortBy: "popular",
+  sortBy: "all",
 });
 
 const difficultyLevels = [
@@ -49,12 +49,39 @@ const relatedCategories = [
   {
     name: "UI/UX Design",
     slug: "ui-ux-design",
+    class: "text-blue-600",
+    icon: "uikit",
+    iconset: "fa-brands",
+    description:
+      "You will test usability, accessibility, responsiveness, visual clarity, user satisfaction, and how effectively the design drives user actions.",
   },
   {
     name: "Mobile Development",
     slug: "mobile-development",
+    class: "text-green-600",
+    icon: "device-mobile",
+    iconset: "tabler",
+    description:
+      "You will test usability, touch interaction, screen responsiveness, loading speed, accessibility, offline behavior, and how well the app supports user goals on small screens.",
   },
-  { name: "DevOps", slug: "devops" },
+  {
+    name: "DevOps",
+    slug: "devops",
+    class: "text-teal-600",
+    icon: "azuredevops",
+    iconset: "devicon-plain",
+    description:
+      "You will test for code quality, CI/CD pipeline reliability, automated deployment, infrastructure as code, system performance, security, scalability, and monitoring accuracy to ensure smooth, continuous delivery and high system availability.",
+  },
+  {
+    name: "Linux",
+    slug: "linux",
+    class: "text-black-600",
+    icon: "linux",
+    iconset: "fa6-brands",
+    description:
+      "You will test system performance, user permissions, security configurations, software compatibility, network settings, service reliability, and script automation to ensure a stable, secure, and efficient operating environment.",
+  },
 ];
 
 // Computed property for filtered assessments
@@ -110,13 +137,6 @@ const filteredAssessments = computed(() => {
 
   // Apply sorting
   switch (filters.value.sortBy) {
-    case "newest":
-      // In a real app, we would sort by date
-      result = [...result].reverse();
-      break;
-    case "rating":
-      result = [...result].sort((a, b) => b.rating - a.rating);
-      break;
     case "easiest":
       const difficultyOrder = {
         Beginner: 1,
@@ -140,6 +160,8 @@ const filteredAssessments = computed(() => {
       );
       break;
     case "popular":
+      result.sort((a, b) => b.users - a.users);
+      break;
     default:
       // Sort by completions (most popular first)
       result = [...result].sort((a, b) => {
@@ -150,7 +172,6 @@ const filteredAssessments = computed(() => {
           if (str.includes("m")) return parseFloat(str) * 1000000;
           return parseInt(str) || 0;
         };
-
         return getCompletions(b) - getCompletions(a);
       });
 
@@ -427,9 +448,8 @@ function resetFilters() {
                 id="sortBy"
                 class="w-full rounded-md border border-gray-300 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               >
+                <option value="all">All</option>
                 <option value="popular">Most Popular</option>
-                <option value="newest">Newest</option>
-                <option value="rating">Highest Rated</option>
                 <option value="easiest">Easiest First</option>
                 <option value="hardest">Hardest First</option>
               </select>
@@ -729,8 +749,14 @@ function resetFilters() {
             :key="category.slug"
             class="bg-white rounded-lg shadow-sm p-6 text-center hover:shadow-md transition cursor-pointer"
           >
-            <CpIcon :name="category.icon" :iconset="category.iconset" />
+            <CpIcon
+              :name="category.icon"
+              :iconset="category.iconset"
+              :class="category.class"
+              size="25"
+            />
             <h3 class="font-medium text-gray-900 mb-1">{{ category.name }}</h3>
+            <p class="text-sm mt-3 text-gray-500">{{ category.description }}</p>
           </div>
         </div>
       </div>

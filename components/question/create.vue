@@ -20,6 +20,13 @@ const formData = ref({
   explanation: null,
 });
 
+const errors = ref({
+  title: "",
+  assessment_id: "",
+  options: "",
+  correctAnswer: "",
+});
+
 // onMounted
 onMounted(() => {
   fetchAssessments();
@@ -59,7 +66,51 @@ function removeOption(index) {
   }
 }
 
+function validateForm() {
+  // Clear previous errors
+  errors.value = {
+    title: "",
+    assessment_id: "",
+    options: "",
+    correctAnswer: "",
+  };
+
+  let isValid = true;
+
+  if (!formData.value.title || formData.value.title.trim() === "") {
+    errors.value.title = "Question text is required.";
+    isValid = false;
+  }
+
+  if (!formData.value.assessment_id) {
+    errors.value.assessment_id = "Please select an assessment.";
+    isValid = false;
+  }
+
+  const filledOptions = formData.value.options.filter(
+    (opt) => opt.trim() !== ""
+  );
+  if (filledOptions.length < 2) {
+    errors.value.options = "At least 2 answer options are required.";
+    isValid = false;
+  }
+
+  const correctIndex = formData.value.correctAnswer;
+  if (
+    correctIndex === null ||
+    correctIndex < 0 ||
+    correctIndex >= formData.value.options.length ||
+    formData.value.options[correctIndex].trim() === ""
+  ) {
+    errors.value.correctAnswer = "Please select a valid correct answer.";
+    isValid = false;
+  }
+
+  return isValid;
+}
+
 function handleSubmit() {
+  if (!validateForm) return;
   isLoading.value = true;
   useFetchApi(api.createQuestion, {
     method: "post",
@@ -116,6 +167,9 @@ function resetForm() {
               class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Enter your question here..."
             ></textarea>
+            <p v-if="errors.title" class="text-red-500 text-sm mt-1">
+              {{ errors.title }}
+            </p>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
@@ -135,6 +189,9 @@ function resetForm() {
                   {{ assessment.title }} ({{ assessment.difficulty }})
                 </option>
               </select>
+              <p v-if="errors.assessment_id" class="text-red-500 text-sm mt-1">
+                {{ errors.assessment_id }}
+              </p>
             </div>
           </div>
 
@@ -187,6 +244,12 @@ function resetForm() {
                   </div>
                 </label>
               </div>
+              <p v-if="errors.options" class="text-red-500 text-sm mt-1">
+                {{ errors.options }}
+              </p>
+              <p v-if="errors.correctAnswer" class="text-red-500 text-sm mt-1">
+                {{ errors.correctAnswer }}
+              </p>
             </div>
             <p class="text-sm text-gray-500 mt-2">
               Select the radio button next to the correct answer.
@@ -195,7 +258,7 @@ function resetForm() {
 
           <div>
             <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Explanation (Optional)</label
+              >Explanation</label
             >
             <textarea
               v-model="formData.explanation"
