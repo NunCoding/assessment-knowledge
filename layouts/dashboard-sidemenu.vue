@@ -17,6 +17,7 @@ const navItems = [
     href: "dashboard",
     icon: "home",
     iconset: "mynaui",
+    roles: ["admin", "instructor"],
   },
   {
     id: "users",
@@ -24,6 +25,7 @@ const navItems = [
     href: "user",
     icon: "users",
     iconset: "lucide",
+    roles: ["admin"],
   },
   {
     id: "questions",
@@ -31,6 +33,7 @@ const navItems = [
     href: "question",
     icon: "task-2-line",
     iconset: "mingcute",
+    roles: ["admin", "instructor"],
   },
   {
     id: "assessments",
@@ -38,6 +41,7 @@ const navItems = [
     href: "assessment",
     icon: "stack-line",
     iconset: "ri",
+    roles: ["admin", "instructor"],
   },
   {
     id: "analytics",
@@ -45,6 +49,7 @@ const navItems = [
     href: "analytics",
     icon: "analysis",
     iconset: "uim",
+    roles: ["admin"],
   },
 ];
 
@@ -75,6 +80,15 @@ onMounted(() => {
 });
 
 // computed
+const userRole = computed(() => {
+  const user = JSON.parse(userState);
+  return user?.role || "admin";
+});
+
+const filteredNavItems = computed(() => {
+  return navItems.filter((item) => item.roles.includes(userRole.value));
+});
+
 const adminName = computed(() => {
   const user = JSON.parse(userState);
   return useGet(user, "name");
@@ -127,7 +141,7 @@ const selectLanguage = async (langValue) => {
         </div>
         <nav>
           <nuxt-link
-            v-for="(item, index) in navItems"
+            v-for="(item, index) in filteredNavItems"
             :key="index"
             :to="`/admin/${item.href}`"
             class="flex gap-2 items-center px-4 py-2 text-indigo-100 hover:bg-indigo-700 cursor-pointer transition-colors"

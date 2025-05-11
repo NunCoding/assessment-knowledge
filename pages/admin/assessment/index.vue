@@ -1,4 +1,5 @@
 <script setup>
+const { copied, copy } = useClipboard();
 definePageMeta({
   layout: "dashboard-sidemenu",
   middleware: ["auth"],
@@ -10,7 +11,9 @@ const { t } = useI18n();
 // property
 const isLoading = ref(false);
 const isCreateAssessmentModal = ref(false);
+const isShareLinkModal = ref(false);
 const listAssessment = ref([]);
+const dataList = ref({});
 
 // onMounted
 onMounted(async () => {
@@ -32,6 +35,11 @@ async function fetchAssessments() {
     .finally(() => {
       isLoading.value = false;
     });
+}
+
+function handleShareLink(data) {
+  dataList.value = data;
+  isShareLinkModal.value = true;
 }
 </script>
 <template>
@@ -74,15 +82,37 @@ async function fetchAssessments() {
             <div>{{ assessment.questions }} questions</div>
             <div>{{ assessment.timeEstimate }} min</div>
           </div>
-          <div>
+          <div class="flex justify-between items-center">
             <span>{{ assessment.total_taken }} Users</span>
+            <button
+              v-if="assessment.share_link"
+              class="flex justify-center items-center bg-blue-600 text-white px-3 py-1 rounded-lg"
+              @click="handleShareLink(assessment.share_link)"
+            >
+              <CpIcon
+                name="link-filled"
+                iconset="lsicon"
+                class="mr-1"
+                size="25"
+              />
+              <span>Share</span>
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- create assessment -->
   <AssessmentCreate
     v-model="isCreateAssessmentModal"
     @submitted="fetchAssessments"
+  />
+
+  <!-- modal -->
+  <!-- <CpModal v-model="isShareLinkModal" title="Copy" /> -->
+  <AssessmentShareLinkModal
+    v-model="isShareLinkModal"
+    :data-source="dataList"
   />
 </template>

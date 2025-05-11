@@ -11,7 +11,8 @@
   },
   "assessment":{
     "title":"Assessment",
-    "create":"Create Assessment"
+    "create":"Create Assessment",
+    "link":"Share this link with your student to give them access to your assessment"
   },
   "question":{
     "title":"Question",

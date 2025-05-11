@@ -13,6 +13,8 @@ const dataStats = ref({});
 const listPopularAssessments = ref([]);
 const recentActivity = ref([]);
 const completionAssessment = ref({});
+const roleLogin = localStorage.getItem("user");
+const user = JSON.parse(roleLogin);
 
 // onMounted
 onMounted(async () => {
@@ -73,7 +75,10 @@ async function fetchCompletionAssessment() {
 <template>
   <!-- Dashboard Overview -->
   <div class="p-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+      v-if="user.role === 'admin'"
+    >
       <DashboardStats
         :label="t('dashboard.totalUsers')"
         icon="user"
