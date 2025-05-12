@@ -95,7 +95,7 @@ function handleShareLink(data) {
                 class="mr-1"
                 size="25"
               />
-              <span>Share</span>
+              <span>{{ t("assessment.share") }}</span>
             </button>
           </div>
         </div>

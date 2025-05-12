@@ -86,7 +86,12 @@ const relatedCategories = [
 
 // Computed property for filtered assessments
 const filteredAssessments = computed(() => {
-  let result = [...listAssessmentsCategory.value];
+  // let result = [...listAssessmentsCategory.value];
+
+  let result = useFilter(
+    listAssessmentsCategory.value,
+    (item) => item.slug == null
+  );
 
   // Apply search filter
   if (filters.value.search) {
@@ -572,7 +577,7 @@ function resetFilters() {
               <h2 class="text-xl font-bold text-gray-900">All Assessments</h2>
               <div class="text-sm text-gray-500">
                 Showing {{ filteredAssessments.length }} of
-                {{ listAssessmentsCategory.length }} assessments
+                {{ filteredAssessments.length }} assessments
               </div>
             </div>
 

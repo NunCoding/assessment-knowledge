@@ -32,7 +32,7 @@ function handleCopy(link) {
 <template>
   <CpModal
     :model-value="modelValue"
-    title="Share Link Assessment to Student"
+    :title="t('assessment.shareLink')"
     @close="closeModal"
   >
     <template #body>
