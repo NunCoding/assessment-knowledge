@@ -12,6 +12,8 @@
   "assessment":{
     "title":"Assessment",
     "create":"Create Assessment",
+    "share":"Share",
+    "shareLink":"Share link assessment to student",
     "link":"Share this link with your student to give them access to your assessment"
   },
   "question":{
