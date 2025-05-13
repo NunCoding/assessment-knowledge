@@ -44,6 +44,13 @@ const navItems = [
     roles: ["admin", "instructor"],
   },
   {
+    id: "student-assessment",
+    name: "sidebar.studentAssessment",
+    href: "student-assessment",
+    icon: "users",
+    roles: ["admin", "instructor"],
+  },
+  {
     id: "analytics",
     name: "sidebar.analytics",
     href: "analytics",
