@@ -178,7 +178,7 @@ function finishAssessment() {
 function handleSubmitResult() {
   let formData = {
     user_id: auth.user.id,
-    assessment_id: useGet(route, "params.id"),
+    assessment_id: useGet(assessmentTask.value, "id"),
     score: score.value,
     completion_time: timer.value,
   };
