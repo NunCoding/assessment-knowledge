@@ -3,8 +3,13 @@ definePageMeta({
   layout: "top-menu",
 });
 
+useHead({
+  title: "Profile",
+});
+
 // emit
 const route = useRoute();
+const router = useRouter();
 
 // property
 const isLoading = ref(false);
@@ -12,44 +17,9 @@ const userProfile = ref({});
 const userSkill = ref([]);
 const userAssessment = ref([]);
 const listRecentActivity = ref([]);
-
-// Skills data
-const skills = [
-  { name: "JavaScript", level: 5 },
-  { name: "Vue.js", level: 4 },
-  { name: "CSS/Tailwind", level: 4 },
-  { name: "Node.js", level: 3 },
-  { name: "Database Design", level: 3 },
-];
-
-// Recent activities
-const recentActivities = [
-  {
-    icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-    title: "Completed JavaScript Assessment",
-    time: "2 days ago",
-    description: "You scored 92% on the JavaScript Fundamentals assessment.",
-  },
-  {
-    icon: "M12 6v6m0 0v6m0-6h6m-6 0H6",
-    title: "New Assessment Assigned",
-    time: "1 week ago",
-    description: "Cloud Architecture assessment has been assigned to you.",
-  },
-  {
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
-    title: "Skill Level Increased",
-    time: "2 weeks ago",
-    description: "Your Vue.js skill level has increased from 3 to 4.",
-  },
-  {
-    icon: "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9",
-    title: "Reminder: Upcoming Assessment",
-    time: "3 weeks ago",
-    description:
-      "You have an upcoming Cloud Architecture assessment on June 15.",
-  },
-];
+const listInstructorMessages = ref([]);
+const user = localStorage.getItem("user");
+const userData = JSON.parse(user);
 
 // onMounted
 onMounted(async () => {
@@ -57,12 +27,122 @@ onMounted(async () => {
   await fetchUserSkill();
   await fetchUserAssessment();
   await fetchUserRecentActivity();
+  await fetchInstructorMessages();
+  router.replace({ query: {} });
 });
+
+// Message data
+const messages = ref([
+  {
+    id: 1,
+    sender: {
+      name: "Dr. Sarah Williams",
+      role: "Professor",
+      avatar: "https://randomuser.me/api/portraits/women/45.jpg",
+    },
+    subject: "Upcoming Project Deadline Extension",
+    preview:
+      "I wanted to inform all students that I've decided to extend the deadline for the final project by one week. This should give everyone more time to complete their work and address any challenges you might be facing...",
+    date: new Date("2023-05-15T14:30:00"),
+    unread: true,
+  },
+  {
+    id: 2,
+    sender: {
+      name: "Prof. Michael Chen",
+      role: "Teaching Assistant",
+      avatar: "https://randomuser.me/api/portraits/men/22.jpg",
+    },
+    subject: "Feedback on Your Recent Assignment",
+    preview:
+      "I've reviewed your latest assignment submission and wanted to provide some feedback. Overall, your work demonstrates a good understanding of the core concepts we've covered in class...",
+    date: new Date("2023-05-12T09:15:00"),
+    unread: true,
+  },
+  {
+    id: 3,
+    sender: {
+      name: "Dr. James Peterson",
+      role: "Department Head",
+      avatar: "https://randomuser.me/api/portraits/men/42.jpg",
+    },
+    subject: "Invitation to Department Research Symposium",
+    preview:
+      "On behalf of the Computer Science Department, I would like to invite you to our annual Research Symposium taking place next month. This event showcases ongoing research projects and provides networking opportunities...",
+    date: new Date("2023-05-10T16:45:00"),
+    unread: false,
+  },
+  {
+    id: 4,
+    sender: {
+      name: "Lisa Rodriguez",
+      role: "Academic Advisor",
+      avatar: "https://randomuser.me/api/portraits/women/28.jpg",
+    },
+    subject: "Course Registration for Next Semester",
+    preview:
+      "As we approach the end of the current semester, I wanted to remind you that course registration for the fall semester will open next week. Based on your academic progress and career goals, I have some recommendations...",
+    date: new Date("2023-05-08T11:20:00"),
+    unread: false,
+  },
+  {
+    id: 5,
+    sender: {
+      name: "Dr. Robert Thompson",
+      role: "Professor",
+      avatar: "https://randomuser.me/api/portraits/men/67.jpg",
+    },
+    subject: "Office Hours Change This Week",
+    preview:
+      "Due to a faculty meeting, I need to reschedule my office hours this week. Instead of Tuesday 2-4 PM, I will be available on Wednesday 1-3 PM. If you had planned to meet with me during the original time slot...",
+    date: new Date("2023-05-05T13:10:00"),
+    unread: false,
+  },
+  {
+    id: 5,
+    sender: {
+      name: "Dr. Robert Thompson",
+      role: "Professor",
+      avatar: "https://randomuser.me/api/portraits/men/67.jpg",
+    },
+    subject: "Office Hours Change This Week",
+    preview:
+      "Due to a faculty meeting, I need to reschedule my office hours this week. Instead of Tuesday 2-4 PM, I will be available on Wednesday 1-3 PM. If you had planned to meet with me during the original time slot...",
+    date: new Date("2023-05-05T13:10:00"),
+    unread: false,
+  },
+  {
+    id: 5,
+    sender: {
+      name: "Dr. Robert Thompson",
+      role: "Professor",
+      avatar: "https://randomuser.me/api/portraits/men/67.jpg",
+    },
+    subject: "Office Hours Change This Week",
+    preview:
+      "Due to a faculty meeting, I need to reschedule my office hours this week. Instead of Tuesday 2-4 PM, I will be available on Wednesday 1-3 PM. If you had planned to meet with me during the original time slot...",
+    date: new Date("2023-05-05T13:10:00"),
+    unread: false,
+  },
+  {
+    id: 5,
+    sender: {
+      name: "Dr. Robert Thompson",
+      role: "Professor",
+      avatar: "https://randomuser.me/api/portraits/men/67.jpg",
+    },
+    subject: "Office Hours Change This Week",
+    preview:
+      "Due to a faculty meeting, I need to reschedule my office hours this week. Instead of Tuesday 2-4 PM, I will be available on Wednesday 1-3 PM. If you had planned to meet with me during the original time slot...",
+    date: new Date("2023-05-05T13:10:00"),
+    unread: false,
+  },
+]);
 
 // function
 async function fetchUserProfile() {
   isLoading.value = true;
-  let id = useGet(route.query, "id");
+  let id = useGet(userData, "id");
   await useFetchApi(api.userProfile, {
     method: "get",
     params: { id },
@@ -78,7 +158,7 @@ async function fetchUserProfile() {
 
 async function fetchUserSkill() {
   isLoading.value = true;
-  let id = useGet(route.query, "id");
+  let id = useGet(userData, "id");
   await useFetchApi(api.userSkills, {
     method: "get",
     params: { id },
@@ -94,7 +174,7 @@ async function fetchUserSkill() {
 
 async function fetchUserAssessment() {
   isLoading.value = true;
-  let id = useGet(route.query, "id");
+  let id = useGet(userData, "id");
   await useFetchApi(api.userTakenAssessment, {
     method: "get",
     params: { id },
@@ -108,9 +188,25 @@ async function fetchUserAssessment() {
     });
 }
 
+async function fetchInstructorMessages() {
+  isLoading.value = true;
+  let id = useGet(userData, "id");
+  await useFetchApi(api.showMessage, {
+    method: "get",
+    params: { id },
+  })
+    .then((pass) => {
+      listInstructorMessages.value = pass;
+    })
+    .catch((error) => {})
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
 async function fetchUserRecentActivity() {
   isLoading.value = true;
-  let id = useGet(route.query, "id");
+  let id = useGet(userData, "id");
   await useFetchApi(api.userRecentActivity, {
     method: "get",
     params: { id },
@@ -123,6 +219,35 @@ async function fetchUserRecentActivity() {
       isLoading.value = false;
     });
 }
+
+// Format date
+const formatDate = (date) => {
+  const now = new Date();
+  const messageDate = new Date(date);
+
+  // If today, show time
+  if (messageDate.toDateString() === now.toDateString()) {
+    return messageDate.toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  }
+
+  // If this year, show month and day
+  if (messageDate.getFullYear() === now.getFullYear()) {
+    return messageDate.toLocaleDateString([], {
+      month: "short",
+      day: "numeric",
+    });
+  }
+
+  // Otherwise show full date
+  return messageDate.toLocaleDateString([], {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
 
 // Helper functions
 const getProgressColorClass = (score) => {
@@ -350,36 +475,129 @@ function formatTimeSpent(seconds) {
           </div>
         </div>
       </div>
-
-      <!-- Recent Activity -->
-      <div class="mt-8 bg-white rounded-lg shadow overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200">
-          <h2 class="text-xl font-bold text-gray-900">Recent Activity</h2>
-        </div>
-        <div class="divide-y divide-gray-200">
-          <div
-            v-for="(activity, id) in listRecentActivity"
-            :key="id"
-            class="px-6 py-4"
-          >
-            <div class="flex items-start">
-              <div class="flex-shrink-0">
-                <div
-                  class="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center text-indigo-600"
-                >
-                  <CpIcon name="flow-logs-vpc" iconset="carbon" />
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+        <div>
+          <!-- Message List -->
+          <div class="w-full">
+            <div class="bg-white rounded-lg shadow">
+              <!-- Message List Header -->
+              <div
+                class="px-6 py-4 border-b border-gray-200 flex items-center justify-between"
+              >
+                <h2 class="text-lg font-medium text-gray-900">
+                  Instructor Messages
+                </h2>
+                <div class="flex items-center gap-2">
+                  <div class="relative">
+                    <input
+                      type="text"
+                      placeholder="Search messages..."
+                      class="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    />
+                    <CpIcon
+                      name="search"
+                      iconset="pajamas"
+                      class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5"
+                    />
+                    <!-- <SearchIcon
+                      class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5"
+                    /> -->
+                  </div>
                 </div>
               </div>
-              <div class="ml-4 flex-1">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-sm font-medium text-gray-900">
-                    {{ activity.title }}
-                  </h3>
-                  <span class="text-xs text-gray-500">{{ activity.time }}</span>
+
+              <!-- Message List -->
+              <div
+                class="max-h-[600px] overflow-y-auto divide-y divide-gray-200"
+                v-if="!isEmpty(listInstructorMessages)"
+              >
+                <div
+                  v-for="message in listInstructorMessages"
+                  :key="message.id"
+                  class="px-6 py-4 hover:bg-indigo-50 cursor-pointer transition-colors"
+                >
+                  <div class="flex items-start gap-4">
+                    <div
+                      class="flex-shrink-0 px-3 py-2 bg-gray-50 rounded-full"
+                    >
+                      <CpIcon
+                        name="user"
+                        class="rounded-full object-cover text-gray-500"
+                        size="30"
+                      />
+                    </div>
+                    <div class="flex-grow min-w-0">
+                      <div class="flex items-center justify-between mb-1">
+                        <h3 class="text-sm font-medium text-gray-900 truncate">
+                          {{ message.instructor_name }}
+                          <span class="ml-2 text-xs font-normal text-gray-500">
+                            {{ message.email }}
+                          </span>
+                        </h3>
+                        <div class="flex items-center gap-2">
+                          <span class="text-xs text-gray-500">
+                            {{ formatDate(message.created_at) }}
+                          </span>
+                        </div>
+                      </div>
+                      <h4
+                        class="text-sm font-medium text-gray-900 mb-1"
+                        v-if="message.assessment"
+                      >
+                        Assessment: {{ message.assessment }}
+                      </h4>
+                      <p class="text-sm text-gray-600 line-clamp-2">
+                        {{ message.message }}
+                      </p>
+                      <a :href="message?.link" class="mt-2 text-blue-500">
+                        {{ message?.link }}
+                      </a>
+                    </div>
+                  </div>
                 </div>
-                <p class="text-sm text-gray-500 mt-1">
-                  {{ activity.description }}
-                </p>
+              </div>
+              <div v-else class="flex items-center justify-center">
+                <img
+                  src="/public/images/no_data.jpg"
+                  alt="no data"
+                  class="max-h-96"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Recent Activity -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+          <div class="px-6 py-4 border-b border-gray-200">
+            <h2 class="text-xl font-bold text-gray-900">Recent Activity</h2>
+          </div>
+          <div class="divide-y divide-gray-200">
+            <div
+              v-for="(activity, id) in listRecentActivity"
+              :key="id"
+              class="px-6 py-4"
+            >
+              <div class="flex items-start">
+                <div class="flex-shrink-0">
+                  <div
+                    class="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center text-indigo-600"
+                  >
+                    <CpIcon name="flow-logs-vpc" iconset="carbon" />
+                  </div>
+                </div>
+                <div class="ml-4 flex-1">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-medium text-gray-900">
+                      {{ activity.title }}
+                    </h3>
+                    <span class="text-xs text-gray-500">{{
+                      activity.time
+                    }}</span>
+                  </div>
+                  <p class="text-sm text-gray-500 mt-1">
+                    {{ activity.description }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>

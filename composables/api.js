@@ -46,6 +46,7 @@ export const api = {
     userSkills:"api/profile/skill-proficient/$id",
     userTakenAssessment:"api/profile/user-assessments/$id",
     userRecentActivity:"api/profile/user-activity/$id",
+    showMessage:"api/student/messages/$id",
 
     // instructor
     studentTake:"api/take-assessment/$slug",
