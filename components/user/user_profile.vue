@@ -12,6 +12,7 @@ const userProfile = computed(() => {
 });
 
 function navigateToProfile() {
+  isOpen.value = false;
   let userProfile = JSON.parse(localStorage.getItem("user"));
   let userId = useGet(userProfile, "id");
 

@@ -17,75 +17,6 @@ const isLoading = ref(false);
 const userData = JSON.parse(user);
 const searchQuery = ref("");
 
-const students = ref([
-  {
-    id: 1,
-    name: "Emma Thompson",
-    email: "emma.t@example.edu",
-    grade: "A",
-    score: 92,
-    time_completed: "100",
-    lastAssessment: "2023-05-01",
-    status: "Excellent",
-    avatar: "https://randomuser.me/api/portraits/women/1.jpg",
-  },
-  {
-    id: 2,
-    name: "James Wilson",
-    email: "james.w@example.edu",
-    grade: "B+",
-    score: 87,
-    time_completed: "600",
-    lastAssessment: "2023-05-02",
-    status: "Good",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-  },
-  {
-    id: 3,
-    name: "Sophia Chen",
-    email: "sophia.c@example.edu",
-    grade: "A-",
-    score: 90,
-    time_completed: "400",
-    lastAssessment: "2023-05-03",
-    status: "Excellent",
-    avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-  },
-  {
-    id: 4,
-    name: "Michael Rodriguez",
-    email: "michael.r@example.edu",
-    grade: "C",
-    score: 75,
-    time_completed: "500",
-    lastAssessment: "2023-05-01",
-    status: "Needs Improvement",
-    avatar: "https://randomuser.me/api/portraits/men/2.jpg",
-  },
-  {
-    id: 5,
-    name: "Olivia Johnson",
-    email: "olivia.j@example.edu",
-    grade: "B",
-    score: 85,
-    time_completed: "700",
-    lastAssessment: "2023-05-04",
-    status: "Good",
-    avatar: "https://randomuser.me/api/portraits/women/3.jpg",
-  },
-  {
-    id: 6,
-    name: "Ethan Brown",
-    email: "ethan.b@example.edu",
-    grade: "D+",
-    score: 68,
-    time_completed: "200",
-    lastAssessment: "2023-05-02",
-    status: "At Risk",
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-  },
-]);
-
 // onMounted
 onMounted(async () => {
   await fetchStudents();
@@ -93,14 +24,13 @@ onMounted(async () => {
 
 // computed properties
 const filteredStudents = computed(() => {
-  if (!searchQuery.value) return students.value;
+  if (!searchQuery.value) return listStudents.value;
 
   const query = searchQuery.value.toLowerCase();
-  return students.value.filter(
+  return listStudents.value.filter(
     (student) =>
-      student.name.toLowerCase().includes(query) ||
-      student.email.toLowerCase().includes(query) ||
-      student.status.toLowerCase().includes(query)
+      (student.name || "").toLowerCase().includes(query) ||
+      (student.email || "").toLowerCase().includes(query)
   );
 });
 
@@ -122,25 +52,6 @@ async function fetchStudents() {
       isLoading.value = false;
     });
 }
-
-// Get status badge classes based on status
-// const getStatusClasses = (status) => {
-//   const baseClasses =
-//     "px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full";
-
-//   switch (status) {
-//     case status => 95:
-//       return `${baseClasses} bg-green-100 text-green-800`;
-//     case "Good":
-//       return `${baseClasses} bg-emerald-100 text-emerald-800`;
-//     case "Needs Improvement":
-//       return `${baseClasses} bg-yellow-100 text-yellow-800`;
-//     case "At Risk":
-//       return `${baseClasses} bg-red-100 text-red-800`;
-//     default:
-//       return `${baseClasses} bg-gray-100 text-gray-800`;
-//   }
-// };
 
 function getStatusClasses(score) {
   const baseClasses =
@@ -259,7 +170,7 @@ function formateTime(seconds) {
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             <tr
-              v-for="student in listStudents"
+              v-for="student in filteredStudents"
               :key="student.id"
               class="hover:bg-gray-50"
             >
