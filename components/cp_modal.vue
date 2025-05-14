@@ -2,26 +2,33 @@
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
   title: { type: String, default: "" },
-  showAction: { type: Boolean, default: false },
+  actionTitle: { type: String, default: "" },
+  actionIcon: { type: String, default: "" },
+  actionIconSet: { type: String, default: "" },
 });
 
 // emit
 const emit = defineEmits(["update:modelValue", "submit", "close"]);
+const { t } = useI18n();
 
 // function
 function closeModal() {
   emit("close");
+}
+
+function handleSubmit() {
+  emit("submit");
 }
 </script>
 <template>
   <div>
     <Transition
       enter-active-class="transition duration-300 ease-out"
-      enter-from-class="opacity-0 translate-y-4"
+      enter-from-class="opacity-0 translate-y-0"
       enter-to-class="opacity-100 translate-y-0"
       leave-active-class="transition duration-200 ease-in"
       leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-4"
+      leave-to-class="opacity-0 translate-y-0"
     >
       <div
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
@@ -29,7 +36,7 @@ function closeModal() {
       >
         <div class="bg-white rounded-lg shadow-lg p-4 px-6 max-w-md w-full">
           <div class="flex justify-between items-center">
-            <h3 class="text-xl whitespace-nowrap font-medium">
+            <h3 class="text-xl whitespace-nowrap font-semibold text-gray-700">
               {{ props.title }}
             </h3>
             <span
@@ -48,16 +55,23 @@ function closeModal() {
           </div>
           <div class="flex justify-end gap-3 mt-5">
             <button
-              class="bg-blue-600 rounded-lg px-5 py-2 text-white"
-              v-if="showAction"
+              @click="handleSubmit"
+              class="bg-blue-600 flex justify-center items-center rounded-lg px-5 py-2 text-white"
+              v-if="actionTitle"
             >
-              Save
+              <CpIcon
+                :name="props.actionIcon"
+                :iconset="props.actionIconSet"
+                class="mr-2 text-white"
+                size="25"
+              />
+              {{ props.actionTitle ?? t("action.save") }}
             </button>
             <button
               @click="closeModal"
               class="rounded-lg px-5 py-2 text-gray-800 ring-1 ring-gray-200"
             >
-              Cancel
+              {{ t("action.cancel") }}
             </button>
           </div>
         </div>

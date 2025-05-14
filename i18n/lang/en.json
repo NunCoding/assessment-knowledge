@@ -17,6 +17,12 @@
     "shareLink":"Share link assessment to student",
     "link":"Share this link with your student to give them access to your assessment"
   },
+  "student":{
+    "messageTo":"Message to",
+    "message":"Message",
+    "resourceLink":"Resource Link",
+    "optional":"Optional"
+  },
   "question":{
     "title":"Question",
     "create":"Create Question",
@@ -55,16 +61,20 @@
     "delete":"Delete",
     "cancel":"Cancel",
     "save":"Save",
-    "confirm":"Confirm"
+    "confirm":"Confirm",
+    "send":"Send"
   },
   "message":{
     "createUser":"The user has been created successfully",
     "updateUser":"The user has been updated successfully",
     "deleteUser":"The user has been deleted successfully",
     "createQuestion":"The Questions has been created successfully",
-    "updateQuestion":"The Questions has been updated successfully"
+    "updateQuestion":"The Questions has been updated successfully",
+    "sendMessage":"The Message has been send successfully"
   },
   "error":{
-    "title":"something went wrong"
+    "title":"something went wrong",
+    "required":"This field is required",
+    "invalidateUrl":"Invalid URL"
   }
 }
