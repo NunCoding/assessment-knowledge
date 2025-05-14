@@ -49,4 +49,6 @@ export const api = {
 
     // instructor
     studentTake:"api/take-assessment/$slug",
+    studentResult:"api/student/$id/result",
+    sendMessage:"api/student/submitResult"
 }
