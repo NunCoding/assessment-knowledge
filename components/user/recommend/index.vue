@@ -13,7 +13,7 @@ const dataSource = computed(() => {
 
 // onMounted
 onMounted(async () => {
-  await fetchRecommendCourse();
+  // await fetchRecommendCourse();
 });
 
 //function
@@ -54,7 +54,7 @@ const cleanText = (text) => {
         <div class="p-2 rounded-lg transition-colors">
           <CpIcon name="code" iconset="lucide" class="mt-1" />
         </div>
-        <h3 class="text-lg font-semibold text-gray-900 -ml-2">
+        <h3 class="text-xl font-semibold text-gray-900 -ml-2">
           Recommended Learning Resources
         </h3>
       </div>
@@ -176,7 +176,14 @@ const cleanText = (text) => {
         </div>
       </div>
     </div>
-    <div v-else>
+    <div
+      class="flex flex-col justify-center items-center"
+      v-if="isEmpty(dataSource) && !isLoading"
+    >
+      <h3 class="text-xl font-bold">You don't have weak skill!.</h3>
+      <img src="/public/images/no_data.jpg" alt="no data" class="max-h-96" />
+    </div>
+    <div v-if="isLoading" class="flex justify-center items-center">
       <Skeleton />
     </div>
   </div>
