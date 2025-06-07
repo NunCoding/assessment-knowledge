@@ -1,4 +1,5 @@
 <script setup>
+const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 definePageMeta({
   layout: "top-menu",
 });
@@ -792,4 +793,10 @@ function resetFilters() {
       </div>
     </section>
   </div>
+  <AlertModal
+    v-if="showAlert"
+    :message="alertMessage"
+    :type="alertType"
+    @close="showAlert = false"
+  />
 </template>

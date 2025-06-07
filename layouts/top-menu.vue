@@ -36,7 +36,7 @@ function navigateToRegister() {
       >
         <div class="flex items-center space-x-2">
           <img src="/public/images/logo_num.png" alt="logo num" class="h-12" />
-          <h1 class="text-2xl font-bold text-gray-900">NUM AIK</h1>
+          <h1 class="text-2xl font-bold text-gray-900">NUM BSG</h1>
         </div>
         <nav class="hidden md:block">
           <ul class="flex space-x-8">
