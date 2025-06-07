@@ -278,9 +278,9 @@ function formatTimeSpent(seconds) {
           class="relative h-40 bg-gradient-to-r from-indigo-700 to-indigo-400"
         >
           <div class="absolute -bottom-16 left-8">
-            <div class="relative">
+            <div class="relative bg-white rounded-full">
               <img
-                src="https://img.freepik.com/premium-vector/man-avatar-profile-picture-isolated-background-avatar-profile-picture-man_1293239-4866.jpg"
+                src="https://images.icon-icons.com/3446/PNG/512/account_profile_user_avatar_icon_219236.png"
                 alt="User avatar"
                 class="w-32 h-32 rounded-full border-4 border-white object-cover"
               />
@@ -475,6 +475,7 @@ function formatTimeSpent(seconds) {
           </div>
         </div>
       </div>
+
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
         <div>
           <!-- Message List -->
@@ -484,9 +485,7 @@ function formatTimeSpent(seconds) {
               <div
                 class="px-6 py-4 border-b border-gray-200 flex items-center justify-between"
               >
-                <h2 class="text-lg font-medium text-gray-900">
-                  Instructor Messages
-                </h2>
+                <h2 class="text-lg font-medium text-gray-900">Message</h2>
                 <div class="flex items-center gap-2">
                   <div class="relative">
                     <input
@@ -602,6 +601,10 @@ function formatTimeSpent(seconds) {
             </div>
           </div>
         </div>
+      </div>
+
+      <div class="mt-8">
+        <UserRecommend />
       </div>
     </div>
   </div>

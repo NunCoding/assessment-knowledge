@@ -33,7 +33,7 @@ function navigateToProfile() {
         <span>{{ userProfile.name }}</span>
       </div>
       <img
-        src="https://sm.ign.com/ign_pk/cover/a/avatar-gen/avatar-generations_rpge.jpg"
+        src="https://images.icon-icons.com/3446/PNG/512/account_profile_user_avatar_icon_219236.png"
         alt="logo"
         class="h-12 w-12 rounded-full object-cover"
       />
