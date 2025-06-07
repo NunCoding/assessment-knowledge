@@ -31,114 +31,6 @@ onMounted(async () => {
   router.replace({ query: {} });
 });
 
-// Message data
-const messages = ref([
-  {
-    id: 1,
-    sender: {
-      name: "Dr. Sarah Williams",
-      role: "Professor",
-      avatar: "https://randomuser.me/api/portraits/women/45.jpg",
-    },
-    subject: "Upcoming Project Deadline Extension",
-    preview:
-      "I wanted to inform all students that I've decided to extend the deadline for the final project by one week. This should give everyone more time to complete their work and address any challenges you might be facing...",
-    date: new Date("2023-05-15T14:30:00"),
-    unread: true,
-  },
-  {
-    id: 2,
-    sender: {
-      name: "Prof. Michael Chen",
-      role: "Teaching Assistant",
-      avatar: "https://randomuser.me/api/portraits/men/22.jpg",
-    },
-    subject: "Feedback on Your Recent Assignment",
-    preview:
-      "I've reviewed your latest assignment submission and wanted to provide some feedback. Overall, your work demonstrates a good understanding of the core concepts we've covered in class...",
-    date: new Date("2023-05-12T09:15:00"),
-    unread: true,
-  },
-  {
-    id: 3,
-    sender: {
-      name: "Dr. James Peterson",
-      role: "Department Head",
-      avatar: "https://randomuser.me/api/portraits/men/42.jpg",
-    },
-    subject: "Invitation to Department Research Symposium",
-    preview:
-      "On behalf of the Computer Science Department, I would like to invite you to our annual Research Symposium taking place next month. This event showcases ongoing research projects and provides networking opportunities...",
-    date: new Date("2023-05-10T16:45:00"),
-    unread: false,
-  },
-  {
-    id: 4,
-    sender: {
-      name: "Lisa Rodriguez",
-      role: "Academic Advisor",
-      avatar: "https://randomuser.me/api/portraits/women/28.jpg",
-    },
-    subject: "Course Registration for Next Semester",
-    preview:
-      "As we approach the end of the current semester, I wanted to remind you that course registration for the fall semester will open next week. Based on your academic progress and career goals, I have some recommendations...",
-    date: new Date("2023-05-08T11:20:00"),
-    unread: false,
-  },
-  {
-    id: 5,
-    sender: {
-      name: "Dr. Robert Thompson",
-      role: "Professor",
-      avatar: "https://randomuser.me/api/portraits/men/67.jpg",
-    },
-    subject: "Office Hours Change This Week",
-    preview:
-      "Due to a faculty meeting, I need to reschedule my office hours this week. Instead of Tuesday 2-4 PM, I will be available on Wednesday 1-3 PM. If you had planned to meet with me during the original time slot...",
-    date: new Date("2023-05-05T13:10:00"),
-    unread: false,
-  },
-  {
-    id: 5,
-    sender: {
-      name: "Dr. Robert Thompson",
-      role: "Professor",
-      avatar: "https://randomuser.me/api/portraits/men/67.jpg",
-    },
-    subject: "Office Hours Change This Week",
-    preview:
-      "Due to a faculty meeting, I need to reschedule my office hours this week. Instead of Tuesday 2-4 PM, I will be available on Wednesday 1-3 PM. If you had planned to meet with me during the original time slot...",
-    date: new Date("2023-05-05T13:10:00"),
-    unread: false,
-  },
-  {
-    id: 5,
-    sender: {
-      name: "Dr. Robert Thompson",
-      role: "Professor",
-      avatar: "https://randomuser.me/api/portraits/men/67.jpg",
-    },
-    subject: "Office Hours Change This Week",
-    preview:
-      "Due to a faculty meeting, I need to reschedule my office hours this week. Instead of Tuesday 2-4 PM, I will be available on Wednesday 1-3 PM. If you had planned to meet with me during the original time slot...",
-    date: new Date("2023-05-05T13:10:00"),
-    unread: false,
-  },
-  {
-    id: 5,
-    sender: {
-      name: "Dr. Robert Thompson",
-      role: "Professor",
-      avatar: "https://randomuser.me/api/portraits/men/67.jpg",
-    },
-    subject: "Office Hours Change This Week",
-    preview:
-      "Due to a faculty meeting, I need to reschedule my office hours this week. Instead of Tuesday 2-4 PM, I will be available on Wednesday 1-3 PM. If you had planned to meet with me during the original time slot...",
-    date: new Date("2023-05-05T13:10:00"),
-    unread: false,
-  },
-]);
-
 // function
 async function fetchUserProfile() {
   isLoading.value = true;
@@ -429,7 +321,10 @@ function formatTimeSpent(seconds) {
                   </div>
                   <div class="flex justify-between text-xs text-gray-500">
                     <span>Completed on {{ assessment.completed_date }}</span>
-                    <span>{{ formatTimeSpent(assessment.time_spent) }} </span>
+                    <span
+                      >{{ formatTimeSpent(assessment.time_spent) }} Completed
+                      Time
+                    </span>
                   </div>
                 </div>
               </div>
@@ -485,7 +380,10 @@ function formatTimeSpent(seconds) {
               <div
                 class="px-6 py-4 border-b border-gray-200 flex items-center justify-between"
               >
-                <h2 class="text-lg font-medium text-gray-900">Message</h2>
+                <div class="flex items-center gap-2">
+                  <CpIcon name="message" iconset="tabler" class="mt-1" />
+                  <h2 class="text-xl font-bold text-gray-900">Message</h2>
+                </div>
                 <div class="flex items-center gap-2">
                   <div class="relative">
                     <input
@@ -507,7 +405,7 @@ function formatTimeSpent(seconds) {
 
               <!-- Message List -->
               <div
-                class="max-h-[600px] overflow-y-auto divide-y divide-gray-200"
+                class="max-h-[350px] overflow-y-auto divide-y divide-gray-200"
                 v-if="!isEmpty(listInstructorMessages)"
               >
                 <div
@@ -568,9 +466,10 @@ function formatTimeSpent(seconds) {
         <!-- Recent Activity -->
         <div class="bg-white rounded-lg shadow overflow-hidden">
           <div class="px-6 py-4 border-b border-gray-200">
+            <CpIcon name="relativity" iconset="tdesign" class="mt-1" />
             <h2 class="text-xl font-bold text-gray-900">Recent Activity</h2>
           </div>
-          <div class="divide-y divide-gray-200">
+          <div class="max-h-[350px] overflow-y-auto divide-y divide-gray-200">
             <div
               v-for="(activity, id) in listRecentActivity"
               :key="id"
@@ -589,9 +488,9 @@ function formatTimeSpent(seconds) {
                     <h3 class="text-sm font-medium text-gray-900">
                       {{ activity.title }}
                     </h3>
-                    <span class="text-xs text-gray-500">{{
-                      activity.time
-                    }}</span>
+                    <span class="text-xs text-gray-500">
+                      {{ activity.time }}
+                    </span>
                   </div>
                   <p class="text-sm text-gray-500 mt-1">
                     {{ activity.description }}
