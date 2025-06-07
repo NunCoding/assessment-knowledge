@@ -1,55 +1,56 @@
 export const api = {
-    test:"api/test",
-    upload:'api/upload',
+  test: "api/test",
+  upload: "api/upload",
 
-    // assessment
-    assessment:"api/assessments",
-    popularAssessment:"api/assessments/popular",
-    getAssessment:"api/assessments/$id",
-    listAssessment:"api/assessments/list",
-    assessmentCategory:"api/assessment/category",
-    taskAssessment:"api/assessment/$id/task",
-    assessmentStats:"api/assessment/stats",
+  // assessment
+  assessment: "api/assessments",
+  popularAssessment: "api/assessments/popular",
+  getAssessment: "api/assessments/$id",
+  listAssessment: "api/assessments/list",
+  assessmentCategory: "api/assessment/category",
+  taskAssessment: "api/assessment/$id/task",
+  assessmentStats: "api/assessment/stats",
 
-    // user assessment
-    submitAssessment:"api/user-assessment/submit",
+  // user assessment
+  submitAssessment: "api/user-assessment/submit",
 
-    // category
-    category:"api/category",
+  // category
+  category: "api/category",
 
-    // user
-    login:"api/login",
-    register:"api/register",
-    updateUser:"api/user/$id",
-    createUser:"api/users",
+  // user
+  login: "api/login",
+  register: "api/register",
+  updateUser: "api/user/$id",
+  createUser: "api/users",
+  recommend: "api/recommendations/$id/recommend",
 
-    // question
-    createQuestion:"api/questions",
-    getQuestion:"api/assessment/$id/question",
-    listQuestion:"api/questions/list",
-    update:"api/questions/$id",
-    delete:"api/questions/$id/delete",
+  // question
+  createQuestion: "api/questions",
+  getQuestion: "api/assessment/$id/question",
+  listQuestion: "api/questions/list",
+  update: "api/questions/$id",
+  delete: "api/questions/$id/delete",
 
-    // dashboard
-    stats:"api/statistics",
-    dashboardStats:"api/dashboard/stats",
-    dashboardPopularAssessment:"api/dashboard/popular-assessments",
-    dashboardRecentActivity:"api/dashboard/activity",
-    dashboardUser:"api/dashboard/users",
-    completeAssessmentChart:"api/analytics/weekly-assessments",
-    assessmentCompletionRate:"api/analytics/average-assessments",
-    userRegister:"api/analytics/user-register",
-    userPerformance:"api/dashboard/userPerformance",
+  // dashboard
+  stats: "api/statistics",
+  dashboardStats: "api/dashboard/stats",
+  dashboardPopularAssessment: "api/dashboard/popular-assessments",
+  dashboardRecentActivity: "api/dashboard/activity",
+  dashboardUser: "api/dashboard/users",
+  completeAssessmentChart: "api/analytics/weekly-assessments",
+  assessmentCompletionRate: "api/analytics/average-assessments",
+  userRegister: "api/analytics/user-register",
+  userPerformance: "api/dashboard/userPerformance",
 
-    // user profile
-    userProfile:"api/profile/user/$id",
-    userSkills:"api/profile/skill-proficient/$id",
-    userTakenAssessment:"api/profile/user-assessments/$id",
-    userRecentActivity:"api/profile/user-activity/$id",
-    showMessage:"api/student/messages/$id",
+  // user profile
+  userProfile: "api/profile/user/$id",
+  userSkills: "api/profile/skill-proficient/$id",
+  userTakenAssessment: "api/profile/user-assessments/$id",
+  userRecentActivity: "api/profile/user-activity/$id",
+  showMessage: "api/student/messages/$id",
 
-    // instructor
-    studentTake:"api/take-assessment/$slug",
-    studentResult:"api/student/$id/result",
-    sendMessage:"api/student/submitResult"
-}
+  // instructor
+  studentTake: "api/take-assessment/$slug",
+  studentResult: "api/student/$id/result",
+  sendMessage: "api/student/submitResult",
+};
