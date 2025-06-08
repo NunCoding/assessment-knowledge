@@ -13,7 +13,7 @@ const dataSource = computed(() => {
 
 // onMounted
 onMounted(async () => {
-  // await fetchRecommendCourse();
+  await fetchRecommendCourse();
 });
 
 //function
