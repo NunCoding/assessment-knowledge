@@ -116,12 +116,8 @@ function submitAnswer() {
 }
 
 function nextQuestion() {
-  if (isLastQuestion.value) {
-    finishAssessment();
-  } else {
-    currentQuestionIndex.value++;
-    isSubmitted.value = false;
-  }
+  currentQuestionIndex.value++;
+  isSubmitted.value = false;
 }
 
 function previousQuestion() {
@@ -169,11 +165,6 @@ function exitAssessment() {
   goToHome();
 }
 
-function finishAssessment() {
-  clearInterval(timerInterval.value);
-  showResults.value = true;
-}
-
 function takeAssessmentAgain() {
   userAnswers.value = [];
   currentQuestionIndex.value = 0;
@@ -197,6 +188,8 @@ function handleSubmitResult() {
     body: { ...formData },
   })
     .then(() => {
+      clearInterval(timerInterval.value);
+      showResults.value = true;
       triggerAlert(
         "The result assessment has been submitted successfully",
         "success"
@@ -428,22 +421,22 @@ onMounted(() => {
                 </button>
 
                 <button
-                  v-else
+                  v-if="isSubmitted && !isLastQuestion"
                   class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
                   @click="nextQuestion"
                 >
                   <div class="flex items-center gap-1">
-                    <span>
-                      {{
-                        isLastQuestion ? "Finish Assessment" : "Next Question"
-                      }}
-                    </span>
-                    <CpIcon
-                      name="chevron-right"
-                      iconset="mi"
-                      v-if="!isLastQuestion"
-                      class="h-5 w-5"
-                    />
+                    <span> Next Question </span>
+                    <CpIcon name="chevron-right" iconset="mi" class="h-5 w-5" />
+                  </div>
+                </button>
+                <button
+                  v-if="isSubmitted && isLastQuestion"
+                  class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+                  @click="handleSubmitResult"
+                >
+                  <div class="flex items-center gap-1">
+                    <span>Finish Assessment</span>
                   </div>
                 </button>
               </div>
@@ -659,7 +652,6 @@ onMounted(() => {
               Retake Assessment
             </button>
             <button
-              @click="handleSubmitResult"
               class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
             >
               Submit Results
