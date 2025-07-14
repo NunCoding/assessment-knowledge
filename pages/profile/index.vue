@@ -13,6 +13,7 @@ const router = useRouter();
 
 // property
 const isLoading = ref(false);
+const isFeedbackVisible = ref(true);
 const userProfile = ref({});
 const userSkill = ref([]);
 const userAssessment = ref([]);
@@ -507,4 +508,11 @@ function formatTimeSpent(seconds) {
       </div>
     </div>
   </div>
+
+  <!-- show feedback notification -->
+  <NotificationFeedBack
+    v-model="isFeedbackVisible"
+    title="We'd love your feedback!"
+    message="Help us improve by sharing your experience"
+  />
 </template>

@@ -5,6 +5,7 @@ const props = defineProps({
   actionTitle: { type: String, default: "" },
   actionIcon: { type: String, default: "" },
   actionIconSet: { type: String, default: "" },
+  classWidth: { type: String, default: "max-w-md" },
 });
 
 // emit
@@ -34,7 +35,10 @@ function handleSubmit() {
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
         v-if="modelValue"
       >
-        <div class="bg-white rounded-lg shadow-lg p-4 px-6 max-w-md w-full">
+        <div
+          class="bg-white mx-auto rounded-lg shadow-lg p-4 px-6 w-full"
+          :class="classWidth"
+        >
           <div class="flex justify-between items-center">
             <h3 class="text-xl whitespace-nowrap font-semibold text-gray-700">
               {{ props.title }}
