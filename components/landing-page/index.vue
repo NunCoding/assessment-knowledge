@@ -192,7 +192,7 @@ function navigatePage() {
     <div class="container mx-auto px-4">
       <div class="text-center mb-16">
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Why Choose Assessment IT Knowledge?
+          Why Choose Program of Skill Ability Assessment?
         </h2>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
           Our platform offers a comprehensive approach to knowledge assessment
