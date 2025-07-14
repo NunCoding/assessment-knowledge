@@ -1,6 +1,7 @@
 export const api = {
   test: "api/test",
   upload: "api/upload",
+  listFeedback: "api/feedback/user",
 
   // assessment
   assessment: "api/assessments",
