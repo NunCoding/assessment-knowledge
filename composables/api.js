@@ -23,6 +23,8 @@ export const api = {
   updateUser: "api/user/$id",
   createUser: "api/users",
   recommend: "api/recommendations/$id/recommend",
+  feedback: "api/user/feedback",
+  feedbackCheck: "api/user/feedback/$id",
 
   // question
   createQuestion: "api/questions",

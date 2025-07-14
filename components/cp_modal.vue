@@ -6,6 +6,7 @@ const props = defineProps({
   actionIcon: { type: String, default: "" },
   actionIconSet: { type: String, default: "" },
   classWidth: { type: String, default: "max-w-md" },
+  isShowCancel: { type: Boolean, default: true },
 });
 
 // emit
@@ -72,6 +73,7 @@ function handleSubmit() {
               {{ props.actionTitle ?? t("action.save") }}
             </button>
             <button
+              v-if="isShowCancel"
               @click="closeModal"
               class="rounded-lg px-5 py-2 text-gray-800 ring-1 ring-gray-200"
             >

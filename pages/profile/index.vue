@@ -13,7 +13,7 @@ const router = useRouter();
 
 // property
 const isLoading = ref(false);
-const isFeedbackVisible = ref(true);
+const isFeedbackVisible = ref(false);
 const userProfile = ref({});
 const userSkill = ref([]);
 const userAssessment = ref([]);
@@ -25,6 +25,7 @@ const userData = JSON.parse(user);
 // onMounted
 onMounted(async () => {
   await fetchUserProfile();
+  await fetchFeedbackCheck();
   await fetchUserSkill();
   await fetchUserAssessment();
   await fetchUserRecentActivity();
@@ -42,6 +43,24 @@ async function fetchUserProfile() {
   })
     .then((pass) => {
       userProfile.value = pass;
+    })
+    .catch((error) => {})
+    .finally(() => {
+      isLoading.value = false;
+    });
+}
+
+async function fetchFeedbackCheck() {
+  isLoading.value = true;
+  let id = useGet(userData, "id");
+  await useFetchApi(api.feedbackCheck, {
+    method: "get",
+    params: { id },
+  })
+    .then(({ data }) => {
+      if (isEmpty(data)) {
+        isFeedbackVisible.value = true;
+      }
     })
     .catch((error) => {})
     .finally(() => {
@@ -298,7 +317,7 @@ function formatTimeSpent(seconds) {
             <h2 class="text-xl font-bold text-gray-900 mb-4">
               Assessment Progress
             </h2>
-            <div class="max-h-[350px] overflow-x-auto">
+            <div class="max-h-[350px] overflow-y-auto">
               <div class="space-y-6 max-h-[350px]">
                 <div
                   v-for="(assessment, index) in userAssessment"
@@ -372,98 +391,7 @@ function formatTimeSpent(seconds) {
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
-        <div>
-          <!-- Message List -->
-          <div class="w-full">
-            <div class="bg-white rounded-lg shadow">
-              <!-- Message List Header -->
-              <div
-                class="px-6 py-4 border-b border-gray-200 flex items-center justify-between"
-              >
-                <div class="flex items-center gap-2">
-                  <CpIcon name="message" iconset="tabler" class="mt-1" />
-                  <h2 class="text-xl font-bold text-gray-900">Message</h2>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="relative">
-                    <input
-                      type="text"
-                      placeholder="Search messages..."
-                      class="pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    />
-                    <CpIcon
-                      name="search"
-                      iconset="pajamas"
-                      class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5"
-                    />
-                    <!-- <SearchIcon
-                      class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5"
-                    /> -->
-                  </div>
-                </div>
-              </div>
-
-              <!-- Message List -->
-              <div
-                class="max-h-[350px] overflow-y-auto divide-y divide-gray-200"
-                v-if="!isEmpty(listInstructorMessages)"
-              >
-                <div
-                  v-for="message in listInstructorMessages"
-                  :key="message.id"
-                  class="px-6 py-4 hover:bg-indigo-50 cursor-pointer transition-colors"
-                >
-                  <div class="flex items-start gap-4">
-                    <div
-                      class="flex-shrink-0 px-3 py-2 bg-gray-50 rounded-full"
-                    >
-                      <CpIcon
-                        name="user"
-                        class="rounded-full object-cover text-gray-500"
-                        size="30"
-                      />
-                    </div>
-                    <div class="flex-grow min-w-0">
-                      <div class="flex items-center justify-between mb-1">
-                        <h3 class="text-sm font-medium text-gray-900 truncate">
-                          {{ message.instructor_name }}
-                          <span class="ml-2 text-xs font-normal text-gray-500">
-                            {{ message.email }}
-                          </span>
-                        </h3>
-                        <div class="flex items-center gap-2">
-                          <span class="text-xs text-gray-500">
-                            {{ formatDate(message.created_at) }}
-                          </span>
-                        </div>
-                      </div>
-                      <h4
-                        class="text-sm font-medium text-gray-900 mb-1"
-                        v-if="message.assessment"
-                      >
-                        Assessment: {{ message.assessment }}
-                      </h4>
-                      <p class="text-sm text-gray-600 line-clamp-2">
-                        {{ message.message }}
-                      </p>
-                      <a :href="message?.link" class="mt-2 text-blue-500">
-                        {{ message?.link }}
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div v-else class="flex items-center justify-center">
-                <img
-                  src="/public/images/no_data.jpg"
-                  alt="no data"
-                  class="max-h-96"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="mt-8">
         <!-- Recent Activity -->
         <div class="bg-white rounded-lg shadow overflow-hidden">
           <div class="px-6 py-4 border-b border-gray-200">
