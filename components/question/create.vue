@@ -262,7 +262,7 @@ function resetForm() {
             >
             <textarea
               v-model="formData.explanation"
-              rows="2"
+              rows="3"
               class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Explain why the correct answer is right..."
             ></textarea>

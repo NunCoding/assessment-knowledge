@@ -5,6 +5,7 @@ export const api = {
 
   // assessment
   assessment: "api/assessments",
+  updateAssessment: "api/assessments/$id",
   popularAssessment: "api/assessments/popular",
   getAssessment: "api/assessments/$id",
   listAssessment: "api/assessments/list",
