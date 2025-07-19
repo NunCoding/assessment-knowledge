@@ -1,9 +1,11 @@
 export const api = {
   test: "api/test",
   upload: "api/upload",
+  listFeedback: "api/feedback/user",
 
   // assessment
   assessment: "api/assessments",
+  updateAssessment: "api/assessments/$id",
   popularAssessment: "api/assessments/popular",
   getAssessment: "api/assessments/$id",
   listAssessment: "api/assessments/list",
@@ -23,6 +25,8 @@ export const api = {
   updateUser: "api/user/$id",
   createUser: "api/users",
   recommend: "api/recommendations/$id/recommend",
+  feedback: "api/user/feedback",
+  feedbackCheck: "api/user/feedback/$id",
 
   // question
   createQuestion: "api/questions",

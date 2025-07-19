@@ -44,7 +44,7 @@ function handleNavigatePage() {
       <div class="container mx-auto px-4 py-16 md:py-24 relative z-10">
         <div class="max-w-3xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">
-            About Assessment IT knowledge
+            About Program of Skill Ability Assessment
           </h1>
           <p class="text-xl md:text-2xl text-indigo-100 mb-8">
             Empowering learners and organizations with intelligent assessment

@@ -9,12 +9,14 @@ const emit = defineEmits(["update:modelValue"]);
 // state
 const rating = ref(0);
 const hoveredRating = ref(0);
+const isSubmitting = ref(false);
+const isShowThankYou = ref(false);
 
 // form data
 const formData = ref({
-  share: "",
-  rating: "",
-  comment: "",
+  share: null,
+  rating: null,
+  comment: null,
   is_contact_back: false,
 });
 
@@ -31,16 +33,77 @@ const recommendationOptions = [
 function closeModal() {
   emit("update:modelValue", false);
 }
+
+async function handleSubmit() {
+  isSubmitting.value = true;
+  await useFetchApi(api.feedback, {
+    method: "POST",
+    body: {
+      ...formData.value,
+      rating: rating.value,
+    },
+  })
+    .then(() => {
+      isShowThankYou.value = true;
+      // closeModal();
+      resetForm();
+    })
+    .catch((error) => {
+      console.error("Error submitting feedback:", error);
+    })
+    .finally(() => {
+      isSubmitting.value = false;
+    });
+}
+
+function resetForm() {
+  rating.value = 0;
+  hoveredRating.value = 0;
+  formData.value = {
+    share: null,
+    rating: null,
+    comment: null,
+    is_contact_back: false,
+  };
+}
 </script>
 <template>
   <CpModal
     :model-value="modelValue"
-    @close="closeModal"
     :class-width="'max-w-2xl'"
+    :is-show-cancel="false"
+    @close="closeModal"
   >
     <template #body>
-      <div class="p-6 max-w-2xl mx-auto">
-        <form class="space-y-6">
+      <div class="px-5 max-w-2xl mx-auto" v-if="!isShowThankYou">
+        <!-- Header -->
+        <div class="text-center mb-6">
+          <div
+            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto"
+          >
+            <svg
+              class="w-6 h-6 text-blue-600"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              ></path>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-bold text-gray-900">
+            We'd love your feedback
+          </h2>
+          <p class="text-gray-600 mt-2">
+            Help us improve by sharing your thoughts and suggestions
+          </p>
+        </div>
+
+        <div class="space-y-6">
           <!-- Overall Rating -->
           <div class="space-y-3">
             <label class="block text-base font-medium text-gray-900"
@@ -139,6 +202,7 @@ function closeModal() {
             <button
               type="submit"
               :disabled="isSubmitting"
+              @click="handleSubmit"
               class="w-full flex items-center justify-center px-4 py-3 bg-blue-600 text-white font-medium rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               <svg
@@ -175,10 +239,32 @@ function closeModal() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 ></path>
               </svg>
-              {{ isSubmitting ? "Sending..." : "Send Feedback" }}
+              Send Feedback
             </button>
           </div>
-        </form>
+        </div>
+      </div>
+      <div class="w-full max-w-2xl mx-auto" v-else>
+        <div>
+          <div class="text-center space-y-4">
+            <div
+              class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto"
+            >
+              <CpIcon
+                name="hand-thumbsup"
+                iconset="f7"
+                class="text-green-600"
+                size="24"
+              />
+            </div>
+            <h3 class="text-xl font-semibold text-green-800">
+              Thank you for your feedback!
+            </h3>
+            <p className="text-muted-foreground">
+              We appreciate you taking the time to help us improve our service.
+            </p>
+          </div>
+        </div>
       </div>
     </template>
   </CpModal>

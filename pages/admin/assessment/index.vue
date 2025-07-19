@@ -11,6 +11,7 @@ const { t } = useI18n();
 // property
 const isLoading = ref(false);
 const isCreateAssessmentModal = ref(false);
+const isUpdateAssessmentModal = ref(false);
 const isShareLinkModal = ref(false);
 const listAssessment = ref([]);
 const dataList = ref({});
@@ -37,9 +38,9 @@ async function fetchAssessments() {
     });
 }
 
-function handleShareLink(data) {
+function handleUpdateAssessment(data) {
   dataList.value = data;
-  isShareLinkModal.value = true;
+  isUpdateAssessmentModal.value = true;
 }
 </script>
 <template>
@@ -80,22 +81,16 @@ function handleShareLink(data) {
             class="flex justify-between items-center text-sm text-gray-500 mb-4"
           >
             <div>{{ assessment.questions }} questions</div>
-            <div>{{ assessment.timeEstimate }} min</div>
+            <div>{{ assessment.time_estimate }} min</div>
           </div>
           <div class="flex justify-between items-center">
             <span>{{ assessment.total_taken }} Users</span>
             <button
-              v-if="assessment.share_link"
-              class="flex justify-center items-center bg-blue-600 text-white px-3 py-1 rounded-lg"
-              @click="handleShareLink(assessment.share_link)"
+              class="flex justify-center items-center bg-blue-600 text-white px-3 py-2 rounded-lg"
+              @click="handleUpdateAssessment(assessment)"
             >
-              <CpIcon
-                name="link-filled"
-                iconset="lsicon"
-                class="mr-1"
-                size="25"
-              />
-              <span>{{ t("assessment.share") }}</span>
+              <CpIcon name="edit" iconset="lucide" class="mr-1 mt-1" />
+              <span>{{ t("action.update") }}</span>
             </button>
           </div>
         </div>
@@ -111,8 +106,14 @@ function handleShareLink(data) {
 
   <!-- modal -->
   <!-- <CpModal v-model="isShareLinkModal" title="Copy" /> -->
-  <AssessmentShareLinkModal
+  <!-- <AssessmentShareLinkModal
     v-model="isShareLinkModal"
     :data-source="dataList"
+  /> -->
+
+  <AssessmentUpdate
+    v-model="isUpdateAssessmentModal"
+    :data-source="dataList"
+    @submitted="fetchAssessments"
   />
 </template>
