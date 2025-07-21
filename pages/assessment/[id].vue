@@ -16,6 +16,7 @@ const isSubmitted = ref(false);
 const isLoading = ref(false);
 const confirmExit = ref(false);
 const showResults = ref(false);
+const isNotAllowCopyModal = ref(false);
 const timer = ref(0);
 const timerInterval = ref(null);
 const randomQuestions = ref([]);
@@ -116,12 +117,8 @@ function submitAnswer() {
 }
 
 function nextQuestion() {
-  if (isLastQuestion.value) {
-    finishAssessment();
-  } else {
-    currentQuestionIndex.value++;
-    isSubmitted.value = false;
-  }
+  currentQuestionIndex.value++;
+  isSubmitted.value = false;
 }
 
 function previousQuestion() {
@@ -166,12 +163,7 @@ function exitAssessment() {
   // In a real app, you would navigate to the home page
   // For this example, we'll just reset the state
   confirmExit.value = false;
-  goToHome();
-}
-
-function finishAssessment() {
-  clearInterval(timerInterval.value);
-  showResults.value = true;
+  navigateTo("/assessment");
 }
 
 function takeAssessmentAgain() {
@@ -197,6 +189,8 @@ function handleSubmitResult() {
     body: { ...formData },
   })
     .then(() => {
+      clearInterval(timerInterval.value);
+      showResults.value = true;
       triggerAlert(
         "The result assessment has been submitted successfully",
         "success"
@@ -245,6 +239,35 @@ onMounted(() => {
   //     e.returnValue = "";
   //   }
   // });
+});
+
+useUserActivityTracker({
+  onMaximize: () => {
+    navigateTo("/assessment");
+  },
+  onUnmaximize: () => {
+    navigateTo("/assessment");
+  },
+  onTabBlur: () => {
+    navigateTo("/assessment");
+  },
+  onTabFocus: () => {
+    navigateTo("/assessment");
+  },
+  onVisibilityChange: (state) => {
+    navigateTo("/assessment");
+  },
+  onScreenshotShortcut() {
+    navigateTo("/assessment");
+  },
+  onCheatAttempt() {
+    navigateTo("/assessment");
+  },
+  onCopyAttempt: (text) => {
+    isNotAllowCopyModal.value = true;
+  },
+  enableBlurOnFocusLoss: true,
+  preventCopy: true,
 });
 
 // onBeforeUnmount(() => {
@@ -428,22 +451,22 @@ onMounted(() => {
                 </button>
 
                 <button
-                  v-else
+                  v-if="isSubmitted && !isLastQuestion"
                   class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
                   @click="nextQuestion"
                 >
                   <div class="flex items-center gap-1">
-                    <span>
-                      {{
-                        isLastQuestion ? "Finish Assessment" : "Next Question"
-                      }}
-                    </span>
-                    <CpIcon
-                      name="chevron-right"
-                      iconset="mi"
-                      v-if="!isLastQuestion"
-                      class="h-5 w-5"
-                    />
+                    <span> Next Question </span>
+                    <CpIcon name="chevron-right" iconset="mi" class="h-5 w-5" />
+                  </div>
+                </button>
+                <button
+                  v-if="isSubmitted && isLastQuestion"
+                  class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+                  @click="handleSubmitResult"
+                >
+                  <div class="flex items-center gap-1">
+                    <span>Finish Assessment</span>
                   </div>
                 </button>
               </div>
@@ -658,12 +681,6 @@ onMounted(() => {
             >
               Retake Assessment
             </button>
-            <button
-              @click="handleSubmitResult"
-              class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
-            >
-              Submit Results
-            </button>
           </div>
         </div>
       </div>
@@ -677,4 +694,7 @@ onMounted(() => {
     :type="alertType"
     @close="showAlert = false"
   />
+
+  <!-- Not Allow Copy Modal -->
+  <StudentAssessmentNotAllowCopyModal v-model="isNotAllowCopyModal" />
 </template>

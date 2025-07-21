@@ -33,14 +33,15 @@ onMounted(() => {
 
 // watch
 watch(
-  () => props.dataSource,
+  () => props.modelValue,
   (newValue) => {
     if (newValue) {
-      formData.value.title = newValue.title;
-      formData.value.assessment_id = newValue.assessment_id;
-      formData.value.options = newValue.options;
-      formData.value.correctAnswer = newValue.correctAnswer;
-      formData.value.explanation = newValue.explanation;
+      const dataSource = useGet(props, "dataSource", {});
+      formData.value.title = dataSource.title;
+      formData.value.assessment_id = dataSource.assessment_id;
+      formData.value.options = dataSource.options;
+      formData.value.correctAnswer = dataSource.correct_answer;
+      formData.value.explanation = dataSource.explanation;
     }
   }
 );
@@ -226,7 +227,7 @@ function resetForm() {
             >
             <textarea
               v-model="formData.explanation"
-              rows="2"
+              rows="4"
               class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Explain why the correct answer is right..."
             ></textarea>

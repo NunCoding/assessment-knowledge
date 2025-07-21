@@ -5,6 +5,8 @@ const props = defineProps({
   actionTitle: { type: String, default: "" },
   actionIcon: { type: String, default: "" },
   actionIconSet: { type: String, default: "" },
+  classWidth: { type: String, default: "max-w-md" },
+  isShowCancel: { type: Boolean, default: true },
 });
 
 // emit
@@ -34,7 +36,10 @@ function handleSubmit() {
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
         v-if="modelValue"
       >
-        <div class="bg-white rounded-lg shadow-lg p-4 px-6 max-w-md w-full">
+        <div
+          class="bg-white mx-auto rounded-lg shadow-lg p-4 px-6 w-full"
+          :class="classWidth"
+        >
           <div class="flex justify-between items-center">
             <h3 class="text-xl whitespace-nowrap font-semibold text-gray-700">
               {{ props.title }}
@@ -68,6 +73,7 @@ function handleSubmit() {
               {{ props.actionTitle ?? t("action.save") }}
             </button>
             <button
+              v-if="isShowCancel"
               @click="closeModal"
               class="rounded-lg px-5 py-2 text-gray-800 ring-1 ring-gray-200"
             >

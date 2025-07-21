@@ -44,7 +44,7 @@ function handleNavigatePage() {
       <div class="container mx-auto px-4 py-16 md:py-24 relative z-10">
         <div class="max-w-3xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">
-            About Assessment IT knowledge
+            About Program of Skill Ability Assessment
           </h1>
           <p class="text-xl md:text-2xl text-indigo-100 mb-8">
             Empowering learners and organizations with intelligent assessment
@@ -89,8 +89,9 @@ function handleNavigatePage() {
             Our Mission
           </h2>
           <p class="text-xl text-gray-600">
-            We're on a mission to transform how knowledge is assessed, making
-            learning more effective, engaging, and accessible for everyone.
+            We're on a mission to redefine how programming skills are assessed
+            making skill development more practical, personalized, and
+            accessible for all learners.
           </p>
         </div>
 
@@ -102,12 +103,12 @@ function handleNavigatePage() {
               <CpIcon name="brain" iconset="lucide" size="35" />
             </div>
             <h3 class="text-xl font-bold text-gray-900 mb-3">
-              Effective Learning
+              Skill Focused Learning
             </h3>
             <p class="text-gray-600">
-              We believe assessment should enhance learning, not just measure
-              it. Our platform is designed to reinforce knowledge and identify
-              areas for growth.
+              We believe assessments should do more than test knowledge. Our
+              platform helps learners understand their true abilities and focus
+              on the skills that matter in real-world programming.
             </p>
           </div>
 
@@ -118,12 +119,12 @@ function handleNavigatePage() {
               <CpIcon name="user-group" iconset="hugeicons" size="35" />
             </div>
             <h3 class="text-xl font-bold text-gray-900 mb-3">
-              Inclusive Education
+              Inclusive Access to Opportunities
             </h3>
             <p class="text-gray-600">
-              Knowledge should be accessible to all. We're committed to creating
-              an inclusive platform that accommodates diverse learning styles
-              and needs.
+              Everyone deserves the chance to grow. We’re committed to building
+              a platform that supports diverse learners with varying
+              backgrounds, skill levels, and learning needs.
             </p>
           </div>
 

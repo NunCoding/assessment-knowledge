@@ -191,6 +191,17 @@ const filteredAssessments = computed(() => {
 const totalPages = computed(() =>
   Math.ceil(filteredAssessments.value.length / itemsPerPage)
 );
+const paginationItem = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  return filteredAssessments.value.slice(start, start + itemsPerPage);
+});
+
+const totalCount = computed(() => filteredAssessments.value.length);
+
+const showingCount = computed(() => {
+  const end = currentPage.value * itemsPerPage;
+  return end > totalCount.value ? totalCount.value : end;
+});
 
 // onMounted
 onMounted(async () => {
@@ -577,7 +588,7 @@ function resetFilters() {
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-xl font-bold text-gray-900">All Assessments</h2>
               <div class="text-sm text-gray-500">
-                Showing {{ filteredAssessments.length }} of
+                Showing {{ showingCount }} of
                 {{ filteredAssessments.length }} assessments
               </div>
             </div>
@@ -608,7 +619,7 @@ function resetFilters() {
 
             <div v-else class="grid grid-cols-1 gap-4">
               <div
-                v-for="assessment in filteredAssessments"
+                v-for="assessment in paginationItem"
                 :key="assessment.id"
                 class="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition p-4"
               >
