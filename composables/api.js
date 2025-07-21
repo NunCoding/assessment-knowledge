@@ -22,6 +22,7 @@ export const api = {
   // user
   login: "api/login",
   register: "api/register",
+  resetPassword: "api/reset-password",
   updateUser: "api/user/$id",
   createUser: "api/users",
   recommend: "api/recommendations/$id/recommend",
