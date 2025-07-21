@@ -18,7 +18,7 @@ function handleNavigatePage() {
       </h2>
       <p class="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
         Join thousands of users who are improving their skills and advancing
-        their careers with KnowledgeCheck.
+        their careers with Program of Skill Ability Assessment.
       </p>
       <div
         class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4"
