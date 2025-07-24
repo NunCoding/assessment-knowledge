@@ -25,11 +25,9 @@ function fetchFeedback() {
 }
 </script>
 <template>
-  <div class="flex flex-wrap gap-10 items-center justify-center">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <div v-for="feedback in listFeedback" :key="feedback.id">
-      <div
-        class="p-5 ring-1 ring-gray-200 rounded-lg shadow-md w-full max-w-md lg:max-w-2xl"
-      >
+      <div class="p-5 ring-1 ring-gray-200 rounded-lg shadow-md w-full">
         <div>
           <CpIcon
             name="quote"
