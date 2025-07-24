@@ -84,9 +84,28 @@ const handleLogin = async () => {
         navigateTo("/", { replace: true });
       }
     })
-    .catch(({ response }) => {
-      const message = response._data.message;
-      triggerAlert(message, "error");
+    .catch((error) => {
+      const response = error?.response?._data;
+
+      if (response?.errors) {
+        // Reset previous errors
+        registerErrors.value = {
+          name: "",
+          email: "",
+          password: "",
+          password_confirmation: "",
+          acceptTerms: "",
+        };
+
+        Object.entries(response.errors).forEach(([field, messages]) => {
+          if (registerErrors.value.hasOwnProperty(field)) {
+            registerErrors.value[field] = messages[0]; // show only the first error
+          }
+        });
+      } else {
+        // fallback error
+        triggerAlert(error.message || "Something went wrong", "error");
+      }
     })
     .finally(() => {
       isLoggingIn.value = false;
@@ -119,8 +138,52 @@ function resetForm() {
   registerForm.value.password_confirmation = "";
 }
 
+function validateRegisterForm() {
+  // Reset errors
+  registerErrors.value = {
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    acceptTerms: "",
+  };
+
+  let valid = true;
+
+  const form = registerForm.value;
+  const errors = registerErrors.value;
+
+  // Name check
+  if (!form.name) {
+    errors.name = "User Name is required.";
+    valid = false;
+  }
+
+  // Email check
+  if (!form.email) {
+    errors.email = "Email is required.";
+    valid = false;
+  }
+
+  // Password length check
+  if (!form.password || form.password.length < 8) {
+    errors.password = "Password must be at least 8 characters.";
+    valid = false;
+  }
+
+  // Confirm password match check
+  if (form.password !== form.password_confirmation) {
+    errors.password_confirmation = "Passwords do not match.";
+    valid = false;
+  }
+  console.log(valid);
+
+  return valid;
+}
+
 const handleRegister = async () => {
-  // if (!validateRegisterForm()) return;
+  const valid = validateRegisterForm();
+  if (!valid) return;
   isRegistering.value = true;
   useFetchApi(api.register, {
     method: "post",
@@ -283,7 +346,7 @@ const showConfirmPassword = ref(false);
         </form>
 
         <!-- Register Form -->
-        <form v-else class="space-y-6">
+        <div v-else class="space-y-6">
           <div class="grid grid-cols-1">
             <div>
               <label
@@ -457,7 +520,7 @@ const showConfirmPassword = ref(false);
               Create account
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
     <AlertModal
