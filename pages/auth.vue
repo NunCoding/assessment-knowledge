@@ -119,8 +119,52 @@ function resetForm() {
   registerForm.value.password_confirmation = "";
 }
 
+function validateRegisterForm() {
+  // Reset errors
+  registerErrors.value = {
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    acceptTerms: "",
+  };
+
+  let valid = true;
+
+  const form = registerForm.value;
+  const errors = registerErrors.value;
+
+  // Name check
+  if (!form.name) {
+    errors.name = "User Name is required.";
+    valid = false;
+  }
+
+  // Email check
+  if (!form.email) {
+    errors.email = "Email is required.";
+    valid = false;
+  }
+
+  // Password length check
+  if (!form.password || form.password.length < 8) {
+    errors.password = "Password must be at least 8 characters.";
+    valid = false;
+  }
+
+  // Confirm password match check
+  if (form.password !== form.password_confirmation) {
+    errors.password_confirmation = "Passwords do not match.";
+    valid = false;
+  }
+  console.log(valid);
+
+  return valid;
+}
+
 const handleRegister = async () => {
-  // if (!validateRegisterForm()) return;
+  const valid = validateRegisterForm();
+  if (!valid) return;
   isRegistering.value = true;
   useFetchApi(api.register, {
     method: "post",
@@ -133,7 +177,31 @@ const handleRegister = async () => {
       navigateTo("/", { replace: true });
     })
     .catch((error) => {
-      triggerAlert(`${error}`, "error");
+      // Log the full error object first
+      console.error("Register error:", error);
+
+      const response = error?.response?._data || error.data || error;
+
+      if (response?.errors) {
+        // Reset previous errors
+        registerErrors.value = {
+          name: "",
+          email: "",
+          password: "",
+          password_confirmation: "",
+          acceptTerms: "",
+        };
+
+        Object.entries(response.errors).forEach(([field, messages]) => {
+          if (registerErrors.value.hasOwnProperty(field)) {
+            registerErrors.value[field] = messages[0]; // Show only the first message
+          }
+        });
+      } else if (response?.message) {
+        triggerAlert(response.message, "error");
+      } else {
+        triggerAlert("Something went wrong", "error");
+      }
     })
     .finally(() => {
       isRegistering.value = false;
@@ -181,7 +249,7 @@ const showConfirmPassword = ref(false);
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <!-- Login Form -->
-        <form v-if="isLogin && !isRegister" class="space-y-6">
+        <div v-if="isLogin && !isRegister" class="space-y-6">
           <div>
             <label for="email" class="block text-sm font-medium text-gray-700">
               Email address
@@ -280,10 +348,10 @@ const showConfirmPassword = ref(false);
               <span>Sign In</span>
             </button>
           </div>
-        </form>
+        </div>
 
         <!-- Register Form -->
-        <form v-else class="space-y-6">
+        <div v-else class="space-y-6">
           <div class="grid grid-cols-1">
             <div>
               <label
@@ -457,7 +525,7 @@ const showConfirmPassword = ref(false);
               Create account
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
     <AlertModal
