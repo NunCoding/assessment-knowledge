@@ -87,10 +87,10 @@ function getStatusText(score) {
 }
 
 // Open message dialog
-const openMessageDialog = (student) => {
-  selectedStudent.value = student;
-  isSendMessageModal.value = true;
-};
+// const openMessageDialog = (student) => {
+//   selectedStudent.value = student;
+//   isSendMessageModal.value = true;
+// };
 
 function formateTime(seconds) {
   const minutes = Math.floor(seconds / 60);
@@ -101,7 +101,7 @@ function formateTime(seconds) {
 <template>
   <div class="p-6">
     <h1 class="text-3xl font-bold mb-6">
-      {{ t("sidebar.studentAssessment") }}
+      {{ t("sidebar.userAssessment") }}
     </h1>
     <!-- Search Bar -->
     <div class="relative mb-6 flex justify-start">
@@ -160,12 +160,6 @@ function formateTime(seconds) {
               >
                 Status
               </th>
-              <th
-                scope="col"
-                class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Actions
-              </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
@@ -211,23 +205,6 @@ function formateTime(seconds) {
                 <span :class="getStatusClasses(student.score)">
                   {{ getStatusText(student.score) }}
                 </span>
-              </td>
-              <td
-                class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
-              >
-                <button
-                  @click="openMessageDialog(student)"
-                  class="inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <CpIcon
-                    name="comment-dots"
-                    iconset="fa-regular"
-                    class="h-4 w-4 mr-2 text-blue-600"
-                  />
-                  <span class="hidden sm:inline">{{
-                    t("student.message")
-                  }}</span>
-                </button>
               </td>
             </tr>
             <tr v-if="filteredStudents.length === 0">
