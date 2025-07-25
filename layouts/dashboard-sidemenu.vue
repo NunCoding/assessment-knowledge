@@ -45,7 +45,7 @@ const navItems = [
   },
   {
     id: "student-assessment",
-    name: "sidebar.studentAssessment",
+    name: "sidebar.userAssessment",
     href: "student-assessment",
     icon: "users",
     roles: ["admin", "instructor"],
@@ -139,7 +139,7 @@ const selectLanguage = async (langValue) => {
     >
       <div class="p-4 flex items-center border-b border-indigo-700">
         <img src="/images/logo_num.png" alt="logo" class="h-12" />
-        <h1 class="text-xl font-bold ml-2">NUM AIK</h1>
+        <h1 class="text-xl font-bold ml-2">NUM PSAA</h1>
       </div>
 
       <div class="py-4">
