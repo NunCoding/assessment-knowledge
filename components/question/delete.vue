@@ -1,4 +1,5 @@
 <script setup>
+const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
   dataSource: {
@@ -11,11 +12,31 @@ const props = defineProps({
 
 // emit
 const emit = defineEmits(["update:modelValue", "submit"]);
+const { t } = useI18n();
 
 // function
 // close modal
 function closeModal() {
   emit("update:modelValue", false);
+}
+
+async function handleDeleteQuestion() {
+  let id = useGet(props.dataSource, "id");
+  // console.log(props.dataSource);
+
+  useFetchApi(api.delete, {
+    method: "delete",
+    params: { id },
+  })
+    .then(() => {
+      closeModal();
+      emit("submit");
+      triggerAlert(t("message.createQuestion"), "success");
+    })
+    .catch(({ response }) => {
+      const message = response?._data?.message;
+      triggerAlert(message, "error");
+    });
 }
 </script>
 <template>
@@ -39,12 +60,18 @@ function closeModal() {
           Cancel
         </button>
         <button
-          @click="saveUser"
-          class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition"
+          @click="handleDeleteQuestion"
+          class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
         >
           Delete
         </button>
       </div>
     </div>
   </div>
+  <AlertModal
+    v-if="showAlert"
+    :message="alertMessage"
+    :type="alertType"
+    @close="showAlert = false"
+  />
 </template>

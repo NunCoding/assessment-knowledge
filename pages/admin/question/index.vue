@@ -281,6 +281,6 @@ function handleDelete(id) {
   <QuestionDelete
     v-model="isDeleteQuestionModal"
     :data-source="selectDeleteQuestion"
-    @submitted="fetchQuestion"
+    @submit="fetchQuestion"
   />
 </template>
