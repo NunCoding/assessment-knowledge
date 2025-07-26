@@ -13,7 +13,9 @@ const isLoading = ref(false);
 const isCreateAssessmentModal = ref(false);
 const isUpdateAssessmentModal = ref(false);
 const isShareLinkModal = ref(false);
+const isShowCreateAssessmentModal = ref(false);
 const listAssessment = ref([]);
+const assessmentId = ref(false);
 const dataList = ref({});
 
 // onMounted
@@ -41,6 +43,11 @@ async function fetchAssessments() {
 function handleUpdateAssessment(data) {
   dataList.value = data;
   isUpdateAssessmentModal.value = true;
+}
+
+function handleCreateAssessment(data) {
+  assessmentId.value = data.id;
+  isShowCreateAssessmentModal.value = true;
 }
 </script>
 <template>
@@ -85,13 +92,26 @@ function handleUpdateAssessment(data) {
           </div>
           <div class="flex justify-between items-center">
             <span>{{ assessment.total_taken }} Users</span>
-            <button
-              class="flex justify-center items-center bg-blue-600 text-white px-3 py-2 rounded-lg"
-              @click="handleUpdateAssessment(assessment)"
-            >
-              <CpIcon name="edit" iconset="lucide" class="mr-1 mt-1" />
-              <span>{{ t("action.update") }}</span>
-            </button>
+            <div class="flex justify-center items-center gap-3">
+              <button
+                class="flex justify-center items-center bg-blue-600 text-white px-3 py-2 rounded-lg"
+                @click="handleCreateAssessment(assessment)"
+              >
+                <CpIcon
+                  name="ml-create-single-metric-job"
+                  iconset="oui"
+                  class="mr-1 mt-1"
+                />
+                <span>{{ t("question.create") }}</span>
+              </button>
+              <button
+                class="flex justify-center items-center bg-blue-600 text-white px-3 py-2 rounded-lg"
+                @click="handleUpdateAssessment(assessment)"
+              >
+                <CpIcon name="edit" iconset="lucide" class="mr-1 mt-1" />
+                <span>{{ t("action.update") }}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -110,6 +130,13 @@ function handleUpdateAssessment(data) {
     v-model="isShareLinkModal"
     :data-source="dataList"
   /> -->
+
+  <!-- Create Assessment modal -->
+  <QuestionCreate
+    v-model="isShowCreateAssessmentModal"
+    :assessment-id="assessmentId"
+    @submitted="fetchAssessments"
+  />
 
   <AssessmentUpdate
     v-model="isUpdateAssessmentModal"
