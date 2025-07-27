@@ -322,8 +322,7 @@ useUserActivityTracker({
           <div
             class="bg-indigo-600 h-2 rounded-full transition-all duration-300"
             :style="`width: ${
-              ((currentQuestionIndex + 1) / assessmentTask.questions?.length) *
-              100
+              ((currentQuestionIndex + 1) / randomQuestions?.length) * 100
             }%`"
           ></div>
         </div>

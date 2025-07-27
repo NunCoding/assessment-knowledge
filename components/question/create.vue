@@ -3,6 +3,7 @@ const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
+  assessmentId: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(["update:modelValue", "submitted"]);
@@ -31,6 +32,16 @@ const errors = ref({
 onMounted(() => {
   fetchAssessments();
 });
+
+// watch
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    if (newValue) {
+      formData.value.assessment_id = props.assessmentId;
+    }
+  }
+);
 
 // Methods
 function closeModal() {

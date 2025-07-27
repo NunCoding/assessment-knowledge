@@ -95,13 +95,13 @@ function handleDelete(id) {
       <h3 class="text-lg font-medium text-gray-900">
         {{ t("question.title") }}
       </h3>
-      <button
+      <!-- <button
         class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition flex items-center"
         @click="isCreateQuestionModal = true"
       >
         <CpIcon name="plus" iconset="uil" class="h-5 w-5 mr-1" />
         {{ t("question.create") }}
-      </button>
+      </button> -->
     </div>
 
     <div class="bg-white rounded-lg shadow mb-6">
@@ -281,6 +281,6 @@ function handleDelete(id) {
   <QuestionDelete
     v-model="isDeleteQuestionModal"
     :data-source="selectDeleteQuestion"
-    @submitted="fetchQuestion"
+    @submit="fetchQuestion"
   />
 </template>

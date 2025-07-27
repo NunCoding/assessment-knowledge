@@ -7,6 +7,7 @@
     "questions":"Questions",
     "assessment":"Assessment",
     "studentAssessment":"Student Assessment",
+    "userAssessment":"User Assessment",
     "analytics":"Analytics",
     "logout":"Logout"
   },
