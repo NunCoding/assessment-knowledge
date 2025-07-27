@@ -213,13 +213,6 @@ function formatTimeSpent(seconds) {
               </h1>
               <p class="text-gray-500">{{ userProfile.role }}</p>
             </div>
-            <div class="mt-4 md:mt-0 flex space-x-3">
-              <button
-                class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-purple-700 transition"
-              >
-                Edit Profile
-              </button>
-            </div>
           </div>
           <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="flex items-center">
