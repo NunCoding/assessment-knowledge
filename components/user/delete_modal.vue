@@ -2,12 +2,7 @@
 const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
-  dataSource: {
-    type: [Array, Object],
-    default: () => {
-      return {};
-    },
-  },
+  userId: { type: [String, Number], default: "" },
 });
 
 // emit
@@ -20,18 +15,18 @@ function closeModal() {
   emit("update:modelValue", false);
 }
 
-async function handleDeleteQuestion() {
-  let id = useGet(props.dataSource, "id");
+async function handleDeleteUser() {
+  let id = props.userId;
   // console.log(props.dataSource);
 
-  useFetchApi(api.delete, {
+  useFetchApi(api.deleteUser, {
     method: "delete",
     params: { id },
   })
     .then(() => {
       closeModal();
       emit("submit");
-      triggerAlert(t("message.createQuestion"), "success");
+      triggerAlert(t("user.deleteSuccess"), "success");
     })
     .catch(({ response }) => {
       const message = response?._data?.message;
@@ -46,24 +41,24 @@ async function handleDeleteQuestion() {
   >
     <div class="bg-white rounded-lg shadow-lg p-6 max-w-md w-full">
       <div class="flex justify-between items-center mb-6">
-        <h3 class="text-xl font-bold text-gray-900">Confirm Delete</h3>
+        <h3 class="text-xl font-bold text-gray-900">{{ t("user.delete") }}</h3>
         <button @click="closeModal" class="text-gray-500 hover:text-gray-700">
           <CpIcon name="close-duotone" iconset="iconamoon" />
         </button>
       </div>
-      <div class="space-y-4">Are you sure confirm delete this question</div>
+      <div class="space-y-4">{{ t("user.deleteConfirmation") }}</div>
       <div class="mt-8 flex justify-end space-x-3">
         <button
           @click="closeModal"
           class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition"
         >
-          Cancel
+          {{ t("action.cancel") }}
         </button>
         <button
-          @click="handleDeleteQuestion"
+          @click="handleDeleteUser"
           class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition"
         >
-          Delete
+          {{ t("action.delete") }}
         </button>
       </div>
     </div>

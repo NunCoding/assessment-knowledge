@@ -233,4 +233,10 @@ function handleDelete(id) {
     :data-source="selectUpdate"
     @submit="fetchListUser"
   />
+
+  <UserDeleteModal
+    v-model="isDeleteUserModal"
+    :user-id="selectDelete"
+    @submit="fetchListUser"
+  />
 </template>

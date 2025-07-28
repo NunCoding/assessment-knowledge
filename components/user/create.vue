@@ -25,6 +25,18 @@ function closeModal() {
   emit("update:modelValue", false);
 }
 
+function resetForm() {
+  formData.value = {
+    name: "",
+    email: "",
+    role: "student",
+  };
+  errors.value = {
+    name: "",
+    email: "",
+  };
+}
+
 // validate form
 function validateForm() {
   let valid = true;
@@ -52,6 +64,7 @@ function saveUser() {
     body: { ...formData.value },
   })
     .then(() => {
+      resetForm();
       closeModal();
       triggerAlert(t("message.createUser"), "success");
       emit("submit");
@@ -114,7 +127,6 @@ function saveUser() {
             class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
             <option value="student">Student</option>
-            <option value="student">Instructor</option>
             <option value="admin">Admin</option>
           </select>
         </div>

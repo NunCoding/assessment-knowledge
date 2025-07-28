@@ -4,105 +4,104 @@ definePageMeta({
   middleware: "auth",
 });
 
-// emit
 const { t } = useI18n();
 
-// properties
-const listStudents = ref([]);
-const user = localStorage.getItem("user");
-// Message dialog state
-const selectedStudent = ref(null);
-const isSendMessageModal = ref(false);
-const isLoading = ref(false);
-const userData = JSON.parse(user);
-const searchQuery = ref("");
-
-// onMounted
-onMounted(async () => {
-  await fetchStudents();
+// State management
+const state = reactive({
+  students: [],
+  selectedStudent: null,
+  isSendMessageModal: false,
+  isLoading: false,
+  searchQuery: "",
+  pagination: {},
+  totalPage: {},
 });
 
-// computed properties
+// Computed properties
 const filteredStudents = computed(() => {
-  if (!searchQuery.value) return listStudents.value;
+  if (!state.searchQuery) return state.students;
 
-  const query = searchQuery.value.toLowerCase();
-  return listStudents.value.filter(
+  const query = state.searchQuery.toLowerCase();
+  return state.students.filter(
     (student) =>
       (student.name || "").toLowerCase().includes(query) ||
       (student.email || "").toLowerCase().includes(query)
   );
 });
 
-// functions
-async function fetchStudents() {
-  let id = useGet(userData, "id");
-  isLoading.value = true;
-  await useFetchApi(api.studentResult, {
-    method: "get",
-    params: { id },
-  })
-    .then((pass) => {
-      listStudents.value = pass;
-    })
-    .catch((error) => {
-      console.error("Error fetching students:", error);
-    })
-    .finally(() => {
-      isLoading.value = false;
+// Lifecycle hooks
+onMounted(async () => {
+  await fetchStudents();
+});
+
+// Functions
+async function fetchStudents(url = api.studentResult) {
+  state.isLoading = true;
+  try {
+    const response = await useFetchApi(url, {
+      method: "get",
     });
+    state.students = response.data || response;
+    state.totalPage = response.meta || {};
+    state.pagination = {
+      next_page_url: response.meta?.next_page_url,
+      prev_page_url: response.meta?.prev_page_url,
+    };
+  } catch (error) {
+    console.error("Error fetching students:", error);
+    // Consider adding user feedback here
+  } finally {
+    state.isLoading = false;
+  }
 }
+
+const scoreStatus = {
+  excellent: {
+    min: 95,
+    class: "bg-green-100 text-green-800",
+    text: "Excellent",
+  },
+  good: { min: 80, class: "bg-emerald-100 text-emerald-800", text: "Good" },
+  needsImprovement: {
+    min: 70,
+    class: "bg-yellow-100 text-yellow-800",
+    text: "Needs Improvement",
+  },
+  atRisk: { min: 60, class: "bg-orange-100 text-orange-800", text: "At Risk" },
+  risk: { min: 50, class: "bg-red-100 text-red-800", text: "Risk" },
+  failing: { min: 0, class: "bg-red-100 text-red-800", text: "Failing" },
+};
 
 function getStatusClasses(score) {
   const baseClasses =
     "px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full";
-
-  if (score >= 95) {
-    return `${baseClasses} bg-green-100 text-green-800`;
-  } else if (score >= 80) {
-    return `${baseClasses} bg-emerald-100 text-emerald-800`;
-  } else if (score >= 70) {
-    return `${baseClasses} bg-yellow-100 text-yellow-800`;
-  } else if (score >= 60) {
-    return `${baseClasses} bg-orange-100 text-orange-800`;
-  } else {
-    return `${baseClasses} bg-red-100 text-red-800`;
-  }
+  const status = Object.values(scoreStatus).find((s) => score >= s.min);
+  return `${baseClasses} ${status.class}`;
 }
 
 function getStatusText(score) {
-  if (score >= 95) {
-    return "Excellent";
-  } else if (score >= 80) {
-    return "Good";
-  } else if (score >= 70) {
-    return "Needs Improvement";
-  } else if (score >= 60) {
-    return "At Risk";
-  } else if (score >= 50) {
-    return "Risk";
-  } else {
-    return "Failing";
-  }
+  const status = Object.values(scoreStatus).find((s) => score >= s.min);
+  return status.text;
 }
 
-// Open message dialog
-// const openMessageDialog = (student) => {
-//   selectedStudent.value = student;
-//   isSendMessageModal.value = true;
-// };
-
-function formateTime(seconds) {
+function formatTime(seconds) {
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
-  return `${minutes} m ${remainingSeconds} s`;
+  return `${minutes}m ${remainingSeconds}s`;
+}
+
+function formatDate(dateString) {
+  if (!dateString) return "N/A";
+  return new Date(dateString).toLocaleDateString();
 }
 </script>
+
 <template>
   <div class="p-6">
     <h1 class="text-3xl font-bold mb-6">
       {{ t("sidebar.userAssessment") }}
     </h1>
+
     <!-- Search Bar -->
     <div class="relative mb-6 flex justify-start">
       <div
@@ -112,14 +111,22 @@ function formateTime(seconds) {
       </div>
       <input
         type="text"
-        v-model="searchQuery"
+        v-model="state.searchQuery"
         placeholder="Search students..."
         class="pl-10 rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
       />
     </div>
 
+    <!-- Loading state -->
+    <div v-if="state.isLoading" class="flex justify-center items-center py-8">
+      <CpIcon name="spinner" class="animate-spin h-8 w-8 text-indigo-600" />
+    </div>
+
     <!-- Student Table -->
-    <div class="overflow-hidden rounded-lg border border-gray-200 shadow">
+    <div
+      v-else
+      class="overflow-hidden rounded-lg border border-gray-200 shadow"
+    >
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
           <thead class="bg-gray-50">
@@ -193,12 +200,12 @@ function formateTime(seconds) {
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm font-medium text-gray-600">
-                  {{ formateTime(student.time_completed) }}
+                  {{ formatTime(student.time_completed) }}
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
                 <div class="text-sm text-gray-900">
-                  {{ formateDate(student.submit_at) }}
+                  {{ formatDate(student.submit_at) }}
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -207,6 +214,7 @@ function formateTime(seconds) {
                 </span>
               </td>
             </tr>
+
             <tr v-if="filteredStudents.length === 0">
               <td
                 colspan="6"
@@ -217,13 +225,53 @@ function formateTime(seconds) {
             </tr>
           </tbody>
         </table>
+
+        <!-- Pagination -->
+        <div
+          v-if="state.totalPage.total > 0"
+          class="px-6 py-4 border-t border-gray-200 flex items-center justify-between"
+        >
+          <div class="text-sm text-gray-700">
+            Showing
+            <span class="font-medium">{{ state.totalPage.from }}</span> to
+            <span class="font-medium">{{ state.totalPage.to }}</span> of
+            <span class="font-medium">{{ state.totalPage.total }}</span>
+            students
+          </div>
+          <div class="flex space-x-2">
+            <button
+              :disabled="!state.pagination.prev_page_url"
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
+              :class="[
+                !state.pagination.prev_page_url
+                  ? 'bg-gray-100 cursor-not-allowed'
+                  : 'bg-white cursor-pointer',
+              ]"
+              @click="fetchStudents(state.pagination.prev_page_url)"
+            >
+              Previous
+            </button>
+            <button
+              :disabled="!state.pagination.next_page_url"
+              class="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 hover:bg-gray-50"
+              :class="[
+                !state.pagination.next_page_url
+                  ? 'bg-gray-100 cursor-not-allowed'
+                  : 'bg-white cursor-pointer',
+              ]"
+              @click="fetchStudents(state.pagination.next_page_url)"
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Send Message Modal -->
   <StudentAssessmentMessageModal
-    v-model="isSendMessageModal"
-    :data-source="selectedStudent"
+    v-model="state.isSendMessageModal"
+    :data-source="state.selectedStudent"
   />
 </template>

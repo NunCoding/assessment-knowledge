@@ -28,6 +28,7 @@ export const api = {
   recommend: "api/recommendations/$id/recommend",
   feedback: "api/user/feedback",
   feedbackCheck: "api/user/feedback/$id",
+  deleteUser:'api/delete/$id/user',
 
   // question
   createQuestion: "api/questions",
@@ -56,6 +57,6 @@ export const api = {
 
   // instructor
   studentTake: "api/take-assessment/$slug",
-  studentResult: "api/student/$id/result",
+  studentResult: "api/student/result",
   sendMessage: "api/student/submitResult",
 };
