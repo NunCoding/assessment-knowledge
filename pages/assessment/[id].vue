@@ -581,7 +581,7 @@ useUserActivityTracker({
           </h2>
           <p class="text-xl text-gray-600">
             You scored {{ score }} out of
-            {{ randomQuestions?.length }}
+            {{ (randomQuestions?.length * 100) / 10 }}
           </p>
         </div>
 
