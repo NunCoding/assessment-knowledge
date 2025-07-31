@@ -51,7 +51,6 @@ watch(
       formData.value.time_estimate = dataSource.time_estimate;
       formData.value.image = dataSource.image;
       formData.value.tags = dataSource.tags || [];
-      formData.value.tags = dataSource.tags || [];
     }
   }
 );
@@ -101,8 +100,10 @@ function fetchCategory() {
 
 // Submit form
 async function saveAssessment() {
-  if (fileSource.value) {
+  if (isEmpty(formData.value.image)) {
     await handleUpload();
+  } else {
+    await handleSubmit();
   }
 }
 
