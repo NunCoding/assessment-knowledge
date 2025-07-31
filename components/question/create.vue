@@ -46,6 +46,7 @@ watch(
 // Methods
 function closeModal() {
   emit("update:modelValue", false);
+  resetForm();
 }
 
 function addOption() {
@@ -121,14 +122,13 @@ function validateForm() {
 }
 
 function handleSubmit() {
-  if (!validateForm) return;
+  if (!validateForm()) return;
   isLoading.value = true;
   useFetchApi(api.createQuestion, {
     method: "post",
     body: { ...formData.value },
   })
     .then(() => {
-      resetForm();
       closeModal();
       emit("submitted");
       triggerAlert(t("message.createQuestion"), "success");
