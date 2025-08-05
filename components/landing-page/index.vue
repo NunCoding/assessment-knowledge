@@ -14,12 +14,12 @@ const categories = [
     iconset: "vscode-icons",
   },
   {
-    name: "JavaScript",
+    name: "Nuxt Js",
     icon: "file-type-nuxt",
     iconset: "vscode-icons",
   },
   {
-    name: "JavaScript",
+    name: "Tailwind Css",
     icon: "tailwindcss-icon",
     iconset: "logos",
   },
@@ -28,34 +28,15 @@ const categories = [
     icon: "laravel",
     iconset: "devicon",
   },
-];
-
-const popularAssessments = [
   {
-    title: "Web Development Fundamentals",
-    description: "Test your knowledge of HTML, CSS, and JavaScript basics.",
-    category: "Programming",
-    image: "",
-    users: "12.5k",
-    timeEstimate: 15,
+    name: "Java",
+    icon: "java",
+    iconset: "logos",
   },
   {
-    title: "Data Science Essentials",
-    description:
-      "Evaluate your understanding of data science concepts and tools.",
-    category: "Data Science",
-    image: "",
-    users: "8.7k",
-    timeEstimate: 20,
-  },
-  {
-    title: "Cloud Computing Basics",
-    description:
-      "Test your knowledge of cloud services, deployment models, and best practices.",
-    category: "Cloud",
-    image: "",
-    users: "5.4k",
-    timeEstimate: 12,
+    name: "Csharp",
+    icon: "csharp",
+    iconset: "material-icon-theme",
   },
 ];
 
