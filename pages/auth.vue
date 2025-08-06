@@ -84,28 +84,9 @@ const handleLogin = async () => {
         navigateTo("/", { replace: true });
       }
     })
-    .catch((error) => {
-      const response = error?.response?._data;
-
-      if (response?.errors) {
-        // Reset previous errors
-        registerErrors.value = {
-          name: "",
-          email: "",
-          password: "",
-          password_confirmation: "",
-          acceptTerms: "",
-        };
-
-        Object.entries(response.errors).forEach(([field, messages]) => {
-          if (registerErrors.value.hasOwnProperty(field)) {
-            registerErrors.value[field] = messages[0]; // show only the first error
-          }
-        });
-      } else {
-        // fallback error
-        triggerAlert(error.message || "Something went wrong", "error");
-      }
+    .catch(({ response }) => {
+      const message = response?._data.message;
+      triggerAlert(message || "Something went wrong", "error");
     })
     .finally(() => {
       isLoggingIn.value = false;
