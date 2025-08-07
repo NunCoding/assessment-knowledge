@@ -15,7 +15,7 @@ const isUpdateAssessmentModal = ref(false);
 const isShareLinkModal = ref(false);
 const isShowCreateAssessmentModal = ref(false);
 const listAssessment = ref([]);
-const assessmentId = ref(false);
+const assessmentId = ref(null);
 const dataList = ref({});
 
 // onMounted

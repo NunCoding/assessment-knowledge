@@ -3,7 +3,7 @@ const { triggerAlert, showAlert, alertMessage, alertType } = useAlert();
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
-  assessmentId: { type: Boolean, default: false },
+  assessmentId: { type: [String, Number], default: false },
 });
 
 const emit = defineEmits(["update:modelValue", "submitted"]);
@@ -28,16 +28,12 @@ const errors = ref({
   correctAnswer: "",
 });
 
-// onMounted
-onMounted(() => {
-  fetchAssessments();
-});
-
 // watch
 watch(
   () => props.modelValue,
   (newValue) => {
     if (newValue) {
+      fetchAssessments();
       formData.value.assessment_id = props.assessmentId;
     }
   }
