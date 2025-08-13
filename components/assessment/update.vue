@@ -100,8 +100,9 @@ function fetchCategory() {
 
 // Submit form
 async function saveAssessment() {
-  if (isEmpty(formData.value.image)) {
+  if (!isEmpty(fileSource.value)) {
     await handleUpload();
+    return;
   } else {
     await handleSubmit();
   }
