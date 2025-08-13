@@ -44,8 +44,12 @@ async function fetchStudents(url = api.studentResult) {
     state.students = response.data || response;
     state.totalPage = response.meta || {};
     state.pagination = {
-      next_page_url: response.meta?.next_page_url,
-      prev_page_url: response.meta?.prev_page_url,
+      next_page_url: response.links?.next_page_url
+        ? response.links.next.replace("http://", "https://")
+        : null,
+      prev_page_url: response.links?.prev_page_url
+        ? response.links.prev.replace("http://", "https://")
+        : null,
     };
   } catch (error) {
     console.error("Error fetching students:", error);

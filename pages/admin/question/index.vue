@@ -52,8 +52,12 @@ async function fetchQuestion(url = api.listQuestion) {
     listQuestion.value = response.data;
     totalPage.value = response.meta;
     pagination.value = {
-      next_page_url: response.links?.next,
-      prev_page_url: response.links?.prev,
+      next_page_url: response.links?.next
+        ? response.links.next.replace("http://", "https://")
+        : null,
+      prev_page_url: response.links?.prev
+        ? response.links.prev.replace("http://", "https://")
+        : null,
     };
   } catch (error) {
     triggerAlert("Something went wrong!", "error");

@@ -31,11 +31,16 @@ async function fetchListUser(url = api.dashboardUser) {
     query: { ...filterUser.value },
   })
     .then((pass) => {
+      console.log("fetchListUser", pass);
       listUser.value = pass.data;
       totalPage.value = pass;
       pagination.value = {
-        next_page_url: pass.next_page_url,
-        prev_page_url: pass.prev_page_url,
+        next_page_url: pass.next_page_url
+          ? pass.next_page_url.replace("http://", "https://")
+          : null,
+        prev_page_url: pass.prev_page_url
+          ? pass.prev_page_url.replace("http://", "https://")
+          : null,
       };
     })
     .catch(() => {})
