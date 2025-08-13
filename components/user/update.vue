@@ -135,7 +135,6 @@ function updateUser() {
             class="w-full rounded-md border border-gray-300 shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           >
             <option value="student">Student</option>
-            <option value="instructor">Instructor</option>
             <option value="admin">Admin</option>
           </select>
         </div>

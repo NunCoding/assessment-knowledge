@@ -43,6 +43,7 @@ watch(
 function closeModal() {
   emit("update:modelValue", false);
   resetForm();
+  resetError();
 }
 
 function addOption() {
@@ -72,6 +73,15 @@ function removeOption(index) {
   } else if (formData.value.correctAnswer > index) {
     formData.value.correctAnswer--;
   }
+}
+
+function resetError() {
+  errors.value = {
+    title: "",
+    assessment_id: "",
+    options: "",
+    correctAnswer: "",
+  };
 }
 
 function validateForm() {

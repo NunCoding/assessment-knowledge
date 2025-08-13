@@ -23,6 +23,15 @@ const errors = ref({
 // close modal
 function closeModal() {
   emit("update:modelValue", false);
+  resetForm();
+  resetError();
+}
+
+function resetError() {
+  errors.value = {
+    name: "",
+    email: "",
+  };
 }
 
 function resetForm() {
